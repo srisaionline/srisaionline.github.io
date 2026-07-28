@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOBILE CARE - Connect & Pay</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 85%;
+            max-width: 360px;
+        }
+        h2 { margin-top: 0; color: #1f2937; }
+        p { color: #4b5563; margin-bottom: 2rem; }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            color: white;
+            box-sizing: border-box;
+            transition: opacity 0.2s;
+        }
+        .btn:active { opacity: 0.8; }
+        
+        /* Brand Colors */
+        .btn-wa { background-color: #25D366; }
+        .btn-upi { background-color: #673AB7; } /* Standard UPI Purple */
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>MOBILE CARE</h2>
+        <p>Choose an option below</p>
+
+        <!-- Replace 91XXXXXXXXXX with your 10-digit number. Leave the 91 country code. -->
+        <a href="https://wa.me/91XXXXXXXXXX?text=Hello%20Mobile%20Care," class="btn btn-wa">
+            Message on WhatsApp
+        </a>
+
+        <!-- Replace your_upi_id@bank with your actual UPI ID -->
+        <!-- cu=INR ensures Indian Rupees -->
+        <a href="upi://pay?pa=your_upi_id@bank&pn=MOBILE%20CARE&cu=INR" class="btn btn-upi">
+            Pay via UPI
+        </a>
+    </div>
+
+</body>
+</html>
+
