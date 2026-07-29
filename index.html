@@ -149,6 +149,10 @@
             try {
                 const response = await fetch(PYTHON_SERVER_URL, {
                     method: 'POST',
+                    headers: {
+                        // THIS LINE BYPASSES THE NGROK WARNING SCREEN
+                        "ngrok-skip-browser-warning": "true"
+                    },
                     body: formData
                 });
 
@@ -175,7 +179,7 @@
                 }
             } catch (error) {
                 console.error("Upload error:", error);
-                alert("Connection failed. Make sure the shop's system is running.");
+                alert("Connection failed. Make sure the shop's system is running and the Ngrok URL is correct.");
             } finally {
                 // Reset the button back to normal
                 printBtn.disabled = false;
