@@ -11,6 +11,8 @@
             --whatsapp-hover: #1da851;
             --upi: #673AB7;
             --upi-hover: #512da8;
+            --print: #f97316;
+            --print-hover: #ea580c;
             --text-dark: #1f2937;
             --text-light: #6b7280;
             --bg: #f3f4f6;
@@ -55,88 +57,99 @@
             margin: 0 auto 1.2rem;
             box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
         }
-        h1 {
-            margin: 0;
-            color: var(--text-dark);
-            font-size: 1.6rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        p {
-            color: var(--text-light);
-            margin: 0.5rem 0 2.5rem;
-            font-size: 1rem;
-        }
+        h1 { margin: 0; color: var(--text-dark); font-size: 1.6rem; font-weight: 700; letter-spacing: 0.5px; }
+        p { color: var(--text-light); margin: 0.5rem 0 2.5rem; font-size: 1rem; }
+        
         .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            width: 100%;
-            padding: 16px;
-            margin-bottom: 1.2rem;
-            border-radius: 14px;
-            text-decoration: none;
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: white;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-            border: none;
-            cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            width: 100%; padding: 16px; margin-bottom: 1.2rem; border-radius: 14px;
+            text-decoration: none; font-size: 1.05rem; font-weight: 600; color: white;
+            box-sizing: border-box; transition: all 0.2s ease; border: none; cursor: pointer;
         }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-        .btn:active {
-            transform: translateY(1px);
-        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
+        .btn:active { transform: translateY(1px); }
+        
         .btn-wa { background-color: var(--whatsapp); }
         .btn-wa:hover { background-color: var(--whatsapp-hover); }
-        
         .btn-upi { background-color: var(--upi); }
         .btn-upi:hover { background-color: var(--upi-hover); }
+        .btn-print { background-color: var(--print); }
+        .btn-print:hover { background-color: var(--print-hover); }
+        .btn-print:disabled { background-color: #fdba74; cursor: not-allowed; transform: none; box-shadow: none; }
         
-        .icon { 
-            width: 24px; 
-            height: 24px; 
-            fill: currentColor; 
-        }
-        .footer-text {
-            margin-top: 2rem;
-            font-size: 0.85rem;
-            color: #9ca3af;
-            margin-bottom: 0;
-            font-weight: 500;
-        }
+        .icon { width: 24px; height: 24px; fill: currentColor; }
+        .footer-text { margin-top: 2rem; font-size: 0.85rem; color: #9ca3af; margin-bottom: 0; font-weight: 500; }
+        #fileInput { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Logo Initial -->
-        <div class="logo-placeholder">M</div>
-        
+        <div class="logo-placeholder">S</div>
         <h1>SRI SAI ONLINE SERVICES</h1>
         <p>Scan & Connect</p>
 
-        <!-- WhatsApp Button -->
-        <a href="https://wa.me/918247709435?text=Hello%20SRI%20SAI," class="btn btn-wa">
+        <input type="file" id="fileInput" accept=".pdf, .jpg, .jpeg, .png">
+
+        <button id="printBtn" onclick="document.getElementById('fileInput').click()" class="btn btn-print">
             <svg class="icon" viewBox="0 0 24 24">
-                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.161.453-.834.864-1.161.9-1.015.111-2.436-.453-3.83-1.847-1.393-1.392-1.956-2.813-1.846-3.829.036-.328.448-1 .901-1.16.233-.082.496-.024.664.15l.623.645c.168.174.195.426.06.626l-.323.477c-.135.2-.108.473.064.646l2.133 2.132c.173.172.446.2.646.064l.477-.323c.2-.135.451-.108.625.06l.645.624c.174.168.232.431.15.664z"/>
+                <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
             </svg>
+            <span id="printBtnText">Upload & Print Document</span>
+        </button>
+
+        <a href="https://wa.me/918247709435?text=Hello%20SRI%20SAI," class="btn btn-wa">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.161.453-.834.864-1.161.9-1.015.111-2.436-.453-3.83-1.847-1.393-1.392-1.956-2.813-1.846-3.829.036-.328.448-1 .901-1.16.233-.082.496-.024.664.15l.623.645c.168.174.195.426.06.626l-.323.477c-.135.2-.108.473.064.646l2.133 2.132c.173.172.446.2.646.064l.477-.323c.2-.135.451-.108.625.06l.645.624c.174.168.232.431.15.664z"/></svg>
             Message on WhatsApp
         </a>
 
-        <!-- UPI Button -->
         <a href="upi://pay?pa=8247709435@okbizaxis&pn=SRI%20SAI%20ONLINE%20SERVICES&cu=INR" class="btn btn-upi">
-            <svg class="icon" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-            </svg>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
             Pay via UPI
         </a>
         
         <p class="footer-text">Secure & Direct Designed By Delix</p>
     </div>
+
+    <script>
+        // Connected to your active Ngrok tunnel
+        const PYTHON_SERVER_URL = "https://grub-thinning-occupy.ngrok-free.dev/upload";
+
+        const fileInput = document.getElementById('fileInput');
+        const printBtn = document.getElementById('printBtn');
+        const printBtnText = document.getElementById('printBtnText');
+
+        fileInput.addEventListener('change', async function(event) {
+            if (event.target.files.length === 0) return;
+
+            const file = event.target.files[0];
+            const formData = new FormData();
+            formData.append('document', file);
+
+            // Update UI to show uploading state
+            printBtn.disabled = true;
+            printBtnText.innerText = "Sending to Printer...";
+
+            try {
+                const response = await fetch(PYTHON_SERVER_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    alert("Success! Your document is printing now. Please proceed with payment.");
+                } else {
+                    alert("Error: Could not print. Ensure the shop's computer is online.");
+                }
+            } catch (error) {
+                console.error("Upload error:", error);
+                alert("Connection failed. Make sure the Python server and Ngrok are running.");
+            } finally {
+                // Reset UI
+                printBtn.disabled = false;
+                printBtnText.innerText = "Upload & Print Document";
+                event.target.value = ''; // Reset input
+            }
+        });
+    </script>
 </body>
 </html>
