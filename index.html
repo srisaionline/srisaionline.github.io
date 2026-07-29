@@ -13,6 +13,8 @@
             --upi-hover: #512da8;
             --print: #f97316;
             --print-hover: #ea580c;
+            --review: #fbbc04; /* Google Yellow */
+            --review-hover: #f9a825;
             --text-dark: #1f2937;
             --text-light: #6b7280;
             --bg: #f3f4f6;
@@ -71,14 +73,20 @@
         
         .btn-wa { background-color: var(--whatsapp); }
         .btn-wa:hover { background-color: var(--whatsapp-hover); }
-        .btn-upi { background-color: var(--upi); }
+        
+        .btn-upi { background-color: var(--upi); transition: all 0.3s ease; }
         .btn-upi:hover { background-color: var(--upi-hover); }
+        
         .btn-print { background-color: var(--print); }
         .btn-print:hover { background-color: var(--print-hover); }
         .btn-print:disabled { background-color: #fdba74; cursor: not-allowed; transform: none; box-shadow: none; }
         
+        .btn-review { background-color: var(--review); color: #1f2937; }
+        .btn-review:hover { background-color: var(--review-hover); }
+        
         .icon { width: 24px; height: 24px; fill: currentColor; }
         .footer-text { margin-top: 2rem; font-size: 0.85rem; color: #9ca3af; margin-bottom: 0; font-weight: 500; }
+        
         #fileInput { display: none; }
     </style>
 </head>
@@ -102,21 +110,30 @@
             Message on WhatsApp
         </a>
 
-        <a href="upi://pay?pa=8247709435@okbizaxis&pn=SRI%20SAI%20ONLINE%20SERVICES&cu=INR" class="btn btn-upi">
+        <a href="upi://pay?pa=8247709435@okbizaxis&pn=SRI%20SAI%20ONLINE%20SERVICES&cu=INR" id="upiBtn" class="btn btn-upi">
             <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
             Pay via UPI
+        </a>
+
+        <a href="https://g.co/kgs/DScP4W6" target="_blank" class="btn btn-review">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+            Rate Us 5 Stars
         </a>
         
         <p class="footer-text">Secure & Direct Designed By Delix</p>
     </div>
 
     <script>
-        // Connected to your active Ngrok tunnel
-        const PYTHON_SERVER_URL = "https://grub-thinning-occupy.ngrok-free.dev/upload";
+        // --- Your active Ngrok Tunnel ---
+        const PYTHON_SERVER_URL = "https://glowing-instantly-drake.ngrok-free.app/upload";
+        // --------------------------------
 
         const fileInput = document.getElementById('fileInput');
         const printBtn = document.getElementById('printBtn');
         const printBtnText = document.getElementById('printBtnText');
+        const upiBtn = document.getElementById('upiBtn'); 
 
         fileInput.addEventListener('change', async function(event) {
             if (event.target.files.length === 0) return;
@@ -125,9 +142,9 @@
             const formData = new FormData();
             formData.append('document', file);
 
-            // Update UI to show uploading state
+            // Change button state to show it is working
             printBtn.disabled = true;
-            printBtnText.innerText = "Sending to Printer...";
+            printBtnText.innerText = "Processing & Printing...";
 
             try {
                 const response = await fetch(PYTHON_SERVER_URL, {
@@ -136,18 +153,34 @@
                 });
 
                 if (response.ok) {
-                    alert("Success! Your document is printing now. Please proceed with payment.");
+                    const data = await response.json();
+                    
+                    // Alert the customer of their total
+                    alert(`Success! We printed ${data.pages} page(s).\n\nYour total is: ₹${data.total_cost}\n\nPlease tap 'Pay via UPI' to complete your payment.`);
+                    
+                    // Dynamically inject the calculated amount into the UPI link
+                    const baseUpi = "upi://pay?pa=8247709435@okbizaxis&pn=SRI%20SAI%20ONLINE%20SERVICES&cu=INR";
+                    upiBtn.href = `${baseUpi}&am=${data.total_cost}`;
+                    
+                    // Briefly highlight the UPI button to direct their attention
+                    upiBtn.style.transform = "scale(1.05)";
+                    upiBtn.style.boxShadow = "0 0 15px rgba(103, 58, 183, 0.6)";
+                    setTimeout(() => {
+                        upiBtn.style.transform = "none";
+                        upiBtn.style.boxShadow = "none";
+                    }, 1500);
+
                 } else {
                     alert("Error: Could not print. Ensure the shop's computer is online.");
                 }
             } catch (error) {
                 console.error("Upload error:", error);
-                alert("Connection failed. Make sure the Python server and Ngrok are running.");
+                alert("Connection failed. Make sure the shop's system is running.");
             } finally {
-                // Reset UI
+                // Reset the button back to normal
                 printBtn.disabled = false;
                 printBtnText.innerText = "Upload & Print Document";
-                event.target.value = ''; // Reset input
+                event.target.value = ''; 
             }
         });
     </script>
