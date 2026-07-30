@@ -20,45 +20,27 @@
             --bg: #f3f4f6;
         }
 
-        /* --- MOBILE SCREEN LOCK FIX --- */
         html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            overflow: hidden; /* Prevents the whole page from sliding up and down */
-            overscroll-behavior-y: none; /* Stops the pull-to-refresh bounce effect */
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            overflow: hidden; overscroll-behavior-y: none;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg);
             background-image: linear-gradient(135deg, #e0e7ff 0%, #f3f4f6 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-sizing: border-box;
-            padding: 15px;
+            display: flex; justify-content: center; align-items: center;
+            box-sizing: border-box; padding: 15px;
         }
 
         .container {
-            background: white;
-            padding: 2.5rem 2rem;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            width: 100%;
-            max-width: 380px;
-            max-height: 96%; /* Keeps the card perfectly inside the screen limits */
-            overflow-y: auto; /* Allows only the inner card to scroll if on a tiny phone */
-            scrollbar-width: none; /* Hides scrollbar in Firefox */
-            animation: fadeIn 0.6s ease-out;
+            background: white; padding: 2.5rem 2rem; border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); text-align: center;
+            width: 100%; max-width: 380px; max-height: 96%;
+            overflow-y: auto; scrollbar-width: none; animation: fadeIn 0.6s ease-out;
         }
         
-        /* Hides scrollbar in Chrome/Safari/Edge */
-        .container::-webkit-scrollbar {
-            display: none; 
-        }
+        .container::-webkit-scrollbar { display: none; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
@@ -66,18 +48,10 @@
         }
         
         .logo-placeholder {
-            width: 72px;
-            height: 72px;
-            background: linear-gradient(135deg, var(--primary), #60a5fa);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 800;
-            margin: 0 auto 1.2rem;
-            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+            width: 72px; height: 72px; background: linear-gradient(135deg, var(--primary), #60a5fa);
+            color: white; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 32px; font-weight: 800;
+            margin: 0 auto 1.2rem; box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
         }
         
         h1 { margin: 0; color: var(--text-dark); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
@@ -88,21 +62,18 @@
             width: 100%; padding: 15px; margin-bottom: 1rem; border-radius: 14px;
             text-decoration: none; font-size: 1.05rem; font-weight: 600; color: white;
             box-sizing: border-box; transition: all 0.2s ease; border: none; cursor: pointer;
-            touch-action: manipulation; /* Prevents double-tap zooming on buttons */
+            touch-action: manipulation;
         }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
         .btn:active { transform: translateY(1px); }
         
         .btn-wa { background-color: var(--whatsapp); }
         .btn-wa:hover { background-color: var(--whatsapp-hover); }
-        
         .btn-upi { background-color: var(--upi); transition: all 0.3s ease; }
         .btn-upi:hover { background-color: var(--upi-hover); }
-        
         .btn-print { background-color: var(--print); }
         .btn-print:hover { background-color: var(--print-hover); }
         .btn-print:disabled { background-color: #fdba74; cursor: not-allowed; transform: none; box-shadow: none; }
-        
         .btn-review { background-color: var(--review); color: #1f2937; }
         .btn-review:hover { background-color: var(--review-hover); }
         
@@ -137,7 +108,7 @@
             Pay via UPI
         </a>
 
-        <a href="https://g.co/kgs/DScP4W6" target="_blank" class="btn btn-review">
+        <a href="https://g.page/r/CSJoCNdSV2ICEBM/review" target="_blank" class="btn btn-review">
             <svg class="icon" viewBox="0 0 24 24">
                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
             </svg>
@@ -160,19 +131,28 @@
         fileInput.addEventListener('change', async function(event) {
             if (event.target.files.length === 0) return;
 
+            // --- 1. ASK FOR THE SHOP PIN BEFORE DOING ANYTHING ---
+            const userPin = prompt("Please enter today's 4-digit Shop PIN to print:\n(Ask the shopkeeper if you don't know it)");
+            
+            // If they cancel the prompt or leave it blank, stop the process
+            if (!userPin) {
+                event.target.value = ''; 
+                return;
+            }
+
             const file = event.target.files[0];
             const formData = new FormData();
             formData.append('document', file);
+            formData.append('pin', userPin); // Attach the PIN to the file upload
 
-            // Change button state to show it is working
+            // Change button state
             printBtn.disabled = true;
-            printBtnText.innerText = "Processing & Printing...";
+            printBtnText.innerText = "Processing & Verifying...";
 
             try {
                 const response = await fetch(PYTHON_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        // THIS LINE BYPASSES THE NGROK WARNING SCREEN
                         "ngrok-skip-browser-warning": "true"
                     },
                     body: formData
@@ -181,14 +161,11 @@
                 if (response.ok) {
                     const data = await response.json();
                     
-                    // Alert the customer of their total
                     alert(`Success! We printed ${data.pages} page(s).\n\nYour total is: ₹${data.total_cost}\n\nPlease tap 'Pay via UPI' to complete your payment.`);
                     
-                    // Dynamically inject the calculated amount into the UPI link
                     const baseUpi = "upi://pay?pa=8247709435@okbizaxis&pn=SRI%20SAI%20ONLINE%20SERVICES&cu=INR";
                     upiBtn.href = `${baseUpi}&am=${data.total_cost}`;
                     
-                    // Briefly highlight the UPI button to direct their attention
                     upiBtn.style.transform = "scale(1.05)";
                     upiBtn.style.boxShadow = "0 0 15px rgba(103, 58, 183, 0.6)";
                     setTimeout(() => {
@@ -196,6 +173,9 @@
                         upiBtn.style.boxShadow = "none";
                     }, 1500);
 
+                } else if (response.status === 403) {
+                    // This triggers if they type the wrong PIN
+                    alert("SECURITY BLOCK: Incorrect Shop PIN. Printing cancelled.");
                 } else {
                     alert("Error: Could not print. Ensure the shop's computer is online.");
                 }
@@ -203,7 +183,6 @@
                 console.error("Upload error:", error);
                 alert("Connection failed. Make sure the shop's system is running and the Ngrok URL is correct.");
             } finally {
-                // Reset the button back to normal
                 printBtn.disabled = false;
                 printBtnText.innerText = "Upload & Print Document";
                 event.target.value = ''; 
