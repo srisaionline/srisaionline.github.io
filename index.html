@@ -89,15 +89,15 @@
         <h1>SRI SAI ONLINE SERVICES</h1>
         <p>Scan & Connect</p>
 
-        <!-- Hidden File Input for Printing -->
-        <input type="file" id="fileInput" accept=".pdf, .jpg, .jpeg, .png">
+        <!-- UPDATED: Now strictly accepts ONLY PDF files -->
+        <input type="file" id="fileInput" accept=".pdf, application/pdf">
 
         <!-- Upload & Print Button -->
         <button id="printBtn" onclick="document.getElementById('fileInput').click()" class="btn btn-print">
             <svg class="icon" viewBox="0 0 24 24">
                 <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
             </svg>
-            <span id="printBtnText">Upload & Print Document</span>
+            <span id="printBtnText">Upload PDF & Print</span>
         </button>
 
         <!-- WhatsApp Button -->
@@ -124,10 +124,9 @@
     </div>
 
     <script>
-        // --- 1. CURRENT NGROK URL ---
-        // Make sure it matches your terminal and ENDS WITH /upload
+        // --- NGROK URL: UPDATE THIS WITH YOUR CURRENT TUNNEL ---
         const PYTHON_SERVER_URL = "https://grub-thinning-occupy.ngrok-free.dev/upload";
-        // -----------------------------
+        // -------------------------------------------------------
 
         const fileInput = document.getElementById('fileInput');
         const printBtn = document.getElementById('printBtn');
@@ -137,15 +136,25 @@
         fileInput.addEventListener('change', async function(event) {
             if (event.target.files.length === 0) return;
 
+            const file = event.target.files[0];
+
+            // --- STRICT PDF CHECK ---
+            // This rejects the file instantly if it is not a PDF format
+            if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+                alert("Only PDF documents are allowed. Please convert your images to PDF before uploading.");
+                event.target.value = ''; // Clears the bad file
+                return;
+            }
+            // ------------------------
+
             // Ask for shop PIN
-            const userPin = prompt("Please enter today's 4-digit Shop PIN to print:\n(Ask the shopkeeper if you don't know it)");
+            const userPin = prompt("Please Enter 4-digit Shop PIN to Print:\n(Ask the Owner if you don't know it)");
             
             if (!userPin) {
                 event.target.value = ''; 
                 return;
             }
 
-            const file = event.target.files[0];
             const formData = new FormData();
             formData.append('document', file);
             formData.append('pin', userPin);
@@ -183,15 +192,14 @@
                 } else if (response.status === 403) {
                     alert("SECURITY BLOCK: Incorrect Shop PIN. Printing cancelled.");
                 } else {
-                    alert(`Server Error (${response.status}): The Python app rejected the file.`);
+                    alert(`Server Error (${response.status}): The App rejected the file.`);
                 }
             } catch (error) {
                 console.error("Upload error details:", error);
-                // This specific alert triggers if the URL is dead, typed wrong, or the browser caches an old one.
-                alert("NETWORK ERROR: " + error.message + "\n\n1. Ensure Ngrok is running.\n2. Ensure the Ngrok URL in GitHub matches exactly.\n3. REFRESH this page to clear cache.");
+                alert("NETWORK ERROR: " + error.message + "\n\n1. Ensure Server is running.\n2. Ensure the Server matches exactly.\n3. REFRESH this page to clear cache.");
             } finally {
                 printBtn.disabled = false;
-                printBtnText.innerText = "Upload & Print Document";
+                printBtnText.innerText = "Upload PDF & Print";
                 event.target.value = ''; 
             }
         });
