@@ -5,75 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sri Sai Online Services - Print & Pay</title>
     <style>
-        :root { --primary: #2563eb; --whatsapp: #25D366; --upi: #673AB7; --print: #f97316; --review: #fbbc04; --bg: #f3f4f6; }
-        html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; overscroll-behavior-y: none; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); background-image: linear-gradient(135deg, #e0e7ff 0%, #f3f4f6 100%); display: flex; justify-content: center; align-items: center; box-sizing: border-box; padding: 15px; }
-        .container { background: white; padding: 2.5rem 2rem; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; width: 100%; max-width: 380px; max-height: 96%; overflow-y: auto; scrollbar-width: none; }
-        .container::-webkit-scrollbar { display: none; }
-        .logo-placeholder { width: 72px; height: 72px; background: linear-gradient(135deg, var(--primary), #60a5fa); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; margin: 0 auto 1.2rem; }
-        h1 { margin: 0; font-size: 1.5rem; font-weight: 700; color: #1f2937; }
-        p { color: #6b7280; margin: 0.5rem 0 2rem; font-size: 0.95rem; }
-        .btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 15px; margin-bottom: 1rem; border-radius: 14px; text-decoration: none; font-size: 1.05rem; font-weight: 600; color: white; box-sizing: border-box; border: none; cursor: pointer; }
-        .btn-wa { background-color: var(--whatsapp); } .btn-upi { background-color: var(--upi); } .btn-print { background-color: var(--print); } .btn-review { background-color: var(--review); color: #1f2937; }
-        .icon { width: 24px; height: 24px; fill: currentColor; }
-        #fileInput { display: none; }
+        :root {
+            --primary: #2563eb;
+            --whatsapp: #25D366;
+            --whatsapp-hover: #1da851;
+            --upi: #673AB7;
+            --upi-hover: #512da8;
+            --print: #f97316;
+            --print-hover: #ea580c;
+            --review: #fbbc04;
+            --review-hover: #f9a825;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f3f4f6;
+        }
+
+        html, body {
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            overflow: hidden; overscroll-behavior-y: none;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            background-image: linear-gradient(135deg, #e0e7ff 0%, #f3f4f6 100%);
+            display: flex; justify-content: center; align-items: center;
+            box-sizing: border-box; padding: 15px;
+        }
+
+        .container {
+            background: white; padding: 2.5rem 2rem; border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); text-align: center;
+            width: 100%; max-width: 380px; max-height: 96%;
+            overflow-y: auto; scrollbar-width: none; animation: fadeIn 0.6s ease-out;
+        }
         
-        #paymentSection { display: none; padding-top: 10px; border-top: 2px dashed #e5e7eb; margin-top: 20px; }
-        .bill-text { font-size: 1.2rem; font-weight: bold; color: #dc2626; margin-bottom: 15px; }
-        .wait-text { font-size: 0.9rem; color: #6b7280; font-style: italic; margin-top: 10px; }
+        .container::-webkit-scrollbar { display: none; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .logo-placeholder {
+            width: 72px; height: 72px; background: linear-gradient(135deg, var(--primary), #60a5fa);
+            color: white; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 32px; font-weight: 800;
+            margin: 0 auto 1.2rem; box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+        }
+        
+        h1 { margin: 0; color: var(--text-dark); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
+        p { color: var(--text-light); margin: 0.5rem 0 2rem; font-size: 0.95rem; }
+        
+        .btn {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            width: 100%; padding: 15px; margin-bottom: 1rem; border-radius: 14px;
+            text-decoration: none; font-size: 1.05rem; font-weight: 600; color: white;
+            box-sizing: border-box; transition: all 0.2s ease; border: none; cursor: pointer;
+            touch-action: manipulation;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
+        .btn:active { transform: translateY(1px); }
+        
+        .btn-wa { background-color: var(--whatsapp); }
+        .btn-wa:hover { background-color: var(--whatsapp-hover); }
+        .btn-upi { background-color: var(--upi); transition: all 0.3s ease; }
+        .btn-upi:hover { background-color: var(--upi-hover); }
+        .btn-print { background-color: var(--print); }
+        .btn-print:hover { background-color: var(--print-hover); }
+        .btn-print:disabled { background-color: #fdba74; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-review { background-color: var(--review); color: #1f2937; }
+        .btn-review:hover { background-color: var(--review-hover); }
+        
+        .icon { width: 24px; height: 24px; fill: currentColor; }
+        .footer-text { margin-top: 1.5rem; font-size: 0.85rem; color: #9ca3af; margin-bottom: 0; font-weight: 500; }
+        
+        #fileInput { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="uploadSection">
-            <div class="logo-placeholder">S</div>
-            <h1>SRI SAI ONLINE SERVICES</h1>
-            <p>Upload PDF & Pay Instantly</p>
+        <div class="logo-placeholder">S</div>
+        <h1>SRI SAI ONLINE SERVICES</h1>
+        <p>Scan & Connect</p>
 
-            <input type="file" id="fileInput" accept=".pdf, application/pdf">
+        <input type="file" id="fileInput" accept=".pdf, application/pdf">
 
-            <button id="printBtn" onclick="document.getElementById('fileInput').click()" class="btn btn-print">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
-                <span id="printBtnText">Upload PDF & Print</span>
-            </button>
+        <button id="printBtn" onclick="document.getElementById('fileInput').click()" class="btn btn-print">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+            </svg>
+            <span id="printBtnText">Upload PDF & Print</span>
+        </button>
 
-            <a href="https://wa.me/918247709435?text=Hello%20SRI%20SAI," class="btn btn-wa">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.161.453-.834.864-1.161.9-1.015.111-2.436-.453-3.83-1.847-1.393-1.392-1.956-2.813-1.846-3.829.036-.328.448-1 .901-1.16.233-.082.496-.024.664.15l.623.645c.168.174.195.426.06.626l-.323.477c-.135.2-.108.473.064.646l2.133 2.132c.173.172.446.2.646.064l.477-.323c.2-.135.451-.108.625.06l.645.624c.174.168.232.431.15.664z"/></svg>
-                Message on WhatsApp
-            </a>
+        <a href="https://wa.me/918247709435?text=Hello%20SRI%20SAI," class="btn btn-wa">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.161.453-.834.864-1.161.9-1.015.111-2.436-.453-3.83-1.847-1.393-1.392-1.956-2.813-1.846-3.829.036-.328.448-1 .901-1.16.233-.082.496-.024.664.15l.623.645c.168.174.195.426.06.626l-.323.477c-.135.2-.108.473.064.646l2.133 2.132c.173.172.446.2.646.064l.477-.323c.2-.135.451-.108.625.06l.645.624c.174.168.232.431.15.664z"/></svg>
+            Message on WhatsApp
+        </a>
 
-            <a href="https://g.page/r/CSJoCNdSV2ICEBM/review" target="_blank" class="btn btn-review">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                Rate Us 5 Stars
-            </a>
-        </div>
+        <a href="upi://pay?pa=8247709435@okbizaxis&pn=SRI%20SAI%20ONLINE%20SERVICES&cu=INR" id="upiBtn" class="btn btn-upi">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            Pay via UPI
+        </a>
 
-        <div id="paymentSection">
-            <h1 style="margin-top:20px;">Payment Required</h1>
-            <p class="bill-text" id="billAmount">Total Due: ₹0</p>
-            
-            <a href="#" id="upiBtn" class="btn btn-upi">
-                Pay via UPI Now
-            </a>
-            
-            <p class="wait-text" id="statusMessage">⚠️ Your file is on hold.<br>Printing will begin as soon as the shopkeeper approves it.</p>
-        </div>
+        <a href="https://g.page/r/CSJoCNdSV2ICEBM/review" target="_blank" class="btn btn-review">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+            Rate Us 5 Stars
+        </a>
+        
+        <p class="footer-text">Secure & Direct Designed By Delix</p>
     </div>
 
     <script>
-        // --- NGROK URL: UPDATE THIS WITH YOUR CURRENT TUNNEL ---
+        // --- IMPORTANT: Update this daily with your new Ngrok URL! ---
         const PYTHON_SERVER_URL = "https://grub-thinning-occupy.ngrok-free.dev/upload";
-        // -------------------------------------------------------
+        // --------------------------------------------------------------
 
         const fileInput = document.getElementById('fileInput');
         const printBtn = document.getElementById('printBtn');
         const printBtnText = document.getElementById('printBtnText');
-        
-        const uploadSection = document.getElementById('uploadSection');
-        const paymentSection = document.getElementById('paymentSection');
-        const billAmount = document.getElementById('billAmount');
-        const upiBtn = document.getElementById('upiBtn');
-        const statusMessage = document.getElementById('statusMessage');
+        const upiBtn = document.getElementById('upiBtn'); 
 
         fileInput.addEventListener('change', async function(event) {
             if (event.target.files.length === 0) return;
@@ -104,7 +157,7 @@
             // 2. Ask for PIN only if the shop requires it
             let userPin = "";
             if (requiresPin) {
-                userPin = prompt("Enter today's 4-digit Shop PIN:");
+                userPin = prompt("Enter today's 4-digit Shop PIN:\n(Ask the shopkeeper if you don't know it)");
                 if (!userPin) { 
                     printBtn.disabled = false; 
                     printBtnText.innerText = "Upload PDF & Print";
@@ -117,7 +170,7 @@
             formData.append('document', file);
             if (userPin) formData.append('pin', userPin);
 
-            printBtnText.innerText = "Uploading File...";
+            printBtnText.innerText = "Processing File...";
 
             try {
                 const response = await fetch(PYTHON_SERVER_URL, {
@@ -129,22 +182,24 @@
                 if (response.ok) {
                     const data = await response.json();
                     
-                    // Switch interface to payment screen
-                    uploadSection.style.display = 'none';
-                    paymentSection.style.display = 'block';
-                    
-                    billAmount.innerText = `Total Due: ₹${data.total_cost} (${data.pages} Pages)`;
-                    
+                    // Show dynamic alert based on shop toggle setting (Instant vs Held)
                     if (data.status === 'printed') {
-                        statusMessage.innerHTML = "✅ Your document is printing now!<br>Please complete your payment below.";
-                        statusMessage.style.color = "#1da851";
+                        alert(`✅ Success! Your document is printing now.\n\nPages: ${data.pages}\nTotal Due: ₹${data.total_cost}\n\nPlease tap 'Pay via UPI' below to complete your payment.`);
                     } else {
-                        statusMessage.innerHTML = "⚠️ Your file is on hold.<br>Printing will begin as soon as the shopkeeper approves it.";
-                        statusMessage.style.color = "#f97316";
+                        alert(`⏳ File received safely.\n\nPages: ${data.pages}\nTotal Due: ₹${data.total_cost}\n\nYour file is on hold. Please complete your payment via UPI, and the Owner will approve the print.`);
                     }
-
+                    
+                    // Dynamically update the exact amount into the UPI link
                     const baseUpi = "upi://pay?pa=8247709435@okbizaxis&pn=SRI%20SAI%20ONLINE%20SERVICES&cu=INR";
                     upiBtn.href = `${baseUpi}&am=${data.total_cost}`;
+                    
+                    // Briefly highlight the UPI button to direct their attention
+                    upiBtn.style.transform = "scale(1.05)";
+                    upiBtn.style.boxShadow = "0 0 15px rgba(103, 58, 183, 0.6)";
+                    setTimeout(() => {
+                        upiBtn.style.transform = "none";
+                        upiBtn.style.boxShadow = "none";
+                    }, 1500);
 
                 } else if (response.status === 403) {
                     alert("SECURITY BLOCK: Incorrect Shop PIN.");
@@ -152,7 +207,8 @@
                     alert(`Server Error (${response.status})`);
                 }
             } catch (error) {
-                alert("NETWORK ERROR: " + error.message + "\n\n1. Ensure Server is running.\n2. Refresh this page.");
+                console.error("Upload error details:", error);
+                alert("NETWORK ERROR: " + error.message + "\n\n1. Ensure Server is running.\n2. Ensure the Server is running.\n3. REFRESH this page to clear cache.");
             } finally {
                 printBtn.disabled = false;
                 printBtnText.innerText = "Upload PDF & Print";
