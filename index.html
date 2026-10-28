@@ -55,7 +55,7 @@
   'use strict';
   // GitHub Pages is static. It must call the PC through your HTTPS ngrok tunnel.
   // IMPORTANT: If your ngrok address changes, update GITHUB_API_URL below.
-  const GITHUB_API_URL = 'https://grub-thinking-occupy.ngrok-free.dev';
+  const GITHUB_API_URL = 'https://grub-thinning-occupy.ngrok-free.dev';
   const IS_GITHUB_PAGES = location.hostname === 'srisaionline.github.io';
   const API_ROOT = IS_GITHUB_PAGES ? GITHUB_API_URL.replace(/\/+$/, '') : '';
   const ngrokHeaders = () => API_ROOT ? {'ngrok-skip-browser-warning':'1'} : {};
@@ -194,7 +194,7 @@
       updateEstimate();
       return true;
     }catch(e){
-      err('PC print server offline. Ask staff to start Sri Sai Print Control and check that ngrok is connected.');
+      err('Could not connect to the print server at '+(API_ROOT || location.origin)+'. Please ask staff to check the PC app, ngrok and the configured tunnel URL.');
       return false;
     }
   }
