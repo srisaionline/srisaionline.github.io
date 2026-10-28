@@ -8,6 +8,17 @@
 <style>
 :root{--navy:#101e39;--navy2:#1b3158;--mint:#0ab68b;--mint-dark:#078e6e;--slate:#6b7890;--line:#e5eaf2;--bg:#f5f7fb;--ink:#17243c;--danger:#d7354c}
 *{box-sizing:border-box}html{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink)}body{margin:0;min-height:100vh}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.52;cursor:not-allowed}.top{background:linear-gradient(125deg,#101c34 0%,#233f6b 100%);color:white;padding:22px 20px 86px}.top-inner{max-width:670px;margin:auto;display:flex;align-items:center;gap:13px}.brandmark{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:#ffffff1c;color:#63edc3;font-size:25px;flex:none}.eyebrow{font-size:10px;font-weight:850;letter-spacing:2.5px;color:#74dbc1}.brandname{font-size:21px;font-weight:800;letter-spacing:-.7px;line-height:1.25}.branddesc{font-size:12px;color:#c0d0ec;margin-top:3px}.container{width:min(100% - 30px,670px);margin:-64px auto 50px;position:relative}.surface{background:white;border:1px solid #e9eef6;border-radius:22px;box-shadow:0 18px 50px #1b315817;overflow:hidden}.intro{padding:25px 26px 21px;border-bottom:1px solid var(--line)}.intro h1{margin:2px 0 8px;font-size:25px;letter-spacing:-.7px}.intro p{margin:0;color:var(--slate);font-size:13px;line-height:1.55}.steps{display:flex;gap:7px;margin-top:22px}.step{height:5px;background:#e7edf4;border-radius:8px;flex:1}.step.active{background:var(--mint)}.formbody{padding:24px 26px 28px}.section{margin-bottom:27px}.section-title{display:flex;align-items:center;gap:11px;margin-bottom:12px}.num{background:#e7f8f3;color:#07856b;font-size:11px;font-weight:850;border-radius:9px;min-width:28px;height:28px;display:grid;place-items:center}.section-title h2{margin:0;font-size:15px;font-weight:780}.upload{border:2px dashed #becde0;background:#f9fbfe;border-radius:16px;padding:25px 18px;text-align:center;transition:.2s}.upload.dragging{border-color:var(--mint);background:#ebfff9}.upload-icon{margin:0 auto 10px;width:56px;height:56px;border-radius:16px;background:#eaf1fc;display:grid;place-items:center;font-size:27px}.upload strong{display:block;font-size:14px}.upload p{color:var(--slate);font-size:12px;line-height:1.5;margin:7px 0 17px}.choose-row{display:flex;justify-content:center;flex-wrap:wrap;gap:9px}.smallbtn{border-radius:10px;border:1px solid #cdd7e6;background:white;color:#213f6f;padding:10px 15px;font-size:12px;font-weight:800}.smallbtn.camera{background:#edf8f5;border-color:#bfe7dc;color:#07836b}.selected{display:none;background:#f1f8ff;border:1px solid #d9e7fa;border-radius:12px;align-items:center;gap:10px;padding:13px;margin-top:12px}.selected.show{display:flex}.fileicon{width:35px;height:35px;display:grid;place-items:center;background:white;border-radius:9px;font-size:17px;flex:none}.filetext{flex:1;min-width:0}.filename{font-size:13px;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.filemeta{font-size:11px;color:var(--slate);margin-top:3px}.replace{border:0;background:none;color:#245aa2;font-size:12px;font-weight:750}.crop-zone{display:none;margin:16px 0 0;padding:17px 12px 14px;border-radius:16px;background:#17243c;color:white}.crop-zone.show{display:block}.crop-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 4px 12px;font-size:12px;font-weight:800}.hint{color:#d8e7fd;font-size:11px;font-weight:400;margin-top:4px}.orientation{background:#ffffff1d;display:flex;padding:3px;border-radius:9px}.orientation button{border:none;background:transparent;color:#cad8eb;padding:8px 9px;border-radius:7px;font-size:11px;font-weight:750}.orientation button.active{background:white;color:#17243c}.stage-wrap{display:flex;align-items:center;justify-content:center;min-height:190px}.stage{width:min(100%,360px);position:relative;background:#0b1220;border:2px solid white;box-shadow:0 6px 24px #0005;border-radius:3px;overflow:hidden;touch-action:none;cursor:grab;line-height:0}.stage:active{cursor:grabbing}.stage canvas{display:block;width:100%;height:auto;touch-action:none}.guides{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right, transparent 33.2%,#ffffff50 33.3%,transparent 33.5%,transparent 66.5%,#ffffff50 66.6%,transparent 66.8%),linear-gradient(to bottom, transparent 33.2%,#ffffff50 33.3%,transparent 33.5%,transparent 66.5%,#ffffff50 66.6%,transparent 66.8%)}.crop-help{text-align:center;color:#c4d6ec;font-size:11px;margin:12px 5px}.zoomrow{display:flex;align-items:center;gap:13px;margin:0 auto;max-width:330px;font-size:12px}.zoomrow input{width:100%;accent-color:#43ddac}.pricebox{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);background:#fafbfd;padding:14px 16px;border-radius:13px;gap:15px}.muted{font-size:12px;color:var(--slate)}.bigcost{font-size:19px;font-weight:850;color:var(--navy);margin-top:3px}.counter{display:flex;align-items:center;gap:0;border:1px solid #d7e0ec;border-radius:11px;overflow:hidden;background:white}.counter button{border:0;background:#f4f7fb;width:40px;height:42px;font-size:19px;color:var(--navy)}.counter input{border:0;outline:none;text-align:center;width:50px;height:42px;font-weight:800;appearance:textfield;-moz-appearance:textfield}.counter input::-webkit-inner-spin-button{-webkit-appearance:none}.detail{margin:10px 2px 0;font-size:12px;color:var(--slate);line-height:1.6}.pinbox{display:none}.pinbox.show{display:block}.pinbox label{display:block;margin-bottom:8px;font-size:13px;font-weight:780}.pinbox input{width:100%;height:52px;border:1px solid #cad7e6;background:#f9fbfe;border-radius:12px;padding:0 15px;outline:0;font-size:21px;font-weight:800;letter-spacing:7px}.pinbox input:focus{border-color:var(--mint);box-shadow:0 0 0 3px #0ab68b20}.submit{width:100%;height:55px;border:0;border-radius:13px;background:linear-gradient(95deg,#0ba980,#10c79a);color:white;font-size:15px;font-weight:850;box-shadow:0 6px 18px #0ab68b31}.submit:active{transform:translateY(1px)}.notebox{display:flex;gap:9px;align-items:flex-start;color:#718099;font-size:11px;line-height:1.5;margin:13px 3px 0}.error{display:none;border:1px solid #ffd2d7;background:#fff1f2;color:#b72c45;padding:12px 14px;border-radius:11px;font-size:12px;margin-bottom:14px;line-height:1.5}.error.show{display:block}.footer{text-align:center;margin:20px auto 0;color:#8692a5;font-size:11px}.success{display:none;padding:30px 25px 35px;text-align:center}.success.show{display:block}.success-icon{width:82px;height:82px;display:grid;place-items:center;margin:4px auto 18px;font-size:36px;border-radius:50%;background:#dffaf1;color:#079976}.success h2{font-size:24px;margin:0 0 9px}.success p{color:var(--slate);font-size:13px;line-height:1.7;margin:0 0 17px}.order-id{border:1px dashed #adc8d2;background:#f7fcfc;border-radius:14px;padding:13px;margin:18px auto}.order-id small{color:#778b9b;font-size:11px;font-weight:800;letter-spacing:1.2px}.order-id strong{display:block;font-size:21px;margin-top:5px;word-break:break-word}.amountpanel{border-radius:16px;padding:19px;background:#14243e;color:white;margin:18px 0;text-align:left}.amountpanel .line{display:flex;justify-content:space-between;gap:15px;padding:7px 0;font-size:13px;color:#c5d4e8}.amountpanel .line b{color:white}.amountpanel .line.total{border-top:1px solid #ffffff2f;margin-top:8px;padding-top:14px;align-items:center}.amountpanel .line.total b{font-size:27px;color:#64ebbf}.pay{font-weight:850;color:#126a53;font-size:14px;background:#e7f8f1;padding:14px;border-radius:12px;margin:16px 0}.again{background:white;border:1px solid #bfcce0;color:#233c61;font-weight:800;border-radius:12px;padding:13px 24px}.hidden{display:none!important}@media(max-width:520px){.top{padding-top:19px}.brandname{font-size:18px}.container{width:calc(100% - 20px)}.intro{padding:22px 20px 20px}.intro h1{font-size:23px}.formbody{padding:21px 17px 25px}.crop-head{align-items:flex-start}.stage{width:min(100%,300px)}.order-id strong{font-size:18px}}
+/* PIN gate: one obvious field at the top of the customer form. Hidden if disabled. */
+.pinbox{display:none;background:linear-gradient(130deg,#eefbf7,#f7fbff);border:1px solid #bce6d9;border-radius:16px;padding:18px 18px 17px;margin-bottom:24px}
+.pinbox.show{display:block}
+.pin-gate-head{display:flex;gap:12px;align-items:center;margin-bottom:15px}
+.pin-icon{background:#dbf7eb;border-radius:12px;width:42px;height:42px;display:grid;place-items:center;flex:none;font-size:19px}
+.pin-gate-head strong{display:block;font-size:15px;color:#0b4e43;line-height:1.4}
+.pin-gate-head span:not(.pin-icon){display:block;color:#507267;font-size:12px;line-height:1.5;margin-top:3px}
+.pinbox label{display:block;font-size:12px;font-weight:800;color:#174d41;margin-bottom:7px}
+.pinbox input{background:#fff;border:1.5px solid #8fc8b4;letter-spacing:2px;font-size:19px;font-weight:750;height:56px}
+.pinbox input::placeholder{color:#9aa8b1;font-size:15px;font-weight:500;letter-spacing:0}
+.pinbox .detail{font-size:11px;margin-top:10px;color:#54776e}
 </style>
 </head>
 <body>
@@ -16,6 +27,13 @@
   <div class="intro" id="intro"><h1>Print your documents</h1><p>Upload a photo or PDF from your phone. All jobs are sent to the counter for approval before printing.</p><div class="steps"><span class="step active"></span><span class="step active"></span><span class="step"></span><span class="step"></span></div></div>
   <div class="formbody" id="formBody">
     <div id="error" class="error" role="alert"></div>
+    <!-- This entire PIN panel is shown ONLY when the PC administrator enables it. -->
+    <div class="section pinbox" id="pinbox" aria-live="polite">
+      <div class="pin-gate-head"><span class="pin-icon" aria-hidden="true">🔒</span><div><strong>Enter today's customer PIN</strong><span>Ask the shopkeeper for the 6-digit code shown on the PC.</span></div></div>
+      <label for="pin">6-digit print access PIN</label>
+      <input id="pin" inputmode="numeric" type="text" maxlength="6" autocomplete="off" placeholder="Enter 6-digit PIN" pattern="[0-9]{6}" aria-describedby="pinHelp">
+      <div class="detail" id="pinHelp">Required only when PIN protection is switched ON by the shop admin.</div>
+    </div>
     <div class="section"><div class="section-title"><span class="num">01</span><h2>Choose your document</h2></div>
       <div class="upload" id="dropzone"><div class="upload-icon">▧</div><strong>Upload an image or PDF</strong><p>JPG, PNG, WEBP or PDF • Up to <span id="limit">20</span> MB<br>Take a picture of a document or choose an existing file.</p>
         <div class="choose-row"><button class="smallbtn" type="button" id="browseBtn">Browse files</button><button class="smallbtn camera" type="button" id="cameraBtn">📷 Take photo</button></div>
@@ -28,7 +46,6 @@
       <div class="crop-help">Drag to reposition your photo inside the A4 paper. Pinch or use zoom below.</div><div class="zoomrow"><span>−</span><input type="range" min="1" max="3" step="0.01" value="1" id="zoom" aria-label="Zoom crop"><span>+</span></div></div>
     </div>
     <div class="section"><div class="section-title"><span class="num">02</span><h2>How many copies?</h2></div><div class="pricebox"><div><div class="muted">Number of copies</div><div class="bigcost" id="unitPrice">₹— / page</div></div><div class="counter"><button type="button" id="minus" aria-label="Decrease copies">−</button><input id="copies" inputmode="numeric" type="number" min="1" value="1" aria-label="Copies"><button type="button" id="plus" aria-label="Increase copies">+</button></div></div><div class="detail" id="estimate">Choose a document to see an estimate.</div></div>
-    <div class="section pinbox" id="pinbox"><div class="section-title"><span class="num">03</span><h2>Confirm with daily PIN</h2></div><label for="pin">Ask the shopkeeper for today's 6-digit PIN</label><input id="pin" inputmode="numeric" type="text" maxlength="6" autocomplete="one-time-code" placeholder="••••••" pattern="[0-9]{6}"><div class="detail">Required by the shop administrator before an order can be placed.</div></div>
     <button id="submit" class="submit" type="button">Send to print queue →</button><div class="notebox"><span>ⓘ</span><span>Your file is queued only. The admin must release it to the printer. Payment is collected at the counter; no online payment is taken here.</span></div>
   </div>
   <div id="success" class="success" role="status"><div class="success-icon">✓</div><h2>Order received!</h2><p>Your file was sent to the PC print queue.<br><strong>Waiting for counter staff to release printing.</strong></p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line"><span>Document pages</span><b id="resultPages">—</b></div><div class="line"><span>Copies</span><b id="resultCopies">—</b></div><div class="line"><span>Total A4 prints</span><b id="resultSheets">—</b></div><div class="line total"><span>Amount to pay</span><b id="resultAmount">—</b></div></div><div class="pay">Pay at counter • మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</div><p>Show your order number to the shopkeeper to collect your printouts.</p><button id="again" class="again" type="button">＋ Print another document</button></div>
@@ -160,7 +177,11 @@
       $('unitPrice').textContent=price(config.price_per_page)+' / page';
       $('limit').textContent=config.max_file_mb;
       $('copies').max=config.max_copies;
-      $('pinbox').classList.toggle('show',config.pin_required);
+      const needsPin = config.pin_required === true;
+      $('pinbox').classList.toggle('show',needsPin);
+      $('pin').disabled = !needsPin;
+      $('pin').required = needsPin;
+      if (!needsPin) $('pin').value = '';
       updateEstimate();
       return true;
     }catch(e){err('Print server unavailable. Please contact the counter staff.');return false;}
@@ -169,8 +190,14 @@
   $('submit').addEventListener('click',async()=>{
     clearError();
     if(!file){err('Please choose an image or PDF first.');return;}
+    // Always fetch current admin setting before accepting an order. If the admin
+    // changed the switch while the page was open, show/hide the gate correctly.
+    if(!await loadConfig()) return;
     const c=numCopies();setCopies(c);
-    if(config.pin_required && !/^\d{6}$/.test($('pin').value.trim())){err('Enter the 6-digit PIN given by the shopkeeper.');$('pin').focus();return;}
+    if(config.pin_required && !/^\d{6}$/.test($('pin').value.trim())){
+      err('Enter the 6-digit customer PIN shown to the shopkeeper on the PC.');
+      $('pin').focus();return;
+    }
     const button=$('submit');button.disabled=true;button.textContent='Uploading your document…';
     try{
       const form=new FormData();
@@ -191,7 +218,10 @@
       $('resultAmount').textContent=price(data.total_amount);
       $('formBody').classList.add('hidden');$('intro').classList.add('hidden');
       $('success').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});
-    }catch(e){err(e.message||'Upload failed. Please ask the counter staff.');}
+    }catch(e){
+      err(e.message||'Upload failed. Please ask the counter staff.');
+      if(config.pin_required && /PIN/i.test(String(e.message||''))) $('pin').focus();
+    }
     finally{button.disabled=false;button.textContent='Send to print queue →';}
   });
   $('again').addEventListener('click',async()=>{
@@ -200,6 +230,9 @@
     $('success').classList.remove('show');$('formBody').classList.remove('hidden');$('intro').classList.remove('hidden');
     clearError();await loadConfig();window.scrollTo({top:0,behavior:'smooth'});
   });
+  // Re-read the server setting when customers return to an already-open tab.
+  window.addEventListener('focus',()=>{if(!$('formBody').classList.contains('hidden'))loadConfig();});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden && !$('formBody').classList.contains('hidden'))loadConfig();});
   loadConfig();
 })();
 </script>
