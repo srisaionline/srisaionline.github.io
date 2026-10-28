@@ -53,6 +53,13 @@
 <script>
 (() => {
   'use strict';
+  // GitHub Pages is static. It must call the PC through your HTTPS ngrok tunnel.
+  // IMPORTANT: If your ngrok address changes, update GITHUB_API_URL below.
+  const GITHUB_API_URL = 'https://grub-thinking-occupy.ngrok-free.dev';
+  const IS_GITHUB_PAGES = location.hostname === 'srisaionline.github.io';
+  const API_ROOT = IS_GITHUB_PAGES ? GITHUB_API_URL.replace(/\/+$/, '') : '';
+  const ngrokHeaders = () => API_ROOT ? {'ngrok-skip-browser-warning':'1'} : {};
+  const apiPath = path => API_ROOT + path;
   const $=id=>document.getElementById(id);
   let config={price_per_page:0,pin_required:true,max_copies:25,max_file_mb:20};
   let file=null,image=null,orientation='portrait',zoom=1,panX=0,panY=0;
@@ -171,7 +178,9 @@
   }
   async function loadConfig(){
     try{
-      const response=await fetch('/api/config',{cache:'no-store'});
+      const response=await fetch(apiPath('/api/config'),{
+        cache:'no-store', headers:ngrokHeaders(), mode: API_ROOT ? 'cors' : 'same-origin'
+      });
       if(!response.ok)throw new Error('Unable to connect to print server.');
       config=await response.json();
       $('unitPrice').textContent=price(config.price_per_page)+' / page';
@@ -184,7 +193,10 @@
       if (!needsPin) $('pin').value = '';
       updateEstimate();
       return true;
-    }catch(e){err('Print server unavailable. Please contact the counter staff.');return false;}
+    }catch(e){
+      err('PC print server offline. Ask staff to start Sri Sai Print Control and check that ngrok is connected.');
+      return false;
+    }
   }
   $('pin').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,6);});
   $('submit').addEventListener('click',async()=>{
@@ -208,7 +220,9 @@
       }
       form.append('copies',String(c));
       if(config.pin_required)form.append('pin',$('pin').value.trim());
-      const res=await fetch('/api/upload',{method:'POST',body:form});
+      const res=await fetch(apiPath('/api/upload'),{
+        method:'POST', body:form, headers:ngrokHeaders(), mode: API_ROOT ? 'cors' : 'same-origin'
+      });
       const data=await res.json().catch(()=>({}));
       if(!res.ok)throw new Error(data.error||'Upload failed. Please try again.');
       $('orderCode').textContent=data.order_id;
