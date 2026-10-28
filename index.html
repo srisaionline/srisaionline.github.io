@@ -1,31 +1,207 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Sri Sai Online Services | Smart Print & Pay</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101e39">
+<title>Sri Sai • Self-Service Print</title>
 <style>
-:root{--navy:#0f172a;--blue:#2563eb;--pale:#eff6ff;--muted:#64748b;--line:#e2e8f0;--green:#15803d}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,"Segoe UI",Arial,sans-serif;background:linear-gradient(145deg,#dbeafe,#f8fafc 48%,#e0e7ff);color:#0f172a;padding:20px 14px;display:flex;justify-content:center;align-items:center}.app{width:100%;max-width:490px;background:#fff;border:1px solid #ffffffb8;border-radius:26px;box-shadow:0 24px 70px #0f172a18;overflow:hidden}.hero{padding:25px 24px 22px;background:linear-gradient(135deg,#0f172a,#1d4ed8);color:white}.brand{display:flex;align-items:center;gap:13px}.logo{width:52px;height:52px;display:grid;place-items:center;border-radius:16px;background:#ffffff20;border:1px solid #ffffff35;font-size:26px;font-weight:900}.hero h1{font-size:19px;letter-spacing:.2px;margin:0}.hero p{font-size:13px;color:#dbeafe;margin:5px 0 0}.secure{display:inline-flex;margin-top:20px;gap:7px;align-items:center;font-size:11px;background:#ffffff18;border:1px solid #ffffff25;border-radius:30px;padding:7px 10px;color:#e0f2fe}.content{padding:23px}.step{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--blue);font-weight:800;margin:0 0 8px}.title{font-size:22px;margin:0 0 7px}.sub{font-size:13px;line-height:1.55;color:var(--muted);margin:0 0 19px}.drop{display:block;text-align:center;border:1.5px dashed #93c5fd;background:#f8fbff;border-radius:17px;padding:22px 14px;cursor:pointer}.drop .upicon{font-size:28px}.drop strong{display:block;margin:8px 0 4px;font-size:14px}.drop small{color:var(--muted);font-size:12px}input[type=file]{display:none}.file-name{font-size:12px;color:#1d4ed8;font-weight:700;margin-top:12px;overflow-wrap:anywhere}.preview-wrap{display:none;margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:15px;background:#f8fafc}.preview-wrap img{display:block;max-width:100%;max-height:260px;margin:auto;object-fit:contain}.crop-note{font-size:11px;color:var(--muted);text-align:center;margin-top:8px}.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:17px}.field label{display:block;font-size:12px;font-weight:700;color:#334155;margin-bottom:7px}.field input,.field select{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:12px;font:inherit;background:white}.field input:focus,.field select:focus{outline:2px solid #bfdbfe;border-color:var(--blue)}.summary{margin-top:18px;background:#f8fafc;border:1px solid var(--line);border-radius:15px;padding:15px}.sumline{display:flex;justify-content:space-between;gap:12px;font-size:13px;margin:7px 0;color:#475569}.sumline strong{color:#0f172a}.total{border-top:1px solid var(--line);padding-top:12px;margin-top:12px;font-size:15px;color:#0f172a;font-weight:800}.btn{width:100%;border:0;border-radius:13px;padding:15px 16px;font-size:14px;font-weight:800;cursor:pointer;margin-top:16px;transition:.15s}.btn:disabled{opacity:.55;cursor:not-allowed}.primary{background:var(--blue);color:white;box-shadow:0 7px 18px #2563eb30}.secondary{background:#f1f5f9;color:#334155}.fine{font-size:11px;color:var(--muted);line-height:1.5;text-align:center;margin:13px 0 0}.result{display:none;text-align:center;padding:8px 0 0}.check{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:#dcfce7;color:var(--green);font-size:30px;margin:0 auto 14px}.orderid{font-size:22px;font-weight:900;color:#1d4ed8;background:var(--pale);padding:13px;border-radius:12px;letter-spacing:.5px;margin:14px 0}.paybox{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:14px;border-radius:13px;font-size:13px;line-height:1.6;text-align:left;margin-top:14px}.footer{padding:15px;text-align:center;background:#f8fafc;border-top:1px solid var(--line);font-size:11px;color:#94a3b8}.error{display:none;background:#fef2f2;color:#b91c1c;padding:11px;border-radius:10px;font-size:12px;margin-top:12px}.hidden{display:none!important}@media(max-width:380px){.content{padding:18px}.hero{padding:22px 18px}.field-row{gap:8px}}
+:root{--navy:#101e39;--navy2:#1b3158;--mint:#0ab68b;--mint-dark:#078e6e;--slate:#6b7890;--line:#e5eaf2;--bg:#f5f7fb;--ink:#17243c;--danger:#d7354c}
+*{box-sizing:border-box}html{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink)}body{margin:0;min-height:100vh}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.52;cursor:not-allowed}.top{background:linear-gradient(125deg,#101c34 0%,#233f6b 100%);color:white;padding:22px 20px 86px}.top-inner{max-width:670px;margin:auto;display:flex;align-items:center;gap:13px}.brandmark{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:#ffffff1c;color:#63edc3;font-size:25px;flex:none}.eyebrow{font-size:10px;font-weight:850;letter-spacing:2.5px;color:#74dbc1}.brandname{font-size:21px;font-weight:800;letter-spacing:-.7px;line-height:1.25}.branddesc{font-size:12px;color:#c0d0ec;margin-top:3px}.container{width:min(100% - 30px,670px);margin:-64px auto 50px;position:relative}.surface{background:white;border:1px solid #e9eef6;border-radius:22px;box-shadow:0 18px 50px #1b315817;overflow:hidden}.intro{padding:25px 26px 21px;border-bottom:1px solid var(--line)}.intro h1{margin:2px 0 8px;font-size:25px;letter-spacing:-.7px}.intro p{margin:0;color:var(--slate);font-size:13px;line-height:1.55}.steps{display:flex;gap:7px;margin-top:22px}.step{height:5px;background:#e7edf4;border-radius:8px;flex:1}.step.active{background:var(--mint)}.formbody{padding:24px 26px 28px}.section{margin-bottom:27px}.section-title{display:flex;align-items:center;gap:11px;margin-bottom:12px}.num{background:#e7f8f3;color:#07856b;font-size:11px;font-weight:850;border-radius:9px;min-width:28px;height:28px;display:grid;place-items:center}.section-title h2{margin:0;font-size:15px;font-weight:780}.upload{border:2px dashed #becde0;background:#f9fbfe;border-radius:16px;padding:25px 18px;text-align:center;transition:.2s}.upload.dragging{border-color:var(--mint);background:#ebfff9}.upload-icon{margin:0 auto 10px;width:56px;height:56px;border-radius:16px;background:#eaf1fc;display:grid;place-items:center;font-size:27px}.upload strong{display:block;font-size:14px}.upload p{color:var(--slate);font-size:12px;line-height:1.5;margin:7px 0 17px}.choose-row{display:flex;justify-content:center;flex-wrap:wrap;gap:9px}.smallbtn{border-radius:10px;border:1px solid #cdd7e6;background:white;color:#213f6f;padding:10px 15px;font-size:12px;font-weight:800}.smallbtn.camera{background:#edf8f5;border-color:#bfe7dc;color:#07836b}.selected{display:none;background:#f1f8ff;border:1px solid #d9e7fa;border-radius:12px;align-items:center;gap:10px;padding:13px;margin-top:12px}.selected.show{display:flex}.fileicon{width:35px;height:35px;display:grid;place-items:center;background:white;border-radius:9px;font-size:17px;flex:none}.filetext{flex:1;min-width:0}.filename{font-size:13px;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.filemeta{font-size:11px;color:var(--slate);margin-top:3px}.replace{border:0;background:none;color:#245aa2;font-size:12px;font-weight:750}.crop-zone{display:none;margin:16px 0 0;padding:17px 12px 14px;border-radius:16px;background:#17243c;color:white}.crop-zone.show{display:block}.crop-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 4px 12px;font-size:12px;font-weight:800}.hint{color:#d8e7fd;font-size:11px;font-weight:400;margin-top:4px}.orientation{background:#ffffff1d;display:flex;padding:3px;border-radius:9px}.orientation button{border:none;background:transparent;color:#cad8eb;padding:8px 9px;border-radius:7px;font-size:11px;font-weight:750}.orientation button.active{background:white;color:#17243c}.stage-wrap{display:flex;align-items:center;justify-content:center;min-height:190px}.stage{width:min(100%,360px);position:relative;background:#0b1220;border:2px solid white;box-shadow:0 6px 24px #0005;border-radius:3px;overflow:hidden;touch-action:none;cursor:grab;line-height:0}.stage:active{cursor:grabbing}.stage canvas{display:block;width:100%;height:auto;touch-action:none}.guides{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right, transparent 33.2%,#ffffff50 33.3%,transparent 33.5%,transparent 66.5%,#ffffff50 66.6%,transparent 66.8%),linear-gradient(to bottom, transparent 33.2%,#ffffff50 33.3%,transparent 33.5%,transparent 66.5%,#ffffff50 66.6%,transparent 66.8%)}.crop-help{text-align:center;color:#c4d6ec;font-size:11px;margin:12px 5px}.zoomrow{display:flex;align-items:center;gap:13px;margin:0 auto;max-width:330px;font-size:12px}.zoomrow input{width:100%;accent-color:#43ddac}.pricebox{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);background:#fafbfd;padding:14px 16px;border-radius:13px;gap:15px}.muted{font-size:12px;color:var(--slate)}.bigcost{font-size:19px;font-weight:850;color:var(--navy);margin-top:3px}.counter{display:flex;align-items:center;gap:0;border:1px solid #d7e0ec;border-radius:11px;overflow:hidden;background:white}.counter button{border:0;background:#f4f7fb;width:40px;height:42px;font-size:19px;color:var(--navy)}.counter input{border:0;outline:none;text-align:center;width:50px;height:42px;font-weight:800;appearance:textfield;-moz-appearance:textfield}.counter input::-webkit-inner-spin-button{-webkit-appearance:none}.detail{margin:10px 2px 0;font-size:12px;color:var(--slate);line-height:1.6}.pinbox{display:none}.pinbox.show{display:block}.pinbox label{display:block;margin-bottom:8px;font-size:13px;font-weight:780}.pinbox input{width:100%;height:52px;border:1px solid #cad7e6;background:#f9fbfe;border-radius:12px;padding:0 15px;outline:0;font-size:21px;font-weight:800;letter-spacing:7px}.pinbox input:focus{border-color:var(--mint);box-shadow:0 0 0 3px #0ab68b20}.submit{width:100%;height:55px;border:0;border-radius:13px;background:linear-gradient(95deg,#0ba980,#10c79a);color:white;font-size:15px;font-weight:850;box-shadow:0 6px 18px #0ab68b31}.submit:active{transform:translateY(1px)}.notebox{display:flex;gap:9px;align-items:flex-start;color:#718099;font-size:11px;line-height:1.5;margin:13px 3px 0}.error{display:none;border:1px solid #ffd2d7;background:#fff1f2;color:#b72c45;padding:12px 14px;border-radius:11px;font-size:12px;margin-bottom:14px;line-height:1.5}.error.show{display:block}.footer{text-align:center;margin:20px auto 0;color:#8692a5;font-size:11px}.success{display:none;padding:30px 25px 35px;text-align:center}.success.show{display:block}.success-icon{width:82px;height:82px;display:grid;place-items:center;margin:4px auto 18px;font-size:36px;border-radius:50%;background:#dffaf1;color:#079976}.success h2{font-size:24px;margin:0 0 9px}.success p{color:var(--slate);font-size:13px;line-height:1.7;margin:0 0 17px}.order-id{border:1px dashed #adc8d2;background:#f7fcfc;border-radius:14px;padding:13px;margin:18px auto}.order-id small{color:#778b9b;font-size:11px;font-weight:800;letter-spacing:1.2px}.order-id strong{display:block;font-size:21px;margin-top:5px;word-break:break-word}.amountpanel{border-radius:16px;padding:19px;background:#14243e;color:white;margin:18px 0;text-align:left}.amountpanel .line{display:flex;justify-content:space-between;gap:15px;padding:7px 0;font-size:13px;color:#c5d4e8}.amountpanel .line b{color:white}.amountpanel .line.total{border-top:1px solid #ffffff2f;margin-top:8px;padding-top:14px;align-items:center}.amountpanel .line.total b{font-size:27px;color:#64ebbf}.pay{font-weight:850;color:#126a53;font-size:14px;background:#e7f8f1;padding:14px;border-radius:12px;margin:16px 0}.again{background:white;border:1px solid #bfcce0;color:#233c61;font-weight:800;border-radius:12px;padding:13px 24px}.hidden{display:none!important}@media(max-width:520px){.top{padding-top:19px}.brandname{font-size:18px}.container{width:calc(100% - 20px)}.intro{padding:22px 20px 20px}.intro h1{font-size:23px}.formbody{padding:21px 17px 25px}.crop-head{align-items:flex-start}.stage{width:min(100%,300px)}.order-id strong{font-size:18px}}
 </style>
-</head><body><main class="app">
-<header class="hero"><div class="brand"><div class="logo">S</div><div><h1>SRI SAI ONLINE SERVICES</h1><p>Smart Print & Pay · Customer Portal</p></div></div><div class="secure">● &nbsp; Secure order submission · Print after approval</div></header>
-<section class="content" id="formView"><p class="step">01 / Create print order</p><h2 class="title">Upload your document</h2><p class="sub">Choose a PDF or image, select how many copies you need, and submit your order. Pay at the counter.</p>
-<label class="drop" for="document"><span class="upicon">⇧</span><strong>Tap to upload PDF or image</strong><small>PDF, JPG, PNG, WEBP · Maximum 30 MB</small><div class="file-name" id="fileName">No file selected</div></label><input id="document" type="file" accept="application/pdf,.pdf,image/jpeg,image/png,image/webp,image/bmp,.jpg,.jpeg,.png,.webp,.bmp">
-<div class="preview-wrap" id="previewWrap"><img id="imagePreview" alt="Selected image preview"><div class="crop-note">Image will be fitted proportionally onto an A4 portrait page. No stretching.</div></div>
-<div class="field-row"><div class="field"><label for="copies">Number of copies</label><input id="copies" type="number" min="1" max="100" value="1" inputmode="numeric"></div><div class="field"><label for="paper">Paper size</label><select id="paper"><option value="A4">A4</option></select></div></div>
-<div class="summary"><div class="sumline"><span>Document pages</span><strong id="pagesText">—</strong></div><div class="sumline"><span>Copies</span><strong id="copiesText">1</strong></div><div class="sumline"><span>Rate per page</span><strong id="rateText">Loading…</strong></div><div class="sumline total"><span>Estimated total</span><strong id="totalText">—</strong></div></div>
-<div class="error" id="errorBox"></div><button class="btn primary" id="submitBtn">Submit Print Order →</button><p class="fine">Your document will not print immediately. The shop admin must release your order. Please pay the displayed amount at the counter.</p></section>
-<section class="content result" id="resultView"><div class="check">✓</div><p class="step">Order received</p><h2 class="title">Sent to print queue!</h2><p class="sub">Your order has been submitted successfully. Printing will begin after the shop admin releases it.</p><div class="orderid" id="orderId">SS-ORDER</div><div class="summary"><div class="sumline"><span>Document</span><strong id="rFile">—</strong></div><div class="sumline"><span>Pages × copies</span><strong id="rPages">—</strong></div><div class="sumline"><span>Order status</span><strong>Waiting for approval</strong></div><div class="sumline total"><span>Pay at counter</span><strong id="rTotal">₹0.00</strong></div></div><div class="paybox"><strong>Next step: Pay at the counter</strong><br>Show your order number to the shopkeeper and pay the amount above. Keep this screen open until the order number is noted.</div><button class="btn primary" id="newOrderBtn">Create another order</button></section>
-<footer class="footer">Sri Sai Online Services · Smart Print & Pay</footer></main>
+</head>
+<body>
+<header class="top"><div class="top-inner"><div class="brandmark">▣</div><div><div class="eyebrow">SELF SERVICE PRINTING</div><div class="brandname">Sri Sai Print Station</div><div class="branddesc">Upload • Crop • Place order • Pay at counter</div></div></div></header>
+<main class="container"><div class="surface">
+  <div class="intro" id="intro"><h1>Print your documents</h1><p>Upload a photo or PDF from your phone. All jobs are sent to the counter for approval before printing.</p><div class="steps"><span class="step active"></span><span class="step active"></span><span class="step"></span><span class="step"></span></div></div>
+  <div class="formbody" id="formBody">
+    <div id="error" class="error" role="alert"></div>
+    <div class="section"><div class="section-title"><span class="num">01</span><h2>Choose your document</h2></div>
+      <div class="upload" id="dropzone"><div class="upload-icon">▧</div><strong>Upload an image or PDF</strong><p>JPG, PNG, WEBP or PDF • Up to <span id="limit">20</span> MB<br>Take a picture of a document or choose an existing file.</p>
+        <div class="choose-row"><button class="smallbtn" type="button" id="browseBtn">Browse files</button><button class="smallbtn camera" type="button" id="cameraBtn">📷 Take photo</button></div>
+      </div>
+      <input id="browseInput" type="file" accept="image/jpeg,image/png,image/webp,.pdf,application/pdf" hidden>
+      <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+      <div class="selected" id="selected"><div class="fileicon" id="fileIcon">▧</div><div class="filetext"><div class="filename" id="fileName"></div><div class="filemeta" id="fileMeta"></div></div><button class="replace" id="replaceBtn" type="button">Change</button></div>
+      <div class="crop-zone" id="cropZone"><div class="crop-head"><div>Crop your image to A4<div class="hint">The full white-bordered area will be printed.</div></div><div class="orientation"><button type="button" class="active" data-orient="portrait">Portrait</button><button type="button" data-orient="landscape">Landscape</button></div></div>
+      <div class="stage-wrap"><div class="stage" id="stage"><canvas id="preview" width="420" height="594" aria-label="Drag image to position its A4 crop"></canvas><div class="guides"></div></div></div>
+      <div class="crop-help">Drag to reposition your photo inside the A4 paper. Pinch or use zoom below.</div><div class="zoomrow"><span>−</span><input type="range" min="1" max="3" step="0.01" value="1" id="zoom" aria-label="Zoom crop"><span>+</span></div></div>
+    </div>
+    <div class="section"><div class="section-title"><span class="num">02</span><h2>How many copies?</h2></div><div class="pricebox"><div><div class="muted">Number of copies</div><div class="bigcost" id="unitPrice">₹— / page</div></div><div class="counter"><button type="button" id="minus" aria-label="Decrease copies">−</button><input id="copies" inputmode="numeric" type="number" min="1" value="1" aria-label="Copies"><button type="button" id="plus" aria-label="Increase copies">+</button></div></div><div class="detail" id="estimate">Choose a document to see an estimate.</div></div>
+    <div class="section pinbox" id="pinbox"><div class="section-title"><span class="num">03</span><h2>Confirm with daily PIN</h2></div><label for="pin">Ask the shopkeeper for today's 6-digit PIN</label><input id="pin" inputmode="numeric" type="text" maxlength="6" autocomplete="one-time-code" placeholder="••••••" pattern="[0-9]{6}"><div class="detail">Required by the shop administrator before an order can be placed.</div></div>
+    <button id="submit" class="submit" type="button">Send to print queue →</button><div class="notebox"><span>ⓘ</span><span>Your file is queued only. The admin must release it to the printer. Payment is collected at the counter; no online payment is taken here.</span></div>
+  </div>
+  <div id="success" class="success" role="status"><div class="success-icon">✓</div><h2>Order received!</h2><p>Your file was sent to the PC print queue.<br><strong>Waiting for counter staff to release printing.</strong></p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line"><span>Document pages</span><b id="resultPages">—</b></div><div class="line"><span>Copies</span><b id="resultCopies">—</b></div><div class="line"><span>Total A4 prints</span><b id="resultSheets">—</b></div><div class="line total"><span>Amount to pay</span><b id="resultAmount">—</b></div></div><div class="pay">Pay at counter • మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</div><p>Show your order number to the shopkeeper to collect your printouts.</p><button id="again" class="again" type="button">＋ Print another document</button></div>
+</div><div class="footer">Sri Sai Print Station • Secure manual printing workflow</div></main>
 <script>
-// Serve this page from the same PC as print_server.py. Do not open it as a file:// URL.
-const API = location.protocol === 'file:' ? 'http://127.0.0.1:5000' : location.origin;
-const $=id=>document.getElementById(id); let config={price_per_page:10,require_pin:true}, selected=null, pages=1;
-const money=n=>'₹'+Number(n||0).toFixed(2);
-async function loadConfig(){try{const r=await fetch(API+'/config');if(!r.ok)throw Error();config=await r.json();$('rateText').textContent=money(config.price_per_page);updateEstimate()}catch(e){$('rateText').textContent='Unavailable';showError('Cannot connect to the print server. Please check with the shopkeeper.')}}
-function showError(s){$('errorBox').textContent=s;$('errorBox').style.display='block'}function clearError(){$('errorBox').style.display='none'}
-function updateEstimate(){let c=Math.max(1,Math.min(100,parseInt($('copies').value||'1',10)));$('copiesText').textContent=c;$('totalText').textContent=money(pages*c*Number(config.price_per_page||0));$('pagesText').textContent=selected?(selected.type==='application/pdf'||selected.name.toLowerCase().endsWith('.pdf')?'PDF page count checked on server':'1 (image on A4)'):'—'}
-$('document').addEventListener('change',()=>{clearError();selected=$('document').files[0]||null;$('fileName').textContent=selected?selected.name:'No file selected';$('previewWrap').style.display='none';if(!selected){pages=1;updateEstimate();return}if(selected.size>30*1024*1024){showError('File is larger than 30 MB. Please choose a smaller file.');selected=null;return}const isPdf=selected.type==='application/pdf'||selected.name.toLowerCase().endsWith('.pdf');const isImage=selected.type.startsWith('image/')||/\.(jpe?g|png|webp|bmp)$/i.test(selected.name);if(!isPdf&&!isImage){showError('Please select a PDF or supported image.');selected=null;return}pages=1;if(isImage){$('imagePreview').src=URL.createObjectURL(selected);$('previewWrap').style.display='block'}updateEstimate()});$('copies').addEventListener('input',updateEstimate);
-$('submitBtn').addEventListener('click',async()=>{clearError();if(!selected){showError('Please select a PDF or image first.');return}let copies=parseInt($('copies').value||'1',10);if(!Number.isInteger(copies)||copies<1||copies>100){showError('Copies must be between 1 and 100.');return}let pin='';if(config.require_pin){pin=prompt("Enter today's shop PIN. Please ask the shopkeeper for the current PIN:");if(pin===null||!pin.trim()){showError('PIN is required to submit an order.');return}}
-const btn=$('submitBtn');btn.disabled=true;btn.textContent='Submitting order…';try{const fd=new FormData();fd.append('document',selected);fd.append('copies',String(copies));if(config.require_pin)fd.append('pin',pin.trim());const res=await fetch(API+'/upload',{method:'POST',body:fd});const data=await res.json();if(!res.ok)throw Error(data.error||'Could not submit order.');$('orderId').textContent=data.order_id;$('rFile').textContent=data.filename;$('rPages').textContent=`${data.pages} × ${data.copies}`;$('rTotal').textContent=money(data.total);$('formView').classList.add('hidden');$('resultView').style.display='block';window.scrollTo({top:0,behavior:'smooth'})}catch(e){showError(e.message||'Network error. Please try again.')}finally{btn.disabled=false;btn.textContent='Submit Print Order →'}});
-$('newOrderBtn').addEventListener('click',()=>{selected=null;$('document').value='';$('fileName').textContent='No file selected';$('previewWrap').style.display='none';$('copies').value='1';$('formView').classList.remove('hidden');$('resultView').style.display='none';clearError();updateEstimate();window.scrollTo({top:0,behavior:'smooth'})});loadConfig();
-</script></body></html>
+(() => {
+  'use strict';
+  const $=id=>document.getElementById(id);
+  let config={price_per_page:0,pin_required:true,max_copies:25,max_file_mb:20};
+  let file=null,image=null,orientation='portrait',zoom=1,panX=0,panY=0;
+  let dragging=false,lastX=0,lastY=0,activePointers=new Map(),pinchStart=0,pinchZoom=1;
+  const preview=$('preview'),ctx=preview.getContext('2d',{alpha:false});
+  const price=val=>'₹'+Number(val).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const err=msg=>{const box=$('error');box.textContent=msg;box.classList.add('show');box.scrollIntoView({behavior:'smooth',block:'nearest'});};
+  const clearError=()=>{$('error').classList.remove('show');$('error').textContent='';};
+  const numCopies=()=>Math.max(1,Math.min(config.max_copies,Number.parseInt($('copies').value,10)||1));
+  const setCopies=n=>{$('copies').value=Math.min(config.max_copies,Math.max(1,Number.parseInt(n,10)||1));updateEstimate();};
+  $('minus').addEventListener('click',()=>setCopies(numCopies()-1));
+  $('plus').addEventListener('click',()=>setCopies(numCopies()+1));
+  $('copies').addEventListener('change',()=>setCopies($('copies').value));
+  $('browseBtn').onclick=()=>{$('browseInput').value='';$('browseInput').click();};
+  $('replaceBtn').onclick=()=>{$('browseInput').value='';$('browseInput').click();};
+  $('cameraBtn').onclick=()=>{$('cameraInput').value='';$('cameraInput').click();};
+  $('browseInput').onchange=e=>choose(e.target.files[0]);
+  $('cameraInput').onchange=e=>choose(e.target.files[0]);
+  const dz=$('dropzone');
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragging');});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('dragging'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragging');choose(e.dataTransfer.files[0]);});
+  function updateEstimate(){
+    const c=numCopies();
+    if(!file){$('estimate').textContent='Choose a document to see an estimate.';return;}
+    if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){
+      $('estimate').textContent=`${c} ${c===1?'copy':'copies'} × document pages × ${price(config.price_per_page)}. Exact total will appear after upload.`;
+    }else{
+      $('estimate').textContent=`1 A4 page × ${c} ${c===1?'copy':'copies'} = ${price(c*config.price_per_page)} estimated total.`;
+    }
+  }
+  function choose(input){
+    clearError();if(!input)return;
+    const ext=input.name.toLowerCase().split('.').pop();
+    if(!['pdf','jpg','jpeg','png','webp'].includes(ext)&&!(input.type||'').startsWith('image/')){err('Choose a PDF, JPG, PNG or WEBP image.');return;}
+    if(input.size>config.max_file_mb*1024*1024){err(`File exceeds ${config.max_file_mb} MB. Please choose a smaller file.`);return;}
+    if(input.size===0){err('This document is empty.');return;}
+    const isPdf=ext==='pdf';
+    if(!isPdf && !['jpg','jpeg','png','webp'].includes(ext)){
+      err('This camera image format is not supported. Save it as JPG or PNG and try again.');return;
+    }
+    if(image && image.src && image.src.startsWith('blob:'))URL.revokeObjectURL(image.src);
+    file=input;image=null;
+    $('selected').classList.add('show');$('fileName').textContent=file.name;
+    $('fileMeta').textContent=(file.size/1024/1024).toFixed(2)+' MB · '+(isPdf?'PDF document':'Image — A4 cropping enabled');
+    $('fileIcon').textContent=isPdf?'▤':'▧';
+    $('cropZone').classList.remove('show');
+    if(!isPdf){
+      const img=new Image();const blobURL=URL.createObjectURL(input);
+      img.onload=()=>{if(file!==input){URL.revokeObjectURL(blobURL);return;}image=img;zoom=1;panX=0;panY=0;$('zoom').value='1';$('cropZone').classList.add('show');paint();};
+      img.onerror=()=>{URL.revokeObjectURL(blobURL);file=null;$('selected').classList.remove('show');err('This image could not be opened. Please choose a JPG or PNG image.');};
+      img.src=blobURL;
+    }
+    updateEstimate();
+  }
+  function clamp(v,lo,hi){return Math.min(hi,Math.max(lo,v));}
+  function dims(){return{w:preview.width,h:preview.height};}
+  function getGeometry(w,h){
+    if(!image)return null;
+    const scale=Math.max(w/image.naturalWidth,h/image.naturalHeight)*zoom;
+    const dw=image.naturalWidth*scale,dh=image.naturalHeight*scale;
+    const px=clamp(panX,-Math.max(0,(dw-w)/2),Math.max(0,(dw-w)/2));
+    const py=clamp(panY,-Math.max(0,(dh-h)/2),Math.max(0,(dh-h)/2));
+    panX=px;panY=py;return{dw,dh,x:(w-dw)/2+px,y:(h-dh)/2+py};
+  }
+  function paint(){
+    if(!image)return;
+    const {w,h}=dims(),g=getGeometry(w,h);
+    ctx.fillStyle='white';ctx.fillRect(0,0,w,h);
+    ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+    ctx.drawImage(image,g.x,g.y,g.dw,g.dh);
+  }
+  document.querySelectorAll('[data-orient]').forEach(btn=>btn.addEventListener('click',()=>{
+    orientation=btn.dataset.orient;
+    document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x===btn));
+    preview.width=orientation==='portrait'?420:594;
+    preview.height=orientation==='portrait'?594:420;
+    panX=panY=0;paint();
+  }));
+  $('zoom').addEventListener('input',e=>{zoom=Number(e.target.value);paint();});
+  preview.addEventListener('pointerdown',e=>{
+    if(!image)return;
+    preview.setPointerCapture(e.pointerId);
+    activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    dragging=true;lastX=e.clientX;lastY=e.clientY;
+    if(activePointers.size===2){const pts=[...activePointers.values()];pinchStart=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);pinchZoom=zoom;}
+  });
+  preview.addEventListener('pointermove',e=>{
+    if(!activePointers.has(e.pointerId)||!image)return;
+    activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    const rect=preview.getBoundingClientRect();
+    if(activePointers.size===2){
+      const pts=[...activePointers.values()];
+      const current=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+      zoom=clamp(pinchZoom*(current/Math.max(1,pinchStart)),1,3);$('zoom').value=zoom;
+    }else{
+      panX+=(e.clientX-lastX)*(preview.width/rect.width);
+      panY+=(e.clientY-lastY)*(preview.height/rect.height);
+    }
+    lastX=e.clientX;lastY=e.clientY;paint();
+  });
+  const stop=e=>{activePointers.delete(e.pointerId);dragging=activePointers.size>0;};
+  preview.addEventListener('pointerup',stop);preview.addEventListener('pointercancel',stop);
+  async function croppedBlob(){
+    if(!image)throw new Error('Image not ready. Wait for the photo preview.');
+    const out=document.createElement('canvas');
+    out.width=orientation==='portrait'?1654:2339;
+    out.height=orientation==='portrait'?2339:1654;
+    const dc=out.getContext('2d',{alpha:false});
+    dc.fillStyle='#fff';dc.fillRect(0,0,out.width,out.height);
+    const small=getGeometry(preview.width,preview.height);
+    const sx=out.width/preview.width,sy=out.height/preview.height;
+    dc.imageSmoothingEnabled=true;dc.imageSmoothingQuality='high';
+    dc.drawImage(image,small.x*sx,small.y*sy,small.dw*sx,small.dh*sy);
+    return await new Promise((resolve,reject)=>out.toBlob(b=>b?resolve(b):reject(new Error('Unable to create A4 image.')),'image/jpeg',.91));
+  }
+  async function loadConfig(){
+    try{
+      const response=await fetch('/api/config',{cache:'no-store'});
+      if(!response.ok)throw new Error('Unable to connect to print server.');
+      config=await response.json();
+      $('unitPrice').textContent=price(config.price_per_page)+' / page';
+      $('limit').textContent=config.max_file_mb;
+      $('copies').max=config.max_copies;
+      $('pinbox').classList.toggle('show',config.pin_required);
+      updateEstimate();
+      return true;
+    }catch(e){err('Print server unavailable. Please contact the counter staff.');return false;}
+  }
+  $('pin').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,6);});
+  $('submit').addEventListener('click',async()=>{
+    clearError();
+    if(!file){err('Please choose an image or PDF first.');return;}
+    const c=numCopies();setCopies(c);
+    if(config.pin_required && !/^\d{6}$/.test($('pin').value.trim())){err('Enter the 6-digit PIN given by the shopkeeper.');$('pin').focus();return;}
+    const button=$('submit');button.disabled=true;button.textContent='Uploading your document…';
+    try{
+      const form=new FormData();
+      const isPdf=file.name.toLowerCase().endsWith('.pdf');
+      if(isPdf){form.append('document',file,file.name);}else{
+        const cropped=await croppedBlob();
+        form.append('document',cropped,file.name.replace(/\.[^.]+$/,'')+'-A4.jpg');
+      }
+      form.append('copies',String(c));
+      if(config.pin_required)form.append('pin',$('pin').value.trim());
+      const res=await fetch('/api/upload',{method:'POST',body:form});
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok)throw new Error(data.error||'Upload failed. Please try again.');
+      $('orderCode').textContent=data.order_id;
+      $('resultPages').textContent=data.pages;
+      $('resultCopies').textContent=data.copies;
+      $('resultSheets').textContent=data.total_sheets;
+      $('resultAmount').textContent=price(data.total_amount);
+      $('formBody').classList.add('hidden');$('intro').classList.add('hidden');
+      $('success').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});
+    }catch(e){err(e.message||'Upload failed. Please ask the counter staff.');}
+    finally{button.disabled=false;button.textContent='Send to print queue →';}
+  });
+  $('again').addEventListener('click',async()=>{
+    file=null;image=null;zoom=1;panX=0;panY=0;setCopies(1);$('pin').value='';
+    $('selected').classList.remove('show');$('cropZone').classList.remove('show');
+    $('success').classList.remove('show');$('formBody').classList.remove('hidden');$('intro').classList.remove('hidden');
+    clearError();await loadConfig();window.scrollTo({top:0,behavior:'smooth'});
+  });
+  loadConfig();
+})();
+</script>
+</body>
+</html>
