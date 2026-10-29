@@ -61,6 +61,10 @@
 .service-note{text-align:center;font-size:11px;color:#77869b;margin:10px 0 0;line-height:1.5}
 @media(max-width:520px){.service-grid{grid-template-columns:1fr}.service-btn{min-height:46px}.crop-mode-row .smallbtn{flex:1}}
 
+
+.privacy-note{font-size:11px!important;line-height:1.55!important;color:#68778d!important;background:#f5f8fc;border:1px solid #e3eaf3;border-radius:10px;padding:10px 12px;margin:13px 0 17px!important;text-align:left}
+.privacy-note strong{color:#33445e}
+
 </style>
 </head>
 <body>
@@ -110,7 +114,7 @@
     <div class="section"><div class="section-title"><span class="num">02</span><h2>How many copies?</h2></div><div class="pricebox"><div><div class="muted">Total amount to pay</div><div class="bigcost" id="unitPrice" aria-live="polite">₹—</div></div><div class="counter"><button type="button" id="minus" aria-label="Decrease copies">−</button><input id="copies" inputmode="numeric" type="number" min="1" value="1" aria-label="Copies"><button type="button" id="plus" aria-label="Increase copies">+</button></div></div><div class="detail" id="estimate" aria-live="polite">Choose a document to see the amount. It updates when you change copies.</div></div>
     <button id="submit" class="submit" type="button">Send to print queue →</button><div class="notebox"><span>ⓘ</span><span>Your file is queued only. The admin must release it to the printer. Payment is collected at the counter; no online payment is taken here.</span></div>
   </div>
-  <div id="success" class="success" role="status" aria-live="assertive"><div class="success-icon">✓</div><h2>✓ Order sent successfully!</h2><p>Your document has reached the PC printing queue.<br><strong>Owner will release it for printing.</strong></p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line total"><span>TOTAL AMOUNT TO PAY</span><b id="resultAmount">—</b></div></div><div class="pay">Pay at counter • మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</div><p>Show this order number and pay the amount at the counter.</p><button id="again" class="again" type="button">＋ Print another document</button></div>
+  <div id="success" class="success" role="status" aria-live="assertive"><div class="success-icon">✓</div><h2>✓ Order sent successfully!</h2><p>Your document has reached the PC printing queue.<br><strong>Staff will release it for printing.</strong></p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line total"><span>TOTAL AMOUNT TO PAY</span><b id="resultAmount">—</b></div></div><div class="pay">Pay at counter • మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</div><p>Show this order number and pay the amount at the counter.</p><p class="privacy-note"><strong>🔒 Privacy note:</strong> Your uploaded document file is stored temporarily for printing and automatically deleted after 3 hours while the PC print app is running. If the app is closed, cleanup runs when it starts again. Your order number and amount record may remain for shop records.</p><button id="again" class="again" type="button">＋ Print another document</button></div>
 </div>
 <section class="service-links" aria-label="Sri Sai Online Services quick links">
   <h2>Need help or want to support our shop?</h2>
@@ -492,7 +496,7 @@
       updateEstimate();
       return true;
     }catch(e){
-      err('Could not connect to the print server at '+(API_ROOT || location.origin)+'. Please ask Owner to check the PC app.');
+      err('Could not connect to the print server at '+(API_ROOT || location.origin)+'. Please ask staff to check the PC app, ngrok and the configured tunnel URL.');
       return false;
     }
   }
@@ -530,7 +534,7 @@
       $('success').classList.add('show');playSuccessSound();
       window.scrollTo({top:0,behavior:'smooth'});
     }catch(e){
-      err(e.message||'Upload failed. Please ask the counter Owner.');
+      err(e.message||'Upload failed. Please ask the counter staff.');
       if(config.pin_required && /PIN/i.test(String(e.message||''))) $('pin').focus();
     }
     finally{button.disabled=false;button.textContent='Send to print queue →';}
