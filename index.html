@@ -46,6 +46,21 @@
 .camera-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:14px}
 @media(max-width:520px){.scan-style{gap:6px}.scan-style button{padding:8px 9px}.camera-modal{padding:10px}.camera-card{padding:12px}}
 
+
+.crop-mode-row{display:flex;gap:8px;flex-wrap:wrap;margin:4px 2px 10px}
+.crop-mode-row .smallbtn{background:#ffffff12;color:#e7f1ff;border-color:#ffffff3b}
+.crop-mode-row .smallbtn.active{background:#d8fff1;color:#075a49;border-color:#8de7c8}
+.service-links{max-width:670px;margin:18px auto 0;padding:0 2px}
+.service-links h2{font-size:15px;color:#203858;margin:0 0 10px;text-align:center}
+.service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.service-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 10px;border-radius:12px;text-decoration:none;font-size:12px;font-weight:850;box-shadow:0 5px 14px #1b315812;border:1px solid transparent}
+.service-btn svg{width:20px;height:20px;fill:currentColor;flex:none}
+.service-btn.btn-wa{background:#e7f8ee;color:#117344;border-color:#c6ebd3}
+.service-btn.btn-upi{background:#eaf1ff;color:#204e9b;border-color:#cfddfb}
+.service-btn.btn-review{background:#fff6df;color:#875b00;border-color:#f4e2ad}
+.service-note{text-align:center;font-size:11px;color:#77869b;margin:10px 0 0;line-height:1.5}
+@media(max-width:520px){.service-grid{grid-template-columns:1fr}.service-btn{min-height:46px}.crop-mode-row .smallbtn{flex:1}}
+
 </style>
 </head>
 <body>
@@ -70,29 +85,52 @@
       <div class="selected" id="selected"><div class="fileicon" id="fileIcon">▧</div><div class="filetext"><div class="filename" id="fileName"></div><div class="filemeta" id="fileMeta"></div></div><button class="replace" id="replaceBtn" type="button">Change</button></div>
       <div class="crop-zone" id="cropZone">
         <div class="crop-head">
-          <div>Scan &amp; crop your document
-            <div class="hint">Drag any edge or corner to crop. Drag inside the box to move it.</div>
+          <div>Scan &amp; straighten your document
+            <div class="hint">Works for both camera captures and loaded pictures. Move each corner onto the paper corners to remove perspective skew.</div>
           </div>
           <div class="orientation" aria-label="A4 page orientation">
             <button type="button" class="active" data-orient="portrait">A4 Portrait</button>
             <button type="button" data-orient="landscape">A4 Landscape</button>
           </div>
         </div>
-        <div class="stage-wrap"><canvas id="preview" width="720" height="480" aria-label="Document crop area. Drag edges and corners to crop, or drag inside to move the crop selection."></canvas></div>
+        <div class="crop-mode-row" aria-label="Crop mode">
+          <button type="button" class="smallbtn active" id="perspectiveMode">Perspective straighten</button>
+          <button type="button" class="smallbtn" id="rectangleMode">Rectangle crop</button>
+        </div>
+        <div class="stage-wrap"><canvas id="preview" width="720" height="480" aria-label="Document crop area. In perspective mode drag the four corner handles onto the document corners. Drag an edge to move it or drag inside to move the whole crop."></canvas></div>
         <div class="crop-actions"><button type="button" class="smallbtn" id="resetCrop">Reset crop</button><span id="cropStatus">Crop area ready</span></div>
         <div class="scan-style"><span>Scan style</span>
           <button type="button" data-scan="color">Original color</button>
           <button type="button" class="active" data-scan="enhanced">Enhanced scan</button>
           <button type="button" data-scan="bw">Black &amp; white</button>
         </div>
-        <div class="crop-help">The selected area will be cleaned up and placed on an A4 page. Enhanced scan improves text contrast and lightens the paper background.</div>
+        <div class="crop-help">Perspective straighten corrects a trapezoid-shaped page into a straight, flat scan. For the best result, place all four handles exactly on the paper corners. Loaded photos and camera captures use the same crop tools.</div>
       </div>
     </div>
     <div class="section"><div class="section-title"><span class="num">02</span><h2>How many copies?</h2></div><div class="pricebox"><div><div class="muted">Total amount to pay</div><div class="bigcost" id="unitPrice" aria-live="polite">₹—</div></div><div class="counter"><button type="button" id="minus" aria-label="Decrease copies">−</button><input id="copies" inputmode="numeric" type="number" min="1" value="1" aria-label="Copies"><button type="button" id="plus" aria-label="Increase copies">+</button></div></div><div class="detail" id="estimate" aria-live="polite">Choose a document to see the amount. It updates when you change copies.</div></div>
     <button id="submit" class="submit" type="button">Send to print queue →</button><div class="notebox"><span>ⓘ</span><span>Your file is queued only. The admin must release it to the printer. Payment is collected at the counter; no online payment is taken here.</span></div>
   </div>
   <div id="success" class="success" role="status" aria-live="assertive"><div class="success-icon">✓</div><h2>✓ Order sent successfully!</h2><p>Your document has reached the PC printing queue.<br><strong>Staff will release it for printing.</strong></p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line total"><span>TOTAL AMOUNT TO PAY</span><b id="resultAmount">—</b></div></div><div class="pay">Pay at counter • మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</div><p>Show this order number and pay the amount at the counter.</p><button id="again" class="again" type="button">＋ Print another document</button></div>
-</div><div class="footer">Sri Sai Online Services • Secure manual printing workflow</div></main>
+</div>
+<section class="service-links" aria-label="Sri Sai Online Services quick links">
+  <h2>Need help or want to support our shop?</h2>
+  <div class="service-grid">
+    <a href="https://wa.me/918247709435?text=Hello%20SRI%20SAI," class="service-btn btn-wa" target="_blank" rel="noopener noreferrer" aria-label="Message Sri Sai Online Services on WhatsApp">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.161.453-.834.864-1.161.9-1.015.111-2.436-.453-3.83-1.847-1.393-1.392-1.956-2.813-1.846-3.829.036-.328.448-1 .901-1.16.233-.082.496-.024.664.15l.623.645c.168.174.195.426.06.626l-.323.477c-.135.2-.108.473.064.646l2.133 2.132c.173.172.446.2.646.064l.477-.323c.2-.135.451-.108.625.06l.645.624c.174.168.232.431.15.664z"/></svg>
+      Message on WhatsApp
+    </a>
+    <a href="upi://pay?pa=8247709435@okbizaxis&amp;pn=SRI%20SAI%20ONLINE%20SERVICES&amp;cu=INR" id="upiBtn" class="service-btn btn-upi" aria-label="Pay Sri Sai Online Services using a UPI app">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+      Pay via UPI
+    </a>
+    <a href="https://g.page/r/CSJoCNdSV2ICEBM/review" class="service-btn btn-review" target="_blank" rel="noopener noreferrer" aria-label="Review Sri Sai Online Services on Google">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      Rate Us 5 Stars
+    </a>
+  </div>
+  <div class="service-note">UPI opens a compatible payment app on supported devices. Please verify the payee name before paying.</div>
+</section>
+<div class="footer">Sri Sai Online Services • Secure manual printing workflow</div></main>
 
 <div class="camera-modal" id="cameraModal" role="dialog" aria-modal="true" aria-labelledby="cameraTitle">
   <div class="camera-card">
@@ -115,7 +153,7 @@
   const apiPath = path => API_ROOT + path;
   const $=id=>document.getElementById(id);
   let config={pin_required:true,max_copies:25,max_file_mb:20};
-  let file=null,image=null,documentPages=null,quoteSequence=0,orientation='portrait',scanMode='enhanced',cropRect=null,cropDrag=null;
+  let file=null,image=null,documentPages=null,quoteSequence=0,orientation='portrait',scanMode='enhanced',cropRect=null,cropQuad=null,cropDrag=null,cropMode='perspective';
   let estimateSequence=0, estimateTimer=null, audioContext=null,cameraStream=null;
   const preview=$('preview'),ctx=preview.getContext('2d',{alpha:false});
   const price=val=>'₹'+Number(val).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -222,7 +260,7 @@
       err('This camera image format is not supported. Save it as JPG or PNG and try again.');return;
     }
     if(image && image.src && image.src.startsWith('blob:'))URL.revokeObjectURL(image.src);
-    ++quoteSequence;file=input;image=null;cropRect=null;documentPages=isPdf?null:1;
+    ++quoteSequence;file=input;image=null;cropRect=null;cropQuad=null;documentPages=isPdf?null:1;
     $('selected').classList.add('show');$('fileName').textContent=file.name;
     $('fileMeta').textContent=(file.size/1024/1024).toFixed(2)+' MB · '+(isPdf?'PDF document':'Image — document scan and A4 crop available');
     $('fileIcon').textContent=isPdf?'▤':'▧';
@@ -249,120 +287,153 @@
     const w=image.naturalWidth*scale,h=image.naturalHeight*scale;
     return{x:(preview.width-w)/2,y:(preview.height-h)/2,w,h,scale};
   }
+  function rectToQuad(r){return [{x:r.x,y:r.y},{x:r.x+r.w,y:r.y},{x:r.x+r.w,y:r.y+r.h},{x:r.x,y:r.y+r.h}];}
+  function quadBounds(q){const xs=q.map(p=>p.x),ys=q.map(p=>p.y),x=Math.min(...xs),y=Math.min(...ys);return{x,y,w:Math.max(...xs)-x,h:Math.max(...ys)-y};}
   function initializeCrop(){
     const b=imageBounds();if(!b)return;
     const mx=Math.min(34,b.w*.055),my=Math.min(34,b.h*.055);
     cropRect={x:b.x+mx,y:b.y+my,w:Math.max(30,b.w-2*mx),h:Math.max(30,b.h-2*my)};
-    $('cropStatus').textContent='Drag edges/corners to crop • drag inside to move';
+    cropQuad=rectToQuad(cropRect);cropMode='perspective';
+    $('perspectiveMode').classList.add('active');$('rectangleMode').classList.remove('active');
+    $('cropStatus').textContent='Drag each corner to the paper corners for a straightened scan';
   }
+  function pathForQuad(q){ctx.beginPath();ctx.moveTo(q[0].x,q[0].y);for(let i=1;i<q.length;i++)ctx.lineTo(q[i].x,q[i].y);ctx.closePath();}
   function paint(){
     ctx.fillStyle='#0b1220';ctx.fillRect(0,0,preview.width,preview.height);
     if(!image){ctx.fillStyle='#c6d8ef';ctx.font='bold 20px system-ui';ctx.textAlign='center';ctx.fillText('Choose or capture a document photo',preview.width/2,preview.height/2);return;}
-    const b=imageBounds();
-    ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
-    ctx.drawImage(image,b.x,b.y,b.w,b.h);
-    if(!cropRect){return;}
-    const r=cropRect;
-    // Dim the area outside the crop selection, then redraw the selected pixels brightly.
-    ctx.fillStyle='rgba(3,10,22,.62)';ctx.fillRect(0,0,preview.width,preview.height);
-    ctx.save();ctx.beginPath();ctx.rect(r.x,r.y,r.w,r.h);ctx.clip();ctx.drawImage(image,b.x,b.y,b.w,b.h);ctx.restore();
-    ctx.save();ctx.beginPath();ctx.rect(r.x,r.y,r.w,r.h);ctx.clip();
-    ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=1.5;
-    for(let i=1;i<3;i++){ctx.beginPath();ctx.moveTo(r.x+r.w*i/3,r.y);ctx.lineTo(r.x+r.w*i/3,r.y+r.h);ctx.stroke();ctx.beginPath();ctx.moveTo(r.x,r.y+r.h*i/3);ctx.lineTo(r.x+r.w,r.y+r.h*i/3);ctx.stroke();}
-    ctx.restore();
-    ctx.strokeStyle='#54f0c0';ctx.lineWidth=4;ctx.strokeRect(r.x,r.y,r.w,r.h);
-    const handles=[
-      [r.x,r.y],[r.x+r.w/2,r.y],[r.x+r.w,r.y],
-      [r.x,r.y+r.h/2],[r.x+r.w,r.y+r.h/2],
-      [r.x,r.y+r.h],[r.x+r.w/2,r.y+r.h],[r.x+r.w,r.y+r.h]
-    ];
-    handles.forEach(([x,y])=>{ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);ctx.fillStyle='#ffffff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#078e6e';ctx.stroke();});
-    $('cropStatus').textContent=`Crop selected • ${Math.round(r.w/b.scale)} × ${Math.round(r.h/b.scale)} source pixels`;
+    const b=imageBounds();ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(image,b.x,b.y,b.w,b.h);
+    if(cropMode==='perspective'&&cropQuad){
+      const q=cropQuad;
+      ctx.fillStyle='rgba(3,10,22,.62)';ctx.fillRect(0,0,preview.width,preview.height);
+      ctx.save();pathForQuad(q);ctx.clip();ctx.drawImage(image,b.x,b.y,b.w,b.h);ctx.restore();
+      ctx.save();pathForQuad(q);ctx.clip();ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=1.5;
+      for(let t=1;t<3;t++){
+        const f=t/3;
+        const top={x:q[0].x+(q[1].x-q[0].x)*f,y:q[0].y+(q[1].y-q[0].y)*f};
+        const bottom={x:q[3].x+(q[2].x-q[3].x)*f,y:q[3].y+(q[2].y-q[3].y)*f};
+        ctx.beginPath();ctx.moveTo(top.x,top.y);ctx.lineTo(bottom.x,bottom.y);ctx.stroke();
+        const left={x:q[0].x+(q[3].x-q[0].x)*f,y:q[0].y+(q[3].y-q[0].y)*f};
+        const right={x:q[1].x+(q[2].x-q[1].x)*f,y:q[1].y+(q[2].y-q[1].y)*f};
+        ctx.beginPath();ctx.moveTo(left.x,left.y);ctx.lineTo(right.x,right.y);ctx.stroke();
+      }
+      ctx.restore();ctx.save();pathForQuad(q);ctx.strokeStyle='#54f0c0';ctx.lineWidth=4;ctx.stroke();ctx.restore();
+      const edges=[[0,1],[1,2],[2,3],[3,0]];
+      edges.forEach(([a,c])=>{const x=(q[a].x+q[c].x)/2,y=(q[a].y+q[c].y)/2;ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);ctx.fillStyle='#a7ffe5';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle='#078e6e';ctx.stroke();});
+      q.forEach((p,i)=>{ctx.beginPath();ctx.arc(p.x,p.y,12,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#078e6e';ctx.stroke();ctx.fillStyle='#075a49';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(i+1),p.x,p.y);});
+      $('cropStatus').textContent='Perspective crop ready • drag corners 1–4 to fit the page';
+    }else if(cropRect){
+      const r=cropRect;ctx.fillStyle='rgba(3,10,22,.62)';ctx.fillRect(0,0,preview.width,preview.height);
+      ctx.save();ctx.beginPath();ctx.rect(r.x,r.y,r.w,r.h);ctx.clip();ctx.drawImage(image,b.x,b.y,b.w,b.h);ctx.restore();
+      ctx.save();ctx.beginPath();ctx.rect(r.x,r.y,r.w,r.h);ctx.clip();ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=1.5;
+      for(let i=1;i<3;i++){ctx.beginPath();ctx.moveTo(r.x+r.w*i/3,r.y);ctx.lineTo(r.x+r.w*i/3,r.y+r.h);ctx.stroke();ctx.beginPath();ctx.moveTo(r.x,r.y+r.h*i/3);ctx.lineTo(r.x+r.w,r.y+r.h*i/3);ctx.stroke();}ctx.restore();
+      ctx.strokeStyle='#54f0c0';ctx.lineWidth=4;ctx.strokeRect(r.x,r.y,r.w,r.h);
+      [[r.x,r.y],[r.x+r.w/2,r.y],[r.x+r.w,r.y],[r.x,r.y+r.h/2],[r.x+r.w,r.y+r.h/2],[r.x,r.y+r.h],[r.x+r.w/2,r.y+r.h],[r.x+r.w,r.y+r.h]].forEach(([x,y])=>{ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#078e6e';ctx.stroke();});
+      $('cropStatus').textContent=`Rectangle crop • ${Math.round(r.w/b.scale)} × ${Math.round(r.h/b.scale)} source pixels`;
+    }
   }
   function canvasPoint(e){const rect=preview.getBoundingClientRect();return{x:(e.clientX-rect.left)*preview.width/rect.width,y:(e.clientY-rect.top)*preview.height/rect.height};}
   function insideBounds(p,b){return p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h;}
-  function hitCrop(x,y){
-    const r=cropRect,t=25,midX=r.x+r.w/2,midY=r.y+r.h/2;
-    const points=[['nw',r.x,r.y],['ne',r.x+r.w,r.y],['sw',r.x,r.y+r.h],['se',r.x+r.w,r.y+r.h]];
+  function cropWithinBounds(r,b){const min=32;let w=clamp(r.w,min,b.w),h=clamp(r.h,min,b.h);let x=clamp(r.x,b.x,b.x+b.w-w),y=clamp(r.y,b.y,b.y+b.h-h);return{x,y,w,h};}
+  function hitRect(x,y){
+    const r=cropRect,t=25;const points=[['nw',r.x,r.y],['ne',r.x+r.w,r.y],['sw',r.x,r.y+r.h],['se',r.x+r.w,r.y+r.h]];
     for(const [name,hx,hy] of points)if(Math.hypot(x-hx,y-hy)<=t)return name;
-    if(Math.abs(y-r.y)<=t&&x>=r.x-t&&x<=r.x+r.w+t)return 'n';
-    if(Math.abs(y-(r.y+r.h))<=t&&x>=r.x-t&&x<=r.x+r.w+t)return 's';
-    if(Math.abs(x-r.x)<=t&&y>=r.y-t&&y<=r.y+r.h+t)return 'w';
-    if(Math.abs(x-(r.x+r.w))<=t&&y>=r.y-t&&y<=r.y+r.h+t)return 'e';
-    if(x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h)return 'move';
-    return 'new';
+    if(Math.abs(y-r.y)<=t&&x>=r.x-t&&x<=r.x+r.w+t)return 'n';if(Math.abs(y-(r.y+r.h))<=t&&x>=r.x-t&&x<=r.x+r.w+t)return 's';
+    if(Math.abs(x-r.x)<=t&&y>=r.y-t&&y<=r.y+r.h+t)return 'w';if(Math.abs(x-(r.x+r.w))<=t&&y>=r.y-t&&y<=r.y+r.h+t)return 'e';
+    if(x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h)return 'move';return 'new';
   }
-  function cropWithinBounds(r,b){
-    const min=32;let w=clamp(r.w,min,b.w),h=clamp(r.h,min,b.h);
-    let x=clamp(r.x,b.x,b.x+b.w-w),y=clamp(r.y,b.y,b.y+b.h-h);
-    return{x,y,w,h};
-  }
+  function pointSegmentDistance(p,a,b){const dx=b.x-a.x,dy=b.y-a.y,len=dx*dx+dy*dy;if(!len)return Math.hypot(p.x-a.x,p.y-a.y);const t=clamp(((p.x-a.x)*dx+(p.y-a.y)*dy)/len,0,1);return Math.hypot(p.x-(a.x+t*dx),p.y-(a.y+t*dy));}
+  function pointInQuad(p,q){let inside=false;for(let i=0,j=q.length-1;i<q.length;j=i++){const a=q[i],b=q[j];if(((a.y>p.y)!==(b.y>p.y))&&(p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y+1e-12)+a.x))inside=!inside;}return inside;}
+  function hitQuad(x,y){const p={x,y},q=cropQuad;if(!q)return 'new';for(let i=0;i<4;i++)if(Math.hypot(x-q[i].x,y-q[i].y)<=29)return 'corner'+i;const edgeNames=['top','right','bottom','left'];for(let i=0;i<4;i++)if(pointSegmentDistance(p,q[i],q[(i+1)%4])<=18)return edgeNames[i];if(pointInQuad(p,q))return 'move';return 'new';}
+  function clampPoint(p,b){return{x:clamp(p.x,b.x,b.x+b.w),y:clamp(p.y,b.y,b.y+b.h)};}
+  function validQuad(q){let sign=0;for(let i=0;i<4;i++){const a=q[i],b=q[(i+1)%4],c=q[(i+2)%4],cross=(b.x-a.x)*(c.y-b.y)-(b.y-a.y)*(c.x-b.x);if(Math.abs(cross)<12)return false;const next=Math.sign(cross);if(sign&&next!==sign)return false;sign=next;}return true;}
+  function moveQuadWithinBounds(q,dx,dy,b){const bounds=quadBounds(q);dx=clamp(dx,b.x-bounds.x,b.x+b.w-(bounds.x+bounds.w));dy=clamp(dy,b.y-bounds.y,b.y+b.h-(bounds.y+bounds.h));return q.map(p=>({x:p.x+dx,y:p.y+dy}));}
   preview.addEventListener('pointerdown',e=>{
-    if(!image)return;
-    const p=canvasPoint(e),b=imageBounds();if(!insideBounds(p,b))return;
-    const mode=hitCrop(p.x,p.y);
-    cropDrag={mode,startX:p.x,startY:p.y,original:{...cropRect}};
-    if(mode==='new')cropRect={x:p.x,y:p.y,w:32,h:32};
+    if(!image)return;const p=canvasPoint(e),b=imageBounds();if(!insideBounds(p,b))return;
+    if(cropMode==='perspective'){
+      const mode=hitQuad(p.x,p.y);cropDrag={perspective:true,mode,startX:p.x,startY:p.y,originalQuad:cropQuad.map(v=>({...v}))};
+      if(mode==='new')cropQuad=[{...p},{...p},{...p},{...p}];
+    }else{
+      const mode=hitRect(p.x,p.y);cropDrag={perspective:false,mode,startX:p.x,startY:p.y,original:{...cropRect}};
+      if(mode==='new')cropRect={x:p.x,y:p.y,w:32,h:32};
+    }
     preview.setPointerCapture(e.pointerId);paint();
   });
   preview.addEventListener('pointermove',e=>{
-    if(!cropDrag||!image)return;
-    const p=canvasPoint(e),b=imageBounds(),d=cropDrag,dx=p.x-d.startX,dy=p.y-d.startY,o=d.original;
-    const min=32;
-    if(d.mode==='move'){
-      cropRect=cropWithinBounds({x:o.x+dx,y:o.y+dy,w:o.w,h:o.h},b);
-    }else if(d.mode==='new'){
-      const px=clamp(p.x,b.x,b.x+b.w),py=clamp(p.y,b.y,b.y+b.h);
-      const sx=clamp(d.startX,b.x,b.x+b.w),sy=clamp(d.startY,b.y,b.y+b.h);
-      let left=Math.min(sx,px),top=Math.min(sy,py),right=Math.max(sx,px),bottom=Math.max(sy,py);
-      if(right-left<min)right=Math.min(b.x+b.w,left+min);
-      if(bottom-top<min)bottom=Math.min(b.y+b.h,top+min);
-      cropRect={x:left,y:top,w:right-left,h:bottom-top};
+    if(!cropDrag||!image)return;const p=canvasPoint(e),b=imageBounds(),d=cropDrag,dx=p.x-d.startX,dy=p.y-d.startY;
+    if(d.perspective){
+      const o=d.originalQuad;let candidate;
+      if(d.mode==='move')candidate=moveQuadWithinBounds(o,dx,dy,b);
+      else if(d.mode==='new'){
+        const a=clampPoint({x:d.startX,y:d.startY},b),z=clampPoint(p,b),left=Math.min(a.x,z.x),right=Math.max(a.x,z.x),top=Math.min(a.y,z.y),bottom=Math.max(a.y,z.y);
+        candidate=[{x:left,y:top},{x:right,y:top},{x:right,y:bottom},{x:left,y:bottom}];
+      }else if(d.mode.startsWith('corner')){const idx=Number(d.mode.slice(6));candidate=o.map(v=>({...v}));candidate[idx]=clampPoint(p,b);}
+      else{
+        const edgeMap={top:[0,1],right:[1,2],bottom:[2,3],left:[3,0]},ids=edgeMap[d.mode];candidate=o.map(v=>({...v}));
+        if(ids){ids.forEach(idx=>candidate[idx]=clampPoint({x:o[idx].x+dx,y:o[idx].y+dy},b));}
+      }
+      if(candidate&&validQuad(candidate))cropQuad=candidate;
     }else{
-      let left=o.x,right=o.x+o.w,top=o.y,bottom=o.y+o.h;
-      if(d.mode.includes('w'))left=clamp(o.x+dx,b.x,right-min);
-      if(d.mode.includes('e'))right=clamp(o.x+o.w+dx,left+min,b.x+b.w);
-      if(d.mode.includes('n'))top=clamp(o.y+dy,b.y,bottom-min);
-      if(d.mode.includes('s'))bottom=clamp(o.y+o.h+dy,top+min,b.y+b.h);
-      cropRect={x:left,y:top,w:right-left,h:bottom-top};
+      const o=d.original,min=32;
+      if(d.mode==='move')cropRect=cropWithinBounds({x:o.x+dx,y:o.y+dy,w:o.w,h:o.h},b);
+      else if(d.mode==='new'){
+        const px=clamp(p.x,b.x,b.x+b.w),py=clamp(p.y,b.y,b.y+b.h),sx=clamp(d.startX,b.x,b.x+b.w),sy=clamp(d.startY,b.y,b.y+b.h);
+        let left=Math.min(sx,px),top=Math.min(sy,py),right=Math.max(sx,px),bottom=Math.max(sy,py);if(right-left<min)right=Math.min(b.x+b.w,left+min);if(bottom-top<min)bottom=Math.min(b.y+b.h,top+min);cropRect={x:left,y:top,w:right-left,h:bottom-top};
+      }else{
+        let left=o.x,right=o.x+o.w,top=o.y,bottom=o.y+o.h;
+        if(d.mode.includes('w'))left=clamp(o.x+dx,b.x,right-min);if(d.mode.includes('e'))right=clamp(o.x+o.w+dx,left+min,b.x+b.w);if(d.mode.includes('n'))top=clamp(o.y+dy,b.y,bottom-min);if(d.mode.includes('s'))bottom=clamp(o.y+o.h+dy,top+min,b.y+b.h);cropRect={x:left,y:top,w:right-left,h:bottom-top};
+      }
     }
     paint();
   });
-  function stopCropDrag(e){if(cropDrag){cropDrag=null;paint();}}
+  function stopCropDrag(){if(cropDrag){cropDrag=null;paint();}}
   preview.addEventListener('pointerup',stopCropDrag);preview.addEventListener('pointercancel',stopCropDrag);preview.addEventListener('lostpointercapture',stopCropDrag);
+  function setCropMode(mode){
+    if(mode===cropMode)return;
+    if(mode==='perspective'&&cropRect)cropQuad=rectToQuad(cropRect);
+    else if(mode==='rectangle'&&cropQuad){const r=quadBounds(cropQuad);cropRect={...r};}
+    cropMode=mode;$('perspectiveMode').classList.toggle('active',mode==='perspective');$('rectangleMode').classList.toggle('active',mode==='rectangle');paint();
+  }
+  $('perspectiveMode').addEventListener('click',()=>setCropMode('perspective'));
+  $('rectangleMode').addEventListener('click',()=>setCropMode('rectangle'));
   $('resetCrop').addEventListener('click',()=>{initializeCrop();paint();});
-  document.querySelectorAll('[data-orient]').forEach(btn=>btn.addEventListener('click',()=>{
-    orientation=btn.dataset.orient;
-    document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x===btn));
-  }));
-  document.querySelectorAll('[data-scan]').forEach(btn=>btn.addEventListener('click',()=>{
-    scanMode=btn.dataset.scan;
-    document.querySelectorAll('[data-scan]').forEach(x=>x.classList.toggle('active',x===btn));
-  }));
+  document.querySelectorAll('[data-orient]').forEach(btn=>btn.addEventListener('click',()=>{orientation=btn.dataset.orient;document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x===btn));}));
+  document.querySelectorAll('[data-scan]').forEach(btn=>btn.addEventListener('click',()=>{scanMode=btn.dataset.scan;document.querySelectorAll('[data-scan]').forEach(x=>x.classList.toggle('active',x===btn));}));
+  function solveHomography(dst,src){
+    const A=[],B=[];
+    for(let i=0;i<4;i++){const u=dst[i].x,v=dst[i].y,x=src[i].x,y=src[i].y;A.push([u,v,1,0,0,0,-x*u,-x*v]);B.push(x);A.push([0,0,0,u,v,1,-y*u,-y*v]);B.push(y);}
+    for(let col=0;col<8;col++){let pivot=col;for(let r=col+1;r<8;r++)if(Math.abs(A[r][col])>Math.abs(A[pivot][col]))pivot=r;if(Math.abs(A[pivot][col])<1e-10)throw new Error('The four crop corners overlap. Move them onto the four document corners and try again.');[A[col],A[pivot]]=[A[pivot],A[col]];[B[col],B[pivot]]=[B[pivot],B[col]];const div=A[col][col];for(let c=col;c<8;c++)A[col][c]/=div;B[col]/=div;for(let r=0;r<8;r++){if(r===col)continue;const factor=A[r][col];for(let c=col;c<8;c++)A[r][c]-=factor*A[col][c];B[r]-=factor*B[col];}}
+    return B;
+  }
+  function warpPerspectiveToA4(out,dx,dy,dw,dh,sourceCorners){
+    const srcCanvas=document.createElement('canvas');srcCanvas.width=image.naturalWidth;srcCanvas.height=image.naturalHeight;const sc=srcCanvas.getContext('2d',{willReadFrequently:true});sc.drawImage(image,0,0);const srcData=sc.getImageData(0,0,srcCanvas.width,srcCanvas.height).data;
+    const dst=[{x:dx,y:dy},{x:dx+dw,y:dy},{x:dx+dw,y:dy+dh},{x:dx,y:dy+dh}],h=solveHomography(dst,sourceCorners),[a,b,c,d,e,f,g,k]=h;
+    const oc=out.getContext('2d',{alpha:false}),result=oc.createImageData(out.width,out.height),od=result.data;for(let i=0;i<od.length;i+=4){od[i]=od[i+1]=od[i+2]=255;od[i+3]=255;}
+    const sw=srcCanvas.width,sh=srcCanvas.height;
+    for(let y=Math.max(0,Math.floor(dy));y<Math.min(out.height,Math.ceil(dy+dh));y++){
+      for(let x=Math.max(0,Math.floor(dx));x<Math.min(out.width,Math.ceil(dx+dw));x++){
+        const den=g*x+k*y+1;if(Math.abs(den)<1e-9)continue;const sx=clamp((a*x+b*y+c)/den,0,sw-1.001),sy=clamp((d*x+e*y+f)/den,0,sh-1.001),x0=Math.floor(sx),y0=Math.floor(sy),x1=Math.min(sw-1,x0+1),y1=Math.min(sh-1,y0+1),fx=sx-x0,fy=sy-y0;
+        const i00=(y0*sw+x0)*4,i10=(y0*sw+x1)*4,i01=(y1*sw+x0)*4,i11=(y1*sw+x1)*4,oi=(y*out.width+x)*4;
+        for(let ch=0;ch<3;ch++){const top=srcData[i00+ch]*(1-fx)+srcData[i10+ch]*fx,bot=srcData[i01+ch]*(1-fx)+srcData[i11+ch]*fx;od[oi+ch]=Math.round(top*(1-fy)+bot*fy);}od[oi+3]=255;
+      }
+    }
+    oc.putImageData(result,0,0);
+  }
   async function croppedBlob(){
-    if(!image||!cropRect)throw new Error('Choose a photo and adjust the crop area first.');
-    const b=imageBounds();
-    const sx=clamp((cropRect.x-b.x)/b.scale,0,image.naturalWidth);
-    const sy=clamp((cropRect.y-b.y)/b.scale,0,image.naturalHeight);
-    const sw=clamp(cropRect.w/b.scale,1,image.naturalWidth-sx);
-    const sh=clamp(cropRect.h/b.scale,1,image.naturalHeight-sy);
-    const out=document.createElement('canvas');
-    out.width=orientation==='portrait'?1654:2339;out.height=orientation==='portrait'?2339:1654;
+    if(!image||(!cropRect&&!cropQuad))throw new Error('Choose a photo and adjust the crop area first.');
+    const b=imageBounds(),out=document.createElement('canvas');out.width=orientation==='portrait'?1654:2339;out.height=orientation==='portrait'?2339:1654;
     const dc=out.getContext('2d',{alpha:false});dc.fillStyle='#fff';dc.fillRect(0,0,out.width,out.height);
-    const margin=0.035,maxW=out.width*(1-margin*2),maxH=out.height*(1-margin*2);
-    const fit=Math.min(maxW/sw,maxH/sh),dw=Math.max(1,Math.round(sw*fit)),dh=Math.max(1,Math.round(sh*fit));
-    const dx=Math.round((out.width-dw)/2),dy=Math.round((out.height-dh)/2);
-    dc.imageSmoothingEnabled=true;dc.imageSmoothingQuality='high';
-    dc.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh);
+    const margin=.035,maxW=out.width*(1-margin*2),maxH=out.height*(1-margin*2);let dx,dy,dw,dh;
+    if(cropMode==='perspective'){
+      const sourceCorners=cropQuad.map(p=>({x:clamp((p.x-b.x)/b.scale,0,image.naturalWidth-1),y:clamp((p.y-b.y)/b.scale,0,image.naturalHeight-1)}));
+      dx=Math.round(out.width*margin);dy=Math.round(out.height*margin);dw=Math.round(maxW);dh=Math.round(maxH);
+      warpPerspectiveToA4(out,dx,dy,dw,dh,sourceCorners);
+    }else{
+      const sx=clamp((cropRect.x-b.x)/b.scale,0,image.naturalWidth),sy=clamp((cropRect.y-b.y)/b.scale,0,image.naturalHeight),sw=clamp(cropRect.w/b.scale,1,image.naturalWidth-sx),sh=clamp(cropRect.h/b.scale,1,image.naturalHeight-sy);
+      const fit=Math.min(maxW/sw,maxH/sh);dw=Math.max(1,Math.round(sw*fit));dh=Math.max(1,Math.round(sh*fit));dx=Math.round((out.width-dw)/2);dy=Math.round((out.height-dh)/2);dc.imageSmoothingEnabled=true;dc.imageSmoothingQuality='high';dc.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh);
+    }
     if(scanMode!=='color'){
       const pixels=dc.getImageData(dx,dy,dw,dh),data=pixels.data;
-      for(let i=0;i<data.length;i+=4){
-        const lum=.299*data[i]+.587*data[i+1]+.114*data[i+2];
-        let value;
-        if(scanMode==='bw')value=lum>=178?255:0;
-        else value=lum>224?255:clamp((lum-128)*1.42+128,0,255);
-        data[i]=data[i+1]=data[i+2]=value;
-      }
+      for(let i=0;i<data.length;i+=4){const lum=.299*data[i]+.587*data[i+1]+.114*data[i+2];let value;if(scanMode==='bw')value=lum>=178?255:0;else value=lum>224?255:clamp((lum-128)*1.42+128,0,255);data[i]=data[i+1]=data[i+2]=value;}
       dc.putImageData(pixels,dx,dy);
     }
     return await new Promise((resolve,reject)=>out.toBlob(blob=>blob?resolve(blob):reject(new Error('Unable to create the scanned A4 image.')),'image/jpeg',.94));
@@ -465,7 +536,7 @@
     finally{button.disabled=false;button.textContent='Send to print queue →';}
   });
   $('again').addEventListener('click',async()=>{
-    ++quoteSequence;++estimateSequence;clearTimeout(estimateTimer);file=null;image=null;documentPages=null;cropRect=null;cropDrag=null;orientation='portrait';scanMode='enhanced';setCopies(1);$('pin').value='';
+    ++quoteSequence;++estimateSequence;clearTimeout(estimateTimer);file=null;image=null;documentPages=null;cropRect=null;cropQuad=null;cropDrag=null;cropMode='perspective';orientation='portrait';scanMode='enhanced';setCopies(1);$('pin').value='';
     document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x.dataset.orient===orientation));
     document.querySelectorAll('[data-scan]').forEach(x=>x.classList.toggle('active',x.dataset.scan===scanMode));paint();
     $('selected').classList.remove('show');$('cropZone').classList.remove('show');
