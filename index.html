@@ -19,6 +19,11 @@
 .pinbox input{background:#fff;border:1.5px solid #8fc8b4;letter-spacing:2px;font-size:19px;font-weight:750;height:56px}
 .pinbox input::placeholder{color:#9aa8b1;font-size:15px;font-weight:500;letter-spacing:0}
 .pinbox .detail{font-size:11px;margin-top:10px;color:#54776e}
+/* Customer sees only the final price, never the shop's rate table or charge breakdown. */
+.success-icon{animation:pop-in .42s ease-out both;box-shadow:0 0 0 9px #dffaf155}
+@keyframes pop-in{from{transform:scale(.55);opacity:.2}to{transform:scale(1);opacity:1}}
+#unitPrice{font-size:25px;font-variant-numeric:tabular-nums}
+.amountpanel .line.total{border-top:0;margin-top:0;padding-top:7px}
 </style>
 </head>
 <body>
@@ -45,10 +50,10 @@
       <div class="stage-wrap"><div class="stage" id="stage"><canvas id="preview" width="420" height="594" aria-label="Drag image to position its A4 crop"></canvas><div class="guides"></div></div></div>
       <div class="crop-help">Drag to reposition your photo inside the A4 paper. Pinch or use zoom below.</div><div class="zoomrow"><span>−</span><input type="range" min="1" max="3" step="0.01" value="1" id="zoom" aria-label="Zoom crop"><span>+</span></div></div>
     </div>
-    <div class="section"><div class="section-title"><span class="num">02</span><h2>How many copies?</h2></div><div class="pricebox"><div><div class="muted">Number of copies</div><div class="bigcost" id="unitPrice">₹— / page</div></div><div class="counter"><button type="button" id="minus" aria-label="Decrease copies">−</button><input id="copies" inputmode="numeric" type="number" min="1" value="1" aria-label="Copies"><button type="button" id="plus" aria-label="Increase copies">+</button></div></div><div class="detail" id="rateDetails">First set uses the print rate; extra copies are charged at the Xerox rate.</div><div class="detail" id="estimate" aria-live="polite">Choose a document to see your amount.</div></div>
+    <div class="section"><div class="section-title"><span class="num">02</span><h2>How many copies?</h2></div><div class="pricebox"><div><div class="muted">Total amount to pay</div><div class="bigcost" id="unitPrice" aria-live="polite">₹—</div></div><div class="counter"><button type="button" id="minus" aria-label="Decrease copies">−</button><input id="copies" inputmode="numeric" type="number" min="1" value="1" aria-label="Copies"><button type="button" id="plus" aria-label="Increase copies">+</button></div></div><div class="detail" id="estimate" aria-live="polite">Choose a document to see the amount. It updates when you change copies.</div></div>
     <button id="submit" class="submit" type="button">Send to print queue →</button><div class="notebox"><span>ⓘ</span><span>Your file is queued only. The admin must release it to the printer. Payment is collected at the counter; no online payment is taken here.</span></div>
   </div>
-  <div id="success" class="success" role="status"><div class="success-icon">✓</div><h2>Order received!</h2><p>Your file was sent to the PC print queue.<br><strong>Waiting for counter staff to release printing.</strong></p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line"><span>Document pages</span><b id="resultPages">—</b></div><div class="line"><span>Copies</span><b id="resultCopies">—</b></div><div class="line"><span>Total A4 prints</span><b id="resultSheets">—</b></div><div class="line"><span>First set (printing)</span><b id="resultPrintAmount">—</b></div><div class="line"><span>Additional sets (Xerox)</span><b id="resultXeroxAmount">—</b></div><div class="line total"><span>Amount to pay</span><b id="resultAmount">—</b></div></div><div class="pay">Pay at counter • మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</div><p>Show your order number to the shopkeeper to collect your printouts.</p><button id="again" class="again" type="button">＋ Print another document</button></div>
+  <div id="success" class="success" role="status" aria-live="assertive"><div class="success-icon">✓</div><h2>✓ Order sent successfully!</h2><p>Your document has reached the PC printing queue.<br><strong>Staff will release it for printing.</strong></p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line total"><span>TOTAL AMOUNT TO PAY</span><b id="resultAmount">—</b></div></div><div class="pay">Pay at counter • మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</div><p>Show this order number and pay the amount at the counter.</p><button id="again" class="again" type="button">＋ Print another document</button></div>
 </div><div class="footer">Sri Sai Print Station • Secure manual printing workflow</div></main>
 <script>
 (() => {
@@ -61,10 +66,10 @@
   const ngrokHeaders = () => API_ROOT ? {'ngrok-skip-browser-warning':'1'} : {};
   const apiPath = path => API_ROOT + path;
   const $=id=>document.getElementById(id);
-  let config={price_per_page:10,xerox_price_per_page:3,bulk_price_per_page:5,
-              bulk_threshold_pages:10,pin_required:true,max_copies:25,max_file_mb:20};
+  let config={pin_required:true,max_copies:25,max_file_mb:20};
   let file=null,image=null,documentPages=null,quoteSequence=0,orientation='portrait',zoom=1,panX=0,panY=0;
   let dragging=false,lastX=0,lastY=0,activePointers=new Map(),pinchStart=0,pinchZoom=1;
+  let estimateSequence=0, estimateTimer=null, audioContext=null;
   const preview=$('preview'),ctx=preview.getContext('2d',{alpha:false});
   const price=val=>'₹'+Number(val).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   const err=msg=>{const box=$('error');box.textContent=msg;box.classList.add('show');box.scrollIntoView({behavior:'smooth',block:'nearest'});};
@@ -74,6 +79,7 @@
   $('minus').addEventListener('click',()=>setCopies(numCopies()-1));
   $('plus').addEventListener('click',()=>setCopies(numCopies()+1));
   $('copies').addEventListener('change',()=>setCopies($('copies').value));
+  $('copies').addEventListener('input',()=>updateEstimate());
   $('browseBtn').onclick=()=>{$('browseInput').value='';$('browseInput').click();};
   $('replaceBtn').onclick=()=>{$('browseInput').value='';$('browseInput').click();};
   $('cameraBtn').onclick=()=>{$('cameraInput').value='';$('cameraInput').click();};
@@ -83,30 +89,60 @@
   dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragging');});
   dz.addEventListener('dragleave',()=>dz.classList.remove('dragging'));
   dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragging');choose(e.dataTransfer.files[0]);});
-  const asPaise=value=>Math.round(Number(value)*100);
-  function calculateEstimate(pages,copies){
-    const bulk=pages>=Number(config.bulk_threshold_pages);
-    const printRate=asPaise(bulk?config.bulk_price_per_page:config.price_per_page);
-    const xeroxRate=asPaise(config.xerox_price_per_page);
-    const printAmount=pages*printRate;
-    const xeroxAmount=pages*(copies-1)*xeroxRate;
-    return {printRate,xeroxRate,printAmount,xeroxAmount,total:printAmount+xeroxAmount,bulk};
-  }
+  // No individual rates, tiers or arithmetic are shown to customers.
+  // Server computes each total; a changed copy count gets a fresh quote.
   function updateEstimate(){
-    const c=numCopies();
-    const currentFirstRate=documentPages>=Number(config.bulk_threshold_pages)?config.bulk_price_per_page:config.price_per_page;
-    $('unitPrice').textContent=price(currentFirstRate)+' / page · first set';
-    $('rateDetails').textContent=`First set: ${price(config.price_per_page)}/page (1–9 pages) or ${price(config.bulk_price_per_page)}/page (10+ pages). Extra sets: ${price(config.xerox_price_per_page)}/page.`;
-    if(!file){$('estimate').textContent='Choose a document to see your amount.';return;}
+    const seq=++estimateSequence;
+    clearTimeout(estimateTimer);
+    if(!file){$('unitPrice').textContent='₹—';$('estimate').textContent='Choose a document to see your amount.';return;}
     if(!documentPages){
-      $('estimate').textContent=file.name.toLowerCase().endsWith('.pdf')?
-        'Reading PDF page count to calculate your exact amount…':'Preparing photo…';
+      $('unitPrice').textContent='₹—';
+      $('estimate').textContent='Checking the document…';
       return;
     }
-    const calc=calculateEstimate(documentPages,c);
-    $('estimate').textContent=`${documentPages} ${documentPages===1?'page':'pages'} · First set ${price(calc.printAmount/100)}`+
-      (c>1?` + ${c-1} extra ${c===2?'set':'sets'} (${documentPages*(c-1)} Xerox pages × ${price(calc.xeroxRate/100)}) = ${price(calc.total/100)}`:
-       ` = ${price(calc.total/100)}`) + (calc.bulk?' · 10+ page discount applied.':'');
+    const pages=documentPages, copies=numCopies();
+    $('unitPrice').textContent='Calculating…';
+    $('estimate').textContent='';
+    estimateTimer=setTimeout(async()=>{
+      try{
+        const resp=await fetch(apiPath('/api/estimate'),{
+          method:'POST',headers:{...ngrokHeaders(),'Content-Type':'application/json'},
+          body:JSON.stringify({pages,copies}),mode:API_ROOT?'cors':'same-origin'
+        });
+        const data=await resp.json().catch(()=>({}));
+        if(seq!==estimateSequence) return;
+        if(!resp.ok) throw new Error(data.error||'Unable to calculate the amount');
+        $('unitPrice').textContent=price(data.total_amount);
+      }catch(e){
+        if(seq!==estimateSequence)return;
+        $('unitPrice').textContent='₹—';
+        $('estimate').textContent='Amount unavailable. Please check server connection.';
+      }
+    },120);
+  }
+  function unlockSuccessSound(){
+    try{
+      const AudioClass=window.AudioContext||window.webkitAudioContext;
+      if(!AudioClass)return;
+      if(!audioContext)audioContext=new AudioClass();
+      if(audioContext.state==='suspended')audioContext.resume().catch(()=>{});
+    }catch(_e){}
+  }
+  function playSuccessSound(){
+    // Short original three-note confirmation tone; never plays on failed uploads.
+    try{
+      if(!audioContext)return;
+      const t=audioContext.currentTime+.02;
+      [[660,0,.14],[830,.14,.14],[1047,.28,.25]].forEach(([hz,offset,duration])=>{
+        const tone=audioContext.createOscillator(),gain=audioContext.createGain();
+        tone.type='sine';tone.frequency.value=hz;
+        gain.gain.setValueAtTime(.001,t+offset);
+        gain.gain.exponentialRampToValueAtTime(.09,t+offset+.025);
+        gain.gain.exponentialRampToValueAtTime(.001,t+offset+duration);
+        tone.connect(gain);gain.connect(audioContext.destination);
+        tone.start(t+offset);tone.stop(t+offset+duration+.02);
+      });
+    }catch(_e){}
   }
   async function inspectPdf(input){
     const token=++quoteSequence;
@@ -125,7 +161,8 @@
     }catch(e){
       if(token!==quoteSequence||file!==input)return;
       documentPages=null;
-      $('estimate').textContent='PDF preview unavailable. The PC will calculate the final amount on submission.';
+      $('estimate').textContent='Unable to preview amount. The PC will calculate it when you send the order.';
+      $('unitPrice').textContent='₹—';
       $('fileMeta').textContent=(file.size/1024/1024).toFixed(2)+' MB · PDF · Page count unavailable';
     }
   }
@@ -237,6 +274,7 @@
   }
   $('pin').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,6);});
   $('submit').addEventListener('click',async()=>{
+    unlockSuccessSound();
     clearError();
     if(!file){err('Please choose an image or PDF first.');return;}
     // Always fetch current admin setting before accepting an order. If the admin
@@ -263,14 +301,10 @@
       const data=await res.json().catch(()=>({}));
       if(!res.ok)throw new Error(data.error||'Upload failed. Please try again.');
       $('orderCode').textContent=data.order_id;
-      $('resultPages').textContent=data.pages;
-      $('resultCopies').textContent=data.copies;
-      $('resultSheets').textContent=data.total_sheets;
-      $('resultPrintAmount').textContent=price(data.print_amount);
-      $('resultXeroxAmount').textContent=price(data.xerox_amount);
       $('resultAmount').textContent=price(data.total_amount);
       $('formBody').classList.add('hidden');$('intro').classList.add('hidden');
-      $('success').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});
+      $('success').classList.add('show');playSuccessSound();
+      window.scrollTo({top:0,behavior:'smooth'});
     }catch(e){
       err(e.message||'Upload failed. Please ask the counter staff.');
       if(config.pin_required && /PIN/i.test(String(e.message||''))) $('pin').focus();
@@ -278,7 +312,7 @@
     finally{button.disabled=false;button.textContent='Send to print queue →';}
   });
   $('again').addEventListener('click',async()=>{
-    ++quoteSequence;file=null;image=null;documentPages=null;zoom=1;panX=0;panY=0;setCopies(1);$('pin').value='';
+    ++quoteSequence;++estimateSequence;clearTimeout(estimateTimer);file=null;image=null;documentPages=null;zoom=1;panX=0;panY=0;setCopies(1);$('pin').value='';
     $('selected').classList.remove('show');$('cropZone').classList.remove('show');
     $('success').classList.remove('show');$('formBody').classList.remove('hidden');$('intro').classList.remove('hidden');
     clearError();await loadConfig();window.scrollTo({top:0,behavior:'smooth'});
