@@ -70,7 +70,7 @@
 <body>
 <header class="top"><div class="top-inner"><div class="brandmark">▣</div><div><div class="eyebrow">SELF SERVICE PRINTING</div><div class="brandname">Sri Sai Online Services</div><div class="branddesc">Capture • Scan • Crop • Place order • Pay at counter</div></div></div></header>
 <main class="container"><div class="surface">
-  <div class="intro" id="intro"><h1>Print your documents</h1><p id="introPrintMode">Upload a photo or PDF from your phone. Connecting to the print server to check whether printing is automatic or needs staff approval.</p><div class="steps"><span class="step active"></span><span class="step active"></span><span class="step"></span><span class="step"></span></div></div>
+  <div class="intro" id="intro"><h1>Print your documents</h1><p id="introPrintMode">Upload a photo or PDF from your phone. Connecting to the print server to check whether printing is automatic or needs Owner approval.</p><div class="steps"><span class="step active"></span><span class="step active"></span><span class="step"></span><span class="step"></span></div></div>
   <div class="formbody" id="formBody">
     <div id="error" class="error" role="alert"></div>
     <!-- This entire PIN panel is shown ONLY when the PC administrator enables it. -->
@@ -114,7 +114,7 @@
     <div class="section"><div class="section-title"><span class="num">02</span><h2>How many copies?</h2></div><div class="pricebox"><div><div class="muted">Total amount to pay</div><div class="bigcost" id="unitPrice" aria-live="polite">₹—</div></div><div class="counter"><button type="button" id="minus" aria-label="Decrease copies">−</button><input id="copies" inputmode="numeric" type="number" min="1" value="1" aria-label="Copies"><button type="button" id="plus" aria-label="Increase copies">+</button></div></div><div class="detail" id="estimate" aria-live="polite">Choose a document to see the amount. It updates when you change copies.</div></div>
     <button id="submit" class="submit" type="button">Send to print queue →</button><div class="notebox"><span>ⓘ</span><span id="queueModeNote">Connecting to the print server to check the current print mode…</span></div>
   </div>
-  <div id="success" class="success" role="status" aria-live="assertive"><div class="success-icon">✓</div><h2>✓ Order received successfully!</h2><p id="successPrintMessage">Your document has reached the PC printing queue. Staff will release it for printing.</p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line total"><span>TOTAL AMOUNT TO PAY</span><b id="resultAmount">—</b></div></div><div class="pay">Pay at counter • మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</div><p>Show this order number and pay the amount at the counter.</p><p class="privacy-note"><strong>🔒 Privacy note:</strong> Your uploaded document file is stored temporarily for printing and automatically deleted after 3 hours while the PC print app is running. If the app is closed, cleanup runs when it starts again. Your order number and amount record may remain for shop records.</p><button id="again" class="again" type="button">＋ Print another document</button></div>
+  <div id="success" class="success" role="status" aria-live="assertive"><div class="success-icon">✓</div><h2>✓ Order received successfully!</h2><p id="successPrintMessage">Your document has reached the PC printing queue. Owner will release it for printing.</p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line total"><span>TOTAL AMOUNT TO PAY</span><b id="resultAmount">—</b></div></div><div class="pay">Pay at counter • మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</div><p>Show this order number and pay the amount at the counter.</p><p class="privacy-note"><strong>🔒 Privacy note:</strong> Your uploaded document file is stored temporarily for printing and automatically deleted after 3 hours.</p><button id="again" class="again" type="button">＋ Print another document</button></div>
 </div>
 <section class="service-links" aria-label="Sri Sai Online Services quick links">
   <h2>Need help or want to support our shop?</h2>
@@ -489,7 +489,7 @@
       const directPrint = config.direct_print === true;
       $('introPrintMode').textContent = directPrint
         ? 'Upload a photo or PDF from your phone. Direct Print is ON: orders are sent to the printer automatically without admin release.'
-        : 'Upload a photo or PDF from your phone. Direct Print is OFF: staff must release your order before printing.';
+        : 'Upload a photo or PDF from your phone. Direct Print is OFF: Owner must release your order before printing.';
       $('queueModeNote').textContent = directPrint
         ? 'Direct Print is ON. Your order will be sent to the printer automatically, without admin release. Payment is collected at the counter; no online payment is taken here.'
         : 'Direct Print is OFF. Your order waits for admin release before printing. Payment is collected at the counter; no online payment is taken here.';
@@ -503,7 +503,7 @@
       updateEstimate();
       return true;
     }catch(e){
-      err('Could not connect to the print server at '+(API_ROOT || location.origin)+'. Please ask staff to check the PC app, ngrok and the configured tunnel URL.');
+      err('Could not connect to the print server at '+(API_ROOT || location.origin)+'. Please ask Owner to check the PC app, ngrok and the configured tunnel URL.');
       return false;
     }
   }
@@ -540,12 +540,12 @@
       const directPrint = data.direct_print === true;
       $('successPrintMessage').textContent = directPrint
         ? 'Direct Print is ON. Your order is in the automatic print queue and will be sent to the printer without admin release when the printer is ready. Please pay at the counter.'
-        : 'Direct Print is OFF. Your order is waiting in the PC print queue. Staff must release it before printing. Please pay at the counter.';
+        : 'Direct Print is OFF. Your order is waiting in the PC print queue. Owner must release it before printing. Please pay at the counter.';
       $('formBody').classList.add('hidden');$('intro').classList.add('hidden');
       $('success').classList.add('show');playSuccessSound();
       window.scrollTo({top:0,behavior:'smooth'});
     }catch(e){
-      err(e.message||'Upload failed. Please ask the counter staff.');
+      err(e.message||'Upload failed. Please ask the counter Owner.');
       if(config.pin_required && /PIN/i.test(String(e.message||''))) $('pin').focus();
     }
     finally{button.disabled=false;button.textContent='Send to print queue →';}
