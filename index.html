@@ -276,6 +276,11 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       if(footerLabel)footerLabel.textContent='Pay any amount';
       return;
     }
+    if(!hasAmount){
+      title.textContent='Calculating your print total';
+      description.textContent='Your UPI payment button will use the exact amount calculated by the print server.';
+      if(footerLabel)footerLabel.textContent='Calculate amount…';
+      return;
   }
   function openCustomPayModal(){
     $('customPayAmount').value='';
