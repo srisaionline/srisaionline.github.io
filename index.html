@@ -97,12 +97,12 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
 .service-btn.btn-upi{background:linear-gradient(135deg,#2149b8,#465fe1 55%,#7651d7);border-color:#354fc8}
 .service-btn.btn-review{background:linear-gradient(135deg,#d98508,#f2ad22 58%,#ffc34a);border-color:#df970e}
 .service-note{font-size:11px;color:#718096;margin-top:12px}
-.payment-card{display:grid;grid-template-columns:48px minmax(0,1fr) auto;align-items:center;gap:13px;margin:-7px 0 21px;padding:15px;border:1px solid #cbdcf5;border-radius:17px;background:linear-gradient(115deg,#f1f6ff 0%,#f0fbf7 100%)}
+.payment-card{display:grid;grid-template-columns:48px minmax(0,1fr);align-items:center;gap:13px;margin:-7px 0 21px;padding:15px;border:1px solid #cbdcf5;border-radius:17px;background:linear-gradient(115deg,#f1f6ff 0%,#f0fbf7 100%)}
 .payment-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#234dc2,#6c55df);color:white;font-size:22px;font-weight:900;box-shadow:0 7px 16px #3456bd30}
 .payment-eyebrow{font-size:9px;letter-spacing:1.8px;font-weight:900;color:#4964a7;margin-bottom:3px}.payment-copy strong{display:block;font-size:13px;color:#183254}.payment-copy p{font-size:11px;line-height:1.45;color:#63758e;margin:4px 0 0}
 .payment-status{display:block;color:#08765c;font-size:10px;line-height:1.45;margin-top:5px}
-.payment-cta,.success-pay{border:0;border-radius:12px;padding:12px 15px;min-height:44px;color:#fff;font-size:12px;font-weight:900;white-space:nowrap;background:linear-gradient(110deg,#2349b7,#6555dc);box-shadow:0 7px 17px #3d55bd30}
-.payment-cta:hover,.success-pay:hover{filter:brightness(1.08)}
+.success-pay{border:0;border-radius:12px;padding:12px 15px;min-height:44px;color:#fff;font-size:12px;font-weight:900;white-space:nowrap;background:linear-gradient(110deg,#2349b7,#6555dc);box-shadow:0 7px 17px #3d55bd30}
+.success-pay:hover{filter:brightness(1.08)}
 .success-payment{margin:14px 0 12px;padding:15px;border:1px solid #cbdcf5;border-radius:16px;background:linear-gradient(120deg,#f1f6ff,#f1fbf7)}
 .success-payment .success-pay{width:100%;font-size:14px;min-height:50px}.success-payment small{display:block;margin-top:9px;color:#61738a;font-size:10px;line-height:1.5}
 .pay{background:#fff7e8;border:1px solid #f6dfae;color:#80500b}
@@ -120,7 +120,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
 @media(max-width:600px){
  .top{padding:22px 16px 87px}.brandname{font-size:20px}.container{width:calc(100% - 18px)}
  .intro{padding:23px 20px 19px}.intro h1{font-size:24px}.formbody{padding:21px 17px 24px}
- .payment-card{grid-template-columns:42px minmax(0,1fr);gap:11px;padding:13px}.payment-icon{width:42px;height:42px}.payment-cta{grid-column:1/-1;width:100%;height:47px}
+ .payment-card{grid-template-columns:42px minmax(0,1fr);gap:11px;padding:13px}.payment-icon{width:42px;height:42px}
  .service-links{margin:15px 0 0;padding:15px 10px;border-radius:17px}.service-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
  .service-btn{min-height:76px;padding:10px 5px;flex-direction:column;gap:6px;text-align:center;font-size:10px;line-height:1.25}.service-btn svg{width:23px;height:23px}
  .service-note{font-size:10px}.success{padding:28px 17px 30px}
@@ -174,7 +174,15 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       </div>
     </div>
     <div class="section"><div class="section-title"><span class="num">02</span><h2>How many copies?</h2></div><div class="pricebox"><div><div class="muted">Total amount to pay</div><div class="bigcost" id="unitPrice" aria-live="polite">₹—</div></div><div class="counter"><button type="button" id="minus" aria-label="Decrease copies">−</button><input id="copies" inputmode="numeric" type="number" min="1" value="1" aria-label="Copies"><button type="button" id="plus" aria-label="Increase copies">+</button></div></div><div class="detail" id="estimate" aria-live="polite">Choose a document to see the amount. It updates when you change copies.</div></div>
-    
+    <section class="payment-card" aria-live="polite" aria-label="UPI payment">
+       <div class="payment-icon" aria-hidden="true">₹</div>
+       <div class="payment-copy">
+         <div class="payment-eyebrow">INSTANT UPI PAYMENT</div>
+         <strong id="paymentTitle">Pay any amount</strong>
+         <p id="paymentDescription">No document selected? Enter any amount and pay directly to Sri Sai Online Services.</p>
+         <small class="payment-status" id="paymentStatus"></small>
+       </div>
+     </section>
      <button id="submit" class="submit" type="button">Send to print queue →</button><div class="notebox"><span>ⓘ</span><span id="queueModeNote">Connecting to the print server to check the current print mode…</span></div>
   </div>
   <div id="success" class="success" role="status" aria-live="assertive"><div class="success-icon">✓</div><h2>✓ Order received successfully!</h2><p id="successPrintMessage">Your document has reached the PC printing queue. Owner will release it for printing.</p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line total"><span>TOTAL AMOUNT TO PAY</span><b id="resultAmount">—</b></div></div>
@@ -269,25 +277,22 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   function syncPaymentUI(){
     const hasDocument=!!file;
     const hasAmount=Number.isFinite(currentEstimateAmount)&&currentEstimateAmount>0;
-    const title=$('paymentTitle'),description=$('paymentDescription'),payNow=$('payNowBtn'),footerLabel=$('upiBtnLabel');
+    const title=$('paymentTitle'),description=$('paymentDescription'),footerLabel=$('upiBtnLabel');
     if(!hasDocument){
       title.textContent='Pay any amount';
       description.textContent='No document selected? Enter any amount and pay directly to Sri Sai Online Services.';
-      payNow.textContent='Enter amount & pay';
       if(footerLabel)footerLabel.textContent='Pay any amount';
       return;
     }
     if(!hasAmount){
       title.textContent='Calculating your print total';
       description.textContent='Your UPI payment button will use the exact amount calculated by the print server.';
-      payNow.textContent='Calculating…';
       if(footerLabel)footerLabel.textContent='Calculate amount…';
       return;
     }
     const formatted=price(currentEstimateAmount);
     title.textContent='Your exact print total: '+formatted;
     description.textContent='Pay this calculated amount now, or send the order first and pay on the confirmation screen.';
-    payNow.textContent='Pay '+formatted+' via UPI';
     if(footerLabel)footerLabel.textContent='Pay '+formatted;
   }
   function openCustomPayModal(){
@@ -319,7 +324,6 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       openCustomPayModal();
     }
   }
-  $('payNowBtn').addEventListener('click',handleUpiButton);
   $('upiBtn').addEventListener('click',handleUpiButton);
   $('successPayBtn').addEventListener('click',()=>{
     if(lastOrderAmount>0)launchUpiPayment(lastOrderAmount,'Print order '+lastOrderId);
