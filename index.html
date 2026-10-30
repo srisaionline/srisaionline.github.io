@@ -409,7 +409,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   document.addEventListener('keydown',e=>{if(e.key==='Escape')$('payModal').classList.remove('show');});
   document.addEventListener('visibilitychange',()=>{
     if(!document.hidden&&pendingPaymentAmount){
-      $('successPaymentStatus').textContent='Returned from UPI? Please check your UPI app to confirm the payment. Show its success screen or UTR at the counter; this website cannot confirm the transaction.';
+      $('successPaymentStatus').textContent='Returned from UPI? Please check your UPI app to confirm the payment. Show its success screen or UTR at the counter.';
       pendingPaymentAmount=null;
     }
   });
