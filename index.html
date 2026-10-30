@@ -797,7 +797,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       $('orderCode').textContent=data.order_id;
       lastOrderId=String(data.order_id||'');lastOrderAmount=Number(data.total_amount);
       $('successPayBtn').textContent='Pay '+price(lastOrderAmount)+' via UPI';
-      $('successPaymentStatus').textContent='Pay this exact order total using any supported UPI app, or pay at the counter. UPI payment is not automatically verified by this website.';
+      $('successPaymentStatus').textContent='Pay this exact order total using any supported UPI app, or pay at the counter.';
       const directPrint = data.direct_print === true;
       $('successPrintMessage').textContent = directPrint
         ? 'Direct Print is ON. Your order is in the automatic print queue and will be sent to the printer when it is ready. You can pay the exact amount by UPI below or at the counter.'
