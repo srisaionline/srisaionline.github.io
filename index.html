@@ -174,15 +174,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       </div>
     </div>
     <div class="section"><div class="section-title"><span class="num">02</span><h2>How many copies?</h2></div><div class="pricebox"><div><div class="muted">Total amount to pay</div><div class="bigcost" id="unitPrice" aria-live="polite">₹—</div></div><div class="counter"><button type="button" id="minus" aria-label="Decrease copies">−</button><input id="copies" inputmode="numeric" type="number" min="1" value="1" aria-label="Copies"><button type="button" id="plus" aria-label="Increase copies">+</button></div></div><div class="detail" id="estimate" aria-live="polite">Choose a document to see the amount. It updates when you change copies.</div></div>
-    <section class="payment-card" aria-live="polite" aria-label="UPI payment">
-       <div class="payment-icon" aria-hidden="true">₹</div>
-       <div class="payment-copy">
-         <div class="payment-eyebrow">INSTANT UPI PAYMENT</div>
-         <strong id="paymentTitle">Pay any amount</strong>
-         <p id="paymentDescription">No document selected? Enter any amount and pay directly to Sri Sai Online Services.</p>
-         <small class="payment-status" id="paymentStatus"></small>
-       </div>
-     </section>
+
      <button id="submit" class="submit" type="button">Send to print queue →</button><div class="notebox"><span>ⓘ</span><span id="queueModeNote">Connecting to the print server to check the current print mode…</span></div>
   </div>
   <div id="success" class="success" role="status" aria-live="assertive"><div class="success-icon">✓</div><h2>✓ Order received successfully!</h2><p id="successPrintMessage">Your document has reached the PC printing queue. Owner will release it for printing.</p><div class="order-id"><small>YOUR PRINT ORDER NUMBER</small><strong id="orderCode"></strong></div><div class="amountpanel"><div class="line total"><span>TOTAL AMOUNT TO PAY</span><b id="resultAmount">—</b></div></div>
