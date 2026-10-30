@@ -276,16 +276,6 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       if(footerLabel)footerLabel.textContent='Pay any amount';
       return;
     }
-    if(!hasAmount){
-      title.textContent='Calculating your print total';
-      description.textContent='Your UPI payment button will use the exact amount calculated by the print server.';
-      if(footerLabel)footerLabel.textContent='Calculate amount…';
-      return;
-    }
-    const formatted=price(currentEstimateAmount);
-    title.textContent='Your exact print total: '+formatted;
-    description.textContent='Pay this calculated amount now, or send the order first and pay on the confirmation screen.';
-    if(footerLabel)footerLabel.textContent='Pay '+formatted;
   }
   function openCustomPayModal(){
     $('customPayAmount').value='';
