@@ -179,6 +179,29 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   .pricebox.copies-only .muted,.pricebox.copies-only .amount-label{font-size:9px;letter-spacing:.65px}
 }
 
+
+/* Print options, full-size file preview, prominent counter payment and reset timer */
+.print-options{border:1px solid #dce7f2;border-radius:17px;background:linear-gradient(135deg,#f8fbff,#f3faf7);padding:17px;margin:0 0 25px}
+.option-title{font-size:13px;font-weight:900;color:#203858;margin:0 0 10px}
+.option-group{margin:0 0 15px}.option-group:last-child{margin-bottom:0}
+.option-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.option-choice{position:relative;display:flex;align-items:center;gap:9px;border:1.5px solid #d4deeb;border-radius:12px;background:#fff;padding:12px;color:#233b5c;font-size:13px;font-weight:800;cursor:pointer}
+.option-choice:has(input:checked){border-color:#0aa77c;background:#eafaf4;box-shadow:0 0 0 2px #0aa77c17}
+.option-choice input{accent-color:#079a70;width:17px;height:17px;flex:none}
+.option-sub{font-size:10px;color:#75849a;font-weight:500;margin-top:2px}
+.duplex-option{display:none}.duplex-option.enabled{display:block}
+.selected-actions{display:flex;gap:7px;flex:none}.selected-actions button{border:0;background:#fff;border-radius:9px;padding:8px 10px;color:#245aa2;font-size:11px;font-weight:850}
+.preview-modal{display:none;position:fixed;inset:0;z-index:1300;background:#071326e8;padding:12px;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.preview-modal.show{display:flex}.preview-card{width:min(96vw,1100px);height:min(94vh,900px);background:#fff;border-radius:17px;padding:12px;display:flex;flex-direction:column;gap:9px;box-shadow:0 20px 70px #0008}
+.preview-head{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#203858;font-size:13px;font-weight:850}
+.preview-head button{border:0;background:#edf2f8;color:#2c405c;border-radius:9px;width:36px;height:36px;font-size:19px}
+#fullPreviewImage,#fullPreviewFrame{display:none;width:100%;height:100%;min-height:0;object-fit:contain;background:#17243c;border:0;border-radius:10px}
+#fullPreviewImage.show,#fullPreviewFrame.show{display:block}
+.pay-counter-banner{display:block;width:100%;border:2px solid #e8b84e;border-radius:17px;padding:19px 15px;background:linear-gradient(115deg,#fff2cf,#ffe5a1);color:#754400;text-align:center;margin:17px 0 10px;box-shadow:0 9px 24px #b8791622}
+.pay-counter-banner strong{display:block;font-size:clamp(22px,5vw,30px);font-weight:1000;letter-spacing:.5px}.pay-counter-banner span{display:block;font-size:13px;font-weight:800;margin-top:4px}
+.return-countdown{font-size:12px;font-weight:800;color:#68778d;margin:13px 0 15px}.return-countdown b{color:#087c61;font-size:17px;font-variant-numeric:tabular-nums}
+@media(max-width:520px){.selected{flex-wrap:wrap}.selected-actions{width:100%;justify-content:flex-end}.preview-card{width:100%;height:94vh;padding:8px}.option-choice{padding:11px 9px;font-size:12px}}
+
 </style>
 </head>
 <body>
@@ -200,7 +223,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       </div>
       <input id="browseInput" type="file" accept="image/jpeg,image/png,image/webp,.pdf,application/pdf" hidden>
       <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
-      <div class="selected" id="selected"><div class="fileicon" id="fileIcon">▧</div><div class="filetext"><div class="filename" id="fileName"></div><div class="filemeta" id="fileMeta"></div></div><button class="replace" id="replaceBtn" type="button">Change</button></div>
+      <div class="selected" id="selected"><div class="fileicon" id="fileIcon">▧</div><div class="filetext"><div class="filename" id="fileName"></div><div class="filemeta" id="fileMeta"></div></div><div class="selected-actions"><button id="filePreviewBtn" type="button">⤢ Full preview</button><button class="replace" id="replaceBtn" type="button">Change</button></div></div>
       <div class="crop-zone" id="cropZone">
         <div class="crop-head">
           <div>Scan &amp; straighten your document
@@ -239,6 +262,22 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       </div>
       <div class="detail" id="estimate" aria-live="polite">Choose a document to calculate the total amount.</div>
     </div>
+    <div class="section print-options" id="printOptions">
+      <div class="section-title"><span class="num">03</span><h2>Print settings</h2></div>
+      <div class="option-group"><div class="option-title">PRINT COLOUR</div><div class="option-choices">
+        <label class="option-choice"><input type="radio" name="printColor" value="bw" checked><span><strong>Black &amp; White</strong><div class="option-sub">Canon MF240 Series</div></span></label>
+        <label class="option-choice"><input type="radio" name="printColor" value="color"><span><strong>Colour</strong><div class="option-sub">Epson L3210 Series</div></span></label>
+      </div></div>
+      <div class="option-group"><div class="option-title">PAGE ORIENTATION</div><div class="option-choices">
+        <label class="option-choice"><input type="radio" name="printOrientation" value="portrait" checked><span>↕ Portrait</span></label>
+        <label class="option-choice"><input type="radio" name="printOrientation" value="landscape"><span>↔ Horizontal</span></label>
+      </div></div>
+      <div class="option-group duplex-option" id="duplexOption"><div class="option-title">PAPER SIDES</div><div class="option-choices">
+        <label class="option-choice"><input type="radio" name="printDuplex" value="0" checked><span>One-sided</span></label>
+        <label class="option-choice"><input type="radio" name="printDuplex" value="1"><span>Two-sided</span></label>
+      </div></div>
+      <div class="detail" id="duplexHelp">Two-sided printing is controlled by the shop admin.</div>
+    </div>
 
      <button id="submit" class="submit" type="button">Send to print queue →</button><div class="notebox"><span>ⓘ</span><span id="queueModeNote">Connecting to the print server to check the current print mode…</span></div>
   </div>
@@ -247,8 +286,8 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       <button id="successPayBtn" class="success-pay" type="button">Pay via UPI</button>
       <small id="successPaymentStatus">Pay the exact order amount using any supported UPI app. You can also pay at the counter.</small>
     </div>
-    <div class="pay">Or pay at counter • మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</div>
-    <p>Show your order number and UPI payment confirmation (if paid online) at the counter.</p><p class="privacy-note"><strong>🔒 Privacy note:</strong> Your uploaded document file is stored temporarily for printing and automatically deleted after 3 hours.</p><button id="again" class="again" type="button">＋ Print another document</button></div>
+    <div class="pay-counter-banner"><strong>PAY AT COUNTER</strong><span>మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</span></div>
+    <p>Show your order number and UPI payment confirmation (if paid online) at the counter.</p><p class="privacy-note"><strong>🔒 Privacy note:</strong> Your uploaded document file is stored temporarily for printing and automatically deleted after 3 hours.</p><div class="return-countdown" id="returnCountdown">Returning to home in <b id="returnSeconds">5</b> seconds…</div><button id="again" class="again" type="button">＋ Print another document</button></div>
 </div>
 <section class="service-links" aria-label="Sri Sai Online Services quick links">
   <h2>Need help or want to support our shop?</h2>
@@ -288,6 +327,12 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   </div>
 </div>
 
+<div class="preview-modal" id="previewModal" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+  <div class="preview-card"><div class="preview-head"><span id="previewTitle">Document preview</span><button type="button" id="previewClose" aria-label="Close preview">×</button></div>
+    <img id="fullPreviewImage" alt="Full-size selected document preview"><iframe id="fullPreviewFrame" title="PDF document preview"></iframe>
+  </div>
+</div>
+
 <div class="camera-modal" id="cameraModal" role="dialog" aria-modal="true" aria-labelledby="cameraTitle">
   <div class="camera-card">
     <div class="camera-modal-head"><div><strong id="cameraTitle">Capture document photo</strong><div class="camera-caption">Keep the document flat, bright and fully inside the frame.</div></div><button type="button" id="cameraClose" aria-label="Close camera">✕</button></div>
@@ -311,6 +356,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   let config={pin_required:true,max_copies:25,max_file_mb:20};
   let file=null,image=null,documentPages=null,quoteSequence=0,orientation='portrait',scanMode='enhanced',cropRect=null,cropQuad=null,cropDrag=null,cropMode='perspective';
   let estimateSequence=0, estimateTimer=null, audioContext=null,cameraStream=null;
+  let printColorMode="bw", printOrientation="portrait", printDuplex=false, previewUrl=null, returnTimer=null, returnSeconds=5;
   let currentEstimateAmount=null,lastOrderAmount=null,lastOrderId='',pendingPaymentAmount=null,estimateFailed=false;
   const preview=$('preview'),ctx=preview.getContext('2d',{alpha:false});
   const price=val=>'₹'+Number(val).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -324,6 +370,28 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   $('copies').addEventListener('input',()=>updateEstimate());
   $('browseBtn').onclick=()=>{$('browseInput').value='';$('browseInput').click();};
   $('replaceBtn').onclick=()=>{$('browseInput').value='';$('browseInput').click();};
+  function closeFilePreview(){ $('previewModal').classList.remove('show'); $('fullPreviewImage').classList.remove('show'); $('fullPreviewFrame').classList.remove('show'); $('fullPreviewImage').removeAttribute('src'); $('fullPreviewFrame').removeAttribute('src'); }
+  function openFilePreview(){
+    if(!file||!previewUrl){err('Choose a document first.');return;}
+    const isPdf=file.name.toLowerCase().endsWith('.pdf');
+    $('previewTitle').textContent=file.name+' · Full-size preview';
+    if(isPdf){$('fullPreviewImage').classList.remove('show');$('fullPreviewFrame').src=previewUrl;$('fullPreviewFrame').classList.add('show');}
+    else{$('fullPreviewFrame').classList.remove('show');$('fullPreviewImage').src=previewUrl;$('fullPreviewImage').classList.add('show');}
+    $('previewModal').classList.add('show');
+  }
+  $('filePreviewBtn').addEventListener('click',openFilePreview);
+  $('previewClose').addEventListener('click',closeFilePreview);
+  $('previewModal').addEventListener('click',e=>{if(e.target===$('previewModal'))closeFilePreview();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFilePreview();});
+  document.querySelectorAll('input[name="printColor"]').forEach(x=>x.addEventListener('change',()=>{printColorMode=x.value;}));
+  document.querySelectorAll('input[name="printOrientation"]').forEach(x=>x.addEventListener('change',()=>{printOrientation=x.value;orientation=printOrientation;document.querySelectorAll('[data-orient]').forEach(b=>b.classList.toggle('active',b.dataset.orient===orientation));}));
+  document.querySelectorAll('input[name="printDuplex"]').forEach(x=>x.addEventListener('change',()=>{printDuplex=x.value==='1';}));
+  function cancelReturnTimer(){if(returnTimer){clearInterval(returnTimer);returnTimer=null;}}
+  function startReturnTimer(){
+    cancelReturnTimer();returnSeconds=5;$('returnSeconds').textContent=returnSeconds;$('returnCountdown').classList.remove('hidden');
+    returnTimer=setInterval(()=>{returnSeconds--;if(returnSeconds<=0){cancelReturnTimer();resetCustomerHome();}else $('returnSeconds').textContent=returnSeconds;},1000);
+  }
+
   $('browseInput').onchange=e=>choose(e.target.files[0]);
   const dz=$('dropzone');
   dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragging');});
@@ -390,6 +458,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   }
   $('upiBtn').addEventListener('click',handleUpiButton);
   $('successPayBtn').addEventListener('click',()=>{
+    cancelReturnTimer();$('returnCountdown').classList.add('hidden');
     if(lastOrderAmount>0)launchUpiPayment(lastOrderAmount,'Print order '+lastOrderId);
     else err('The order amount is unavailable. Please ask the counter owner.');
   });
@@ -409,7 +478,8 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   document.addEventListener('keydown',e=>{if(e.key==='Escape')$('payModal').classList.remove('show');});
   document.addEventListener('visibilitychange',()=>{
     if(!document.hidden&&pendingPaymentAmount){
-      $('successPaymentStatus').textContent='Returned from UPI? Please check your UPI app to confirm the payment. Show its success screen or UTR at the counter.';
+      cancelReturnTimer();$('returnCountdown').classList.add('hidden');
+      $('successPaymentStatus').textContent='Returned from UPI? Please check your UPI app to confirm the payment. Show its success screen or UTR at the counter; this website cannot confirm the transaction.';
       pendingPaymentAmount=null;
     }
   });
@@ -514,6 +584,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   }
   function choose(input){
     clearError();if(!input)return;
+    closeFilePreview();
     const ext=(input.name||'').toLowerCase().split('.').pop();
     if(!['pdf','jpg','jpeg','png','webp'].includes(ext)&&!(input.type||'').startsWith('image/')){err('Choose a PDF, JPG, PNG or WEBP image.');return;}
     if(input.size>config.max_file_mb*1024*1024){err(`File exceeds ${config.max_file_mb} MB. Please choose a smaller file.`);return;}
@@ -522,23 +593,25 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
     if(!isPdf && !['jpg','jpeg','png','webp'].includes(ext)){
       err('This camera image format is not supported. Save it as JPG or PNG and try again.');return;
     }
+    if(previewUrl)URL.revokeObjectURL(previewUrl);
     if(image && image.src && image.src.startsWith('blob:'))URL.revokeObjectURL(image.src);
+    previewUrl=URL.createObjectURL(input);
     ++quoteSequence;file=input;image=null;cropRect=null;cropQuad=null;documentPages=isPdf?null:1;
     $('selected').classList.add('show');$('fileName').textContent=file.name;
     $('fileMeta').textContent=(file.size/1024/1024).toFixed(2)+' MB · '+(isPdf?'PDF document':'Image — document scan and A4 crop available');
     $('fileIcon').textContent=isPdf?'▤':'▧';
     $('cropZone').classList.remove('show');
     if(isPdf){inspectPdf(input);paint();}else{
-      const img=new Image();const blobURL=URL.createObjectURL(input);
+      const img=new Image();const blobURL=previewUrl;
       img.onload=()=>{
-        if(file!==input){URL.revokeObjectURL(blobURL);return;}
+        if(file!==input)return;
         image=img;orientation='portrait';scanMode='enhanced';
         document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x.dataset.orient===orientation));
         document.querySelectorAll('[data-scan]').forEach(x=>x.classList.toggle('active',x.dataset.scan===scanMode));
         $('cropZone').classList.add('show');initializeCrop();paint();
         $('fileMeta').textContent=(file.size/1024/1024).toFixed(2)+' MB · Image · A4 document scan ready';
       };
-      img.onerror=()=>{URL.revokeObjectURL(blobURL);file=null;currentEstimateAmount=null;estimateFailed=false;$('liveAmount').textContent='₹—';$('selected').classList.remove('show');syncPaymentUI();err('This image could not be opened. Please choose a JPG or PNG image.');};
+      img.onerror=()=>{file=null;currentEstimateAmount=null;estimateFailed=false;$('liveAmount').textContent='₹—';$('selected').classList.remove('show');syncPaymentUI();err('This image could not be opened. Please choose a JPG or PNG image.');};
       img.src=blobURL;
     }
     updateEstimate();
@@ -659,7 +732,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   $('perspectiveMode').addEventListener('click',()=>setCropMode('perspective'));
   $('rectangleMode').addEventListener('click',()=>setCropMode('rectangle'));
   $('resetCrop').addEventListener('click',()=>{initializeCrop();paint();});
-  document.querySelectorAll('[data-orient]').forEach(btn=>btn.addEventListener('click',()=>{orientation=btn.dataset.orient;document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x===btn));}));
+  document.querySelectorAll('[data-orient]').forEach(btn=>btn.addEventListener('click',()=>{orientation=btn.dataset.orient;printOrientation=orientation;document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x===btn));document.querySelectorAll('input[name="printOrientation"]').forEach(x=>x.checked=x.value===printOrientation);}));
   document.querySelectorAll('[data-scan]').forEach(btn=>btn.addEventListener('click',()=>{scanMode=btn.dataset.scan;document.querySelectorAll('[data-scan]').forEach(x=>x.classList.toggle('active',x===btn));}));
   function solveHomography(dst,src){
     const A=[],B=[];
@@ -683,7 +756,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   }
   async function croppedBlob(){
     if(!image||(!cropRect&&!cropQuad))throw new Error('Choose a photo and adjust the crop area first.');
-    const b=imageBounds(),out=document.createElement('canvas');out.width=orientation==='portrait'?1654:2339;out.height=orientation==='portrait'?2339:1654;
+    const b=imageBounds(),out=document.createElement('canvas');out.width=printOrientation==='portrait'?1654:2339;out.height=printOrientation==='portrait'?2339:1654;
     const dc=out.getContext('2d',{alpha:false});dc.fillStyle='#fff';dc.fillRect(0,0,out.width,out.height);
     const margin=.035,maxW=out.width*(1-margin*2),maxH=out.height*(1-margin*2);let dx,dy,dw,dh;
     if(cropMode==='perspective'){
@@ -694,9 +767,19 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       const sx=clamp((cropRect.x-b.x)/b.scale,0,image.naturalWidth),sy=clamp((cropRect.y-b.y)/b.scale,0,image.naturalHeight),sw=clamp(cropRect.w/b.scale,1,image.naturalWidth-sx),sh=clamp(cropRect.h/b.scale,1,image.naturalHeight-sy);
       const fit=Math.min(maxW/sw,maxH/sh);dw=Math.max(1,Math.round(sw*fit));dh=Math.max(1,Math.round(sh*fit));dx=Math.round((out.width-dw)/2);dy=Math.round((out.height-dh)/2);dc.imageSmoothingEnabled=true;dc.imageSmoothingQuality='high';dc.drawImage(image,sx,sy,sw,sh,dx,dy,dw,dh);
     }
-    if(scanMode!=='color'){
+    if(scanMode==='bw'||printColorMode==='bw'||scanMode==='enhanced'){
       const pixels=dc.getImageData(dx,dy,dw,dh),data=pixels.data;
-      for(let i=0;i<data.length;i+=4){const lum=.299*data[i]+.587*data[i+1]+.114*data[i+2];let value;if(scanMode==='bw')value=lum>=178?255:0;else value=lum>224?255:clamp((lum-128)*1.42+128,0,255);data[i]=data[i+1]=data[i+2]=value;}
+      for(let i=0;i<data.length;i+=4){
+        if(scanMode==='bw'){
+          const lum=.299*data[i]+.587*data[i+1]+.114*data[i+2];
+          const value=lum>=178?255:0;data[i]=data[i+1]=data[i+2]=value;
+        }else if(printColorMode==='bw'){
+          const lum=.299*data[i]+.587*data[i+1]+.114*data[i+2];
+          const value=lum>224?255:clamp((lum-128)*1.42+128,0,255);data[i]=data[i+1]=data[i+2]=value;
+        }else if(scanMode==='enhanced'){
+          for(let ch=0;ch<3;ch++)data[i+ch]=data[i+ch]>224?255:clamp((data[i+ch]-128)*1.18+128,0,255);
+        }
+      }
       dc.putImageData(pixels,dx,dy);
     }
     return await new Promise((resolve,reject)=>out.toBlob(blob=>blob?resolve(blob):reject(new Error('Unable to create the scanned A4 image.')),'image/jpeg',.94));
@@ -754,6 +837,10 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
         : 'Direct Print is OFF. Your order waits for admin release. Pay the calculated amount by UPI now or after order submission, or pay at the counter.';
       $('limit').textContent=config.max_file_mb;
       $('copies').max=config.max_copies;
+      const duplexAllowed=config.duplex_enabled===true;
+      $('duplexOption').classList.toggle('enabled',duplexAllowed);
+      $('duplexHelp').textContent=duplexAllowed?'Two-sided printing is enabled by the shop. Choose one-sided or two-sided.':'Two-sided printing is currently disabled by the shop admin.';
+      if(!duplexAllowed){printDuplex=false;document.querySelector('input[name="printDuplex"][value="0"]').checked=true;}
       const needsPin = config.pin_required === true;
       $('pinbox').classList.toggle('show',needsPin);
       $('pin').disabled = !needsPin;
@@ -788,6 +875,9 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
         form.append('document',cropped,file.name.replace(/\.[^.]+$/,'')+'-A4.jpg');
       }
       form.append('copies',String(c));
+      form.append('color_mode',printColorMode);
+      form.append('orientation',printOrientation);
+      form.append('duplex',printDuplex?'1':'0');
       if(config.pin_required)form.append('pin',$('pin').value.trim());
       const res=await fetch(apiPath('/api/upload'),{
         method:'POST', body:form, headers:ngrokHeaders(), mode: API_ROOT ? 'cors' : 'same-origin'
@@ -797,13 +887,13 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       $('orderCode').textContent=data.order_id;
       lastOrderId=String(data.order_id||'');lastOrderAmount=Number(data.total_amount);
       $('successPayBtn').textContent='Pay '+price(lastOrderAmount)+' via UPI';
-      $('successPaymentStatus').textContent='Pay this exact order total using any supported UPI app, or pay at the counter.';
+      $('successPaymentStatus').textContent='Pay this exact order total using any supported UPI app, or pay at the counter. UPI payment is not automatically verified by this website.';
       const directPrint = data.direct_print === true;
       $('successPrintMessage').textContent = directPrint
         ? 'Direct Print is ON. Your order is in the automatic print queue and will be sent to the printer when it is ready. You can pay the exact amount by UPI below or at the counter.'
         : 'Direct Print is OFF. Your order is waiting in the PC print queue. Owner must release it before printing. You can pay the exact amount by UPI below or at the counter.';
       $('formBody').classList.add('hidden');$('intro').classList.add('hidden');
-      $('success').classList.add('show');playSuccessSound();
+      $('success').classList.add('show');playSuccessSound();startReturnTimer();
       window.scrollTo({top:0,behavior:'smooth'});
     }catch(e){
       err(e.message||'Upload failed. Please ask the counter Owner.');
@@ -811,15 +901,20 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
     }
     finally{button.disabled=false;button.textContent='Send to print queue →';}
   });
-  $('again').addEventListener('click',async()=>{
-    ++quoteSequence;++estimateSequence;clearTimeout(estimateTimer);file=null;image=null;documentPages=null;currentEstimateAmount=null;lastOrderAmount=null;lastOrderId='';pendingPaymentAmount=null;estimateFailed=false;cropRect=null;cropQuad=null;cropDrag=null;cropMode='perspective';orientation='portrait';scanMode='enhanced';setCopies(1);$('pin').value='';
+  async function resetCustomerHome(){
+    cancelReturnTimer();closeFilePreview();
+    if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null;}
+    ++quoteSequence;++estimateSequence;clearTimeout(estimateTimer);file=null;image=null;documentPages=null;currentEstimateAmount=null;lastOrderAmount=null;lastOrderId='';pendingPaymentAmount=null;estimateFailed=false;cropRect=null;cropQuad=null;cropDrag=null;cropMode='perspective';orientation='portrait';printOrientation='portrait';printColorMode='bw';printDuplex=false;scanMode='enhanced';setCopies(1);$('pin').value='';
     document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x.dataset.orient===orientation));
-    document.querySelectorAll('[data-scan]').forEach(x=>x.classList.toggle('active',x.dataset.scan===scanMode));paint();
-    $('selected').classList.remove('show');$('cropZone').classList.remove('show');
-    syncPaymentUI();
-    $('success').classList.remove('show');$('formBody').classList.remove('hidden');$('intro').classList.remove('hidden');
+    document.querySelectorAll('[data-scan]').forEach(x=>x.classList.toggle('active',x.dataset.scan===scanMode));
+    document.querySelectorAll('input[name="printColor"]').forEach(x=>x.checked=x.value==='bw');
+    document.querySelectorAll('input[name="printOrientation"]').forEach(x=>x.checked=x.value==='portrait');
+    document.querySelectorAll('input[name="printDuplex"]').forEach(x=>x.checked=x.value==='0');
+    paint();$('selected').classList.remove('show');$('cropZone').classList.remove('show');
+    syncPaymentUI();$('success').classList.remove('show');$('formBody').classList.remove('hidden');$('intro').classList.remove('hidden');
     clearError();await loadConfig();window.scrollTo({top:0,behavior:'smooth'});
-  });
+  }
+  $('again').addEventListener('click',resetCustomerHome);
   // Re-read the server setting when customers return to an already-open tab.
   window.addEventListener('focus',()=>{if(!$('formBody').classList.contains('hidden'))loadConfig();});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden && !$('formBody').classList.contains('hidden'))loadConfig();});
