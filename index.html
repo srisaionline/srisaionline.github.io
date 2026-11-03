@@ -190,17 +190,14 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
 .option-choice input{accent-color:#079a70;width:17px;height:17px;flex:none}
 .option-sub{font-size:10px;color:#75849a;font-weight:500;margin-top:2px}
 .duplex-option{display:none}.duplex-option.enabled{display:block}
-.selected-actions{display:flex;gap:7px;flex:none}.selected-actions button{border:0;background:#fff;border-radius:9px;padding:8px 10px;color:#245aa2;font-size:11px;font-weight:850}
-.preview-modal{display:none;position:fixed;inset:0;z-index:1300;background:#071326e8;padding:12px;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
-.preview-modal.show{display:flex}.preview-card{width:min(96vw,1100px);height:min(94vh,900px);background:#fff;border-radius:17px;padding:12px;display:flex;flex-direction:column;gap:9px;box-shadow:0 20px 70px #0008}
-.preview-head{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#203858;font-size:13px;font-weight:850}
-.preview-head button{border:0;background:#edf2f8;color:#2c405c;border-radius:9px;width:36px;height:36px;font-size:19px}
-#fullPreviewImage,#fullPreviewFrame{display:none;width:100%;height:100%;min-height:0;object-fit:contain;background:#17243c;border:0;border-radius:10px}
-#fullPreviewImage.show,#fullPreviewFrame.show{display:block}
+.selected{align-items:center}.selected .filetext{min-width:0}.selected .replace{flex:none;border:1px solid #d4deeb;background:#fff;border-radius:9px;padding:9px 12px;color:#245aa2;font-size:11px;font-weight:850}
+#preview{display:block;width:min(100%,760px);height:auto;max-height:68vh;aspect-ratio:3/2;object-fit:contain;background:#0b1220;border:1px solid #7185a5;border-radius:11px;touch-action:none;cursor:crosshair;box-shadow:0 8px 24px #0004}
+#pdfInlinePreview{display:none;width:100%;height:min(72vh,850px);border:1px solid #7185a5;border-radius:11px;background:#fff}
+#pdfInlinePreview.show{display:block}.image-only-controls{display:block}.rotate-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 2px 12px}.rotate-row>span{font-size:11px;font-weight:900;color:#c6d8ef;margin-right:4px}
 .pay-counter-banner{display:block;width:100%;border:2px solid #e8b84e;border-radius:17px;padding:19px 15px;background:linear-gradient(115deg,#fff2cf,#ffe5a1);color:#754400;text-align:center;margin:17px 0 10px;box-shadow:0 9px 24px #b8791622}
 .pay-counter-banner strong{display:block;font-size:clamp(22px,5vw,30px);font-weight:1000;letter-spacing:.5px}.pay-counter-banner span{display:block;font-size:13px;font-weight:800;margin-top:4px}
 .return-countdown{font-size:12px;font-weight:800;color:#68778d;margin:13px 0 15px}.return-countdown b{color:#087c61;font-size:17px;font-variant-numeric:tabular-nums}
-@media(max-width:520px){.selected{flex-wrap:wrap}.selected-actions{width:100%;justify-content:flex-end}.preview-card{width:100%;height:94vh;padding:8px}.option-choice{padding:11px 9px;font-size:12px}}
+@media(max-width:520px){.selected{flex-wrap:wrap}.selected .replace{margin-left:auto}.stage-wrap{padding:4px 0 8px}#preview{width:100%;max-height:62vh}.rotate-row .smallbtn{flex:1}.option-choice{padding:11px 9px;font-size:12px}}
 
 </style>
 </head>
@@ -223,29 +220,38 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       </div>
       <input id="browseInput" type="file" accept="image/jpeg,image/png,image/webp,.pdf,application/pdf" hidden>
       <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
-      <div class="selected" id="selected"><div class="fileicon" id="fileIcon">▧</div><div class="filetext"><div class="filename" id="fileName"></div><div class="filemeta" id="fileMeta"></div></div><div class="selected-actions"><button id="filePreviewBtn" type="button">⤢ Full preview</button><button class="replace" id="replaceBtn" type="button">Change</button></div></div>
+      <div class="selected" id="selected"><div class="filetext"><div class="filename" id="fileName"></div><div class="filemeta" id="fileMeta"></div></div><button class="replace" id="replaceBtn" type="button">Change document</button></div>
       <div class="crop-zone" id="cropZone">
         <div class="crop-head">
           <div>Scan &amp; straighten your document
-            <div class="hint">Works for both camera captures and loaded pictures. Move each corner onto the paper corners to remove perspective skew.</div>
+            <div class="hint">Your picture is shown as uploaded. It will NOT be cropped unless you choose a crop tool. Rotate it if needed.</div>
           </div>
           <div class="orientation" aria-label="A4 page orientation">
             <button type="button" class="active" data-orient="portrait">A4 Portrait</button>
             <button type="button" data-orient="landscape">A4 Landscape</button>
           </div>
         </div>
-        <div class="crop-mode-row" aria-label="Crop mode">
-          <button type="button" class="smallbtn active" id="perspectiveMode">Perspective straighten</button>
-          <button type="button" class="smallbtn" id="rectangleMode">Rectangle crop</button>
+        <iframe id="pdfInlinePreview" title="Selected PDF preview"></iframe>
+        <div class="image-only-controls" id="imageTools">
+          <div class="rotate-row">
+            <span>ROTATE PICTURE</span>
+            <button type="button" class="smallbtn" id="rotateLeft">↶ Rotate left 90°</button>
+            <button type="button" class="smallbtn" id="rotateRight">↷ Rotate right 90°</button>
+          </div>
+          <div class="crop-mode-row" aria-label="Optional image adjustment">
+            <button type="button" class="smallbtn active" id="originalMode">Original · No crop</button>
+            <button type="button" class="smallbtn" id="rectangleMode">Crop to A4</button>
+            <button type="button" class="smallbtn" id="perspectiveMode">Perspective straighten</button>
+          </div>
+          <div class="stage-wrap"><canvas id="preview" width="960" height="640" aria-label="Large selected picture preview. Cropping is optional. In crop mode drag the crop handles on the picture."></canvas></div>
+          <div class="crop-actions"><button type="button" class="smallbtn" id="resetCrop">Use original picture (no crop)</button><span id="cropStatus">Original picture selected · no crop will be applied</span></div>
+          <div class="scan-style"><span>SCAN LOOK (OPTIONAL)</span>
+            <button type="button" class="active" data-scan="color">Original color</button>
+            <button type="button" data-scan="enhanced">Enhanced scan</button>
+            <button type="button" data-scan="bw">Black &amp; white</button>
+          </div>
+          <div class="crop-help">Choose “Crop to A4” for a simple crop, or “Perspective straighten” to align all four paper corners. Leave “Original · No crop” selected to print the complete picture without changing its edges.</div>
         </div>
-        <div class="stage-wrap"><canvas id="preview" width="720" height="480" aria-label="Document crop area. In perspective mode drag the four corner handles onto the document corners. Drag an edge to move it or drag inside to move the whole crop."></canvas></div>
-        <div class="crop-actions"><button type="button" class="smallbtn" id="resetCrop">Reset crop</button><span id="cropStatus">Crop area ready</span></div>
-        <div class="scan-style"><span>Scan style</span>
-          <button type="button" data-scan="color">Original color</button>
-          <button type="button" class="active" data-scan="enhanced">Enhanced scan</button>
-          <button type="button" data-scan="bw">Black &amp; white</button>
-        </div>
-        <div class="crop-help">Perspective straighten corrects a trapezoid-shaped page into a straight, flat scan. For the best result, place all four handles exactly on the paper corners. Loaded photos and camera captures use the same crop tools.</div>
       </div>
     </div>
     <div class="section">
@@ -327,11 +333,6 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   </div>
 </div>
 
-<div class="preview-modal" id="previewModal" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
-  <div class="preview-card"><div class="preview-head"><span id="previewTitle">Document preview</span><button type="button" id="previewClose" aria-label="Close preview">×</button></div>
-    <img id="fullPreviewImage" alt="Full-size selected document preview"><iframe id="fullPreviewFrame" title="PDF document preview"></iframe>
-  </div>
-</div>
 
 <div class="camera-modal" id="cameraModal" role="dialog" aria-modal="true" aria-labelledby="cameraTitle">
   <div class="camera-card">
@@ -354,7 +355,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   const apiPath = path => API_ROOT + path;
   const $=id=>document.getElementById(id);
   let config={pin_required:true,max_copies:25,max_file_mb:20};
-  let file=null,image=null,documentPages=null,quoteSequence=0,orientation='portrait',scanMode='enhanced',cropRect=null,cropQuad=null,cropDrag=null,cropMode='perspective';
+  let file=null,image=null,documentPages=null,quoteSequence=0,orientation='portrait',scanMode='color',cropRect=null,cropQuad=null,cropDrag=null,cropMode='none',rotationChanged=false,processedImageUrl=null;
   let estimateSequence=0, estimateTimer=null, audioContext=null,cameraStream=null;
   let printColorMode="bw", printOrientation="portrait", printDuplex=false, previewUrl=null, returnTimer=null, returnSeconds=5;
   let currentEstimateAmount=null,lastOrderAmount=null,lastOrderId='',pendingPaymentAmount=null,estimateFailed=false;
@@ -370,19 +371,6 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   $('copies').addEventListener('input',()=>updateEstimate());
   $('browseBtn').onclick=()=>{$('browseInput').value='';$('browseInput').click();};
   $('replaceBtn').onclick=()=>{$('browseInput').value='';$('browseInput').click();};
-  function closeFilePreview(){ $('previewModal').classList.remove('show'); $('fullPreviewImage').classList.remove('show'); $('fullPreviewFrame').classList.remove('show'); $('fullPreviewImage').removeAttribute('src'); $('fullPreviewFrame').removeAttribute('src'); }
-  function openFilePreview(){
-    if(!file||!previewUrl){err('Choose a document first.');return;}
-    const isPdf=file.name.toLowerCase().endsWith('.pdf');
-    $('previewTitle').textContent=file.name+' · Full-size preview';
-    if(isPdf){$('fullPreviewImage').classList.remove('show');$('fullPreviewFrame').src=previewUrl;$('fullPreviewFrame').classList.add('show');}
-    else{$('fullPreviewFrame').classList.remove('show');$('fullPreviewImage').src=previewUrl;$('fullPreviewImage').classList.add('show');}
-    $('previewModal').classList.add('show');
-  }
-  $('filePreviewBtn').addEventListener('click',openFilePreview);
-  $('previewClose').addEventListener('click',closeFilePreview);
-  $('previewModal').addEventListener('click',e=>{if(e.target===$('previewModal'))closeFilePreview();});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFilePreview();});
   document.querySelectorAll('input[name="printColor"]').forEach(x=>x.addEventListener('change',()=>{printColorMode=x.value;}));
   document.querySelectorAll('input[name="printOrientation"]').forEach(x=>x.addEventListener('change',()=>{printOrientation=x.value;orientation=printOrientation;document.querySelectorAll('[data-orient]').forEach(b=>b.classList.toggle('active',b.dataset.orient===orientation));}));
   document.querySelectorAll('input[name="printDuplex"]').forEach(x=>x.addEventListener('change',()=>{printDuplex=x.value==='1';}));
@@ -584,7 +572,6 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   }
   function choose(input){
     clearError();if(!input)return;
-    closeFilePreview();
     const ext=(input.name||'').toLowerCase().split('.').pop();
     if(!['pdf','jpg','jpeg','png','webp'].includes(ext)&&!(input.type||'').startsWith('image/')){err('Choose a PDF, JPG, PNG or WEBP image.');return;}
     if(input.size>config.max_file_mb*1024*1024){err(`File exceeds ${config.max_file_mb} MB. Please choose a smaller file.`);return;}
@@ -594,22 +581,24 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       err('This camera image format is not supported. Save it as JPG or PNG and try again.');return;
     }
     if(previewUrl)URL.revokeObjectURL(previewUrl);
-    if(image && image.src && image.src.startsWith('blob:'))URL.revokeObjectURL(image.src);
+    if(processedImageUrl){URL.revokeObjectURL(processedImageUrl);processedImageUrl=null;}
     previewUrl=URL.createObjectURL(input);
-    ++quoteSequence;file=input;image=null;cropRect=null;cropQuad=null;documentPages=isPdf?null:1;
+    ++quoteSequence;file=input;image=null;cropRect=null;cropQuad=null;cropDrag=null;cropMode='none';rotationChanged=false;documentPages=isPdf?null:1;
     $('selected').classList.add('show');$('fileName').textContent=file.name;
-    $('fileMeta').textContent=(file.size/1024/1024).toFixed(2)+' MB · '+(isPdf?'PDF document':'Image — document scan and A4 crop available');
-    $('fileIcon').textContent=isPdf?'▤':'▧';
-    $('cropZone').classList.remove('show');
+    $('fileMeta').textContent=(file.size/1024/1024).toFixed(2)+' MB · '+(isPdf?'PDF document':'Picture · Original image will be printed without cropping');
+    $('cropZone').classList.add('show');
+    $('imageTools').classList.toggle('hidden',isPdf);
+    $('pdfInlinePreview').classList.toggle('show',isPdf);
+    $('pdfInlinePreview').src=isPdf?previewUrl:'about:blank';
     if(isPdf){inspectPdf(input);paint();}else{
       const img=new Image();const blobURL=previewUrl;
       img.onload=()=>{
         if(file!==input)return;
-        image=img;orientation='portrait';scanMode='enhanced';
+        image=img;orientation='portrait';scanMode='color';
         document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x.dataset.orient===orientation));
         document.querySelectorAll('[data-scan]').forEach(x=>x.classList.toggle('active',x.dataset.scan===scanMode));
-        $('cropZone').classList.add('show');initializeCrop();paint();
-        $('fileMeta').textContent=(file.size/1024/1024).toFixed(2)+' MB · Image · A4 document scan ready';
+        setCropMode('none');paint();
+        $('fileMeta').textContent=(file.size/1024/1024).toFixed(2)+' MB · Picture · Original image · No crop';
       };
       img.onerror=()=>{file=null;currentEstimateAmount=null;estimateFailed=false;$('liveAmount').textContent='₹—';$('selected').classList.remove('show');syncPaymentUI();err('This image could not be opened. Please choose a JPG or PNG image.');};
       img.src=blobURL;
@@ -625,19 +614,25 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   }
   function rectToQuad(r){return [{x:r.x,y:r.y},{x:r.x+r.w,y:r.y},{x:r.x+r.w,y:r.y+r.h},{x:r.x,y:r.y+r.h}];}
   function quadBounds(q){const xs=q.map(p=>p.x),ys=q.map(p=>p.y),x=Math.min(...xs),y=Math.min(...ys);return{x,y,w:Math.max(...xs)-x,h:Math.max(...ys)-y};}
-  function initializeCrop(){
+  function initializeCrop(mode='rectangle'){
     const b=imageBounds();if(!b)return;
     const mx=Math.min(34,b.w*.055),my=Math.min(34,b.h*.055);
     cropRect={x:b.x+mx,y:b.y+my,w:Math.max(30,b.w-2*mx),h:Math.max(30,b.h-2*my)};
-    cropQuad=rectToQuad(cropRect);cropMode='perspective';
-    $('perspectiveMode').classList.add('active');$('rectangleMode').classList.remove('active');
-    $('cropStatus').textContent='Drag each corner to the paper corners for a straightened scan';
+    cropQuad=rectToQuad(cropRect);cropMode=mode;
+    updateCropButtons();
+    $('cropStatus').textContent=mode==='perspective'?'Perspective crop selected · move the four corners onto the paper edges':'A4 crop selected · adjust the crop frame';
+  }
+  function updateCropButtons(){
+    $('originalMode').classList.toggle('active',cropMode==='none');
+    $('rectangleMode').classList.toggle('active',cropMode==='rectangle');
+    $('perspectiveMode').classList.toggle('active',cropMode==='perspective');
   }
   function pathForQuad(q){ctx.beginPath();ctx.moveTo(q[0].x,q[0].y);for(let i=1;i<q.length;i++)ctx.lineTo(q[i].x,q[i].y);ctx.closePath();}
   function paint(){
     ctx.fillStyle='#0b1220';ctx.fillRect(0,0,preview.width,preview.height);
     if(!image){ctx.fillStyle='#c6d8ef';ctx.font='bold 20px system-ui';ctx.textAlign='center';ctx.fillText('Choose or capture a document photo',preview.width/2,preview.height/2);return;}
     const b=imageBounds();ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(image,b.x,b.y,b.w,b.h);
+    if(cropMode==='none'){$('cropStatus').textContent='Original picture selected · no crop will be applied';return;}
     if(cropMode==='perspective'&&cropQuad){
       const q=cropQuad;
       ctx.fillStyle='rgba(3,10,22,.62)';ctx.fillRect(0,0,preview.width,preview.height);
@@ -684,7 +679,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   function validQuad(q){let sign=0;for(let i=0;i<4;i++){const a=q[i],b=q[(i+1)%4],c=q[(i+2)%4],cross=(b.x-a.x)*(c.y-b.y)-(b.y-a.y)*(c.x-b.x);if(Math.abs(cross)<12)return false;const next=Math.sign(cross);if(sign&&next!==sign)return false;sign=next;}return true;}
   function moveQuadWithinBounds(q,dx,dy,b){const bounds=quadBounds(q);dx=clamp(dx,b.x-bounds.x,b.x+b.w-(bounds.x+bounds.w));dy=clamp(dy,b.y-bounds.y,b.y+b.h-(bounds.y+bounds.h));return q.map(p=>({x:p.x+dx,y:p.y+dy}));}
   preview.addEventListener('pointerdown',e=>{
-    if(!image)return;const p=canvasPoint(e),b=imageBounds();if(!insideBounds(p,b))return;
+    if(!image||cropMode==='none')return;const p=canvasPoint(e),b=imageBounds();if(!insideBounds(p,b))return;
     if(cropMode==='perspective'){
       const mode=hitQuad(p.x,p.y);cropDrag={perspective:true,mode,startX:p.x,startY:p.y,originalQuad:cropQuad.map(v=>({...v}))};
       if(mode==='new')cropQuad=[{...p},{...p},{...p},{...p}];
@@ -695,7 +690,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
     preview.setPointerCapture(e.pointerId);paint();
   });
   preview.addEventListener('pointermove',e=>{
-    if(!cropDrag||!image)return;const p=canvasPoint(e),b=imageBounds(),d=cropDrag,dx=p.x-d.startX,dy=p.y-d.startY;
+    if(!cropDrag||!image||cropMode==='none')return;const p=canvasPoint(e),b=imageBounds(),d=cropDrag,dx=p.x-d.startX,dy=p.y-d.startY;
     if(d.perspective){
       const o=d.originalQuad;let candidate;
       if(d.mode==='move')candidate=moveQuadWithinBounds(o,dx,dy,b);
@@ -724,14 +719,38 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   function stopCropDrag(){if(cropDrag){cropDrag=null;paint();}}
   preview.addEventListener('pointerup',stopCropDrag);preview.addEventListener('pointercancel',stopCropDrag);preview.addEventListener('lostpointercapture',stopCropDrag);
   function setCropMode(mode){
-    if(mode===cropMode)return;
+    if(!image)return;
+    if(mode==='none'){
+      cropRect=null;cropQuad=null;cropDrag=null;cropMode='none';updateCropButtons();
+      $('cropStatus').textContent='Original picture selected · no crop will be applied';paint();return;
+    }
+    if(cropMode==='none'||(!cropRect&&!cropQuad)){initializeCrop(mode);paint();return;}
     if(mode==='perspective'&&cropRect)cropQuad=rectToQuad(cropRect);
     else if(mode==='rectangle'&&cropQuad){const r=quadBounds(cropQuad);cropRect={...r};}
-    cropMode=mode;$('perspectiveMode').classList.toggle('active',mode==='perspective');$('rectangleMode').classList.toggle('active',mode==='rectangle');paint();
+    cropMode=mode;updateCropButtons();paint();
   }
+  $('originalMode').addEventListener('click',()=>setCropMode('none'));
   $('perspectiveMode').addEventListener('click',()=>setCropMode('perspective'));
   $('rectangleMode').addEventListener('click',()=>setCropMode('rectangle'));
-  $('resetCrop').addEventListener('click',()=>{initializeCrop();paint();});
+  $('resetCrop').addEventListener('click',()=>setCropMode('none'));
+  async function rotatePicture(degrees){
+    if(!image)return;
+    try{
+      const source=image,canvas=document.createElement('canvas');
+      canvas.width=source.naturalHeight;canvas.height=source.naturalWidth;
+      const c=canvas.getContext('2d');c.translate(canvas.width/2,canvas.height/2);c.rotate(degrees*Math.PI/180);
+      c.drawImage(source,-source.naturalWidth/2,-source.naturalHeight/2);
+      const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Could not rotate this picture.')),'image/jpeg',0.96));
+      const url=URL.createObjectURL(blob),rotated=new Image();
+      await new Promise((resolve,reject)=>{rotated.onload=resolve;rotated.onerror=()=>reject(new Error('Could not load the rotated picture.'));rotated.src=url;});
+      if(processedImageUrl)URL.revokeObjectURL(processedImageUrl);
+      processedImageUrl=url;image=rotated;rotationChanged=true;setCropMode('none');
+      $('fileMeta').textContent=(file.size/1024/1024).toFixed(2)+' MB · Picture rotated · No crop';
+      paint();
+    }catch(e){err(e.message||'Unable to rotate picture.');}
+  }
+  $('rotateLeft').addEventListener('click',()=>rotatePicture(-90));
+  $('rotateRight').addEventListener('click',()=>rotatePicture(90));
   document.querySelectorAll('[data-orient]').forEach(btn=>btn.addEventListener('click',()=>{orientation=btn.dataset.orient;printOrientation=orientation;document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x===btn));document.querySelectorAll('input[name="printOrientation"]').forEach(x=>x.checked=x.value===printOrientation);}));
   document.querySelectorAll('[data-scan]').forEach(btn=>btn.addEventListener('click',()=>{scanMode=btn.dataset.scan;document.querySelectorAll('[data-scan]').forEach(x=>x.classList.toggle('active',x===btn));}));
   function solveHomography(dst,src){
@@ -783,6 +802,13 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       dc.putImageData(pixels,dx,dy);
     }
     return await new Promise((resolve,reject)=>out.toBlob(blob=>blob?resolve(blob):reject(new Error('Unable to create the scanned A4 image.')),'image/jpeg',.94));
+  }
+  async function currentPictureBlob(){
+    if(cropMode==='perspective'||cropMode==='rectangle')return await croppedBlob();
+    if(!rotationChanged)return file;
+    const out=document.createElement('canvas');out.width=image.naturalWidth;out.height=image.naturalHeight;
+    out.getContext('2d').drawImage(image,0,0);
+    return await new Promise((resolve,reject)=>out.toBlob(blob=>blob?resolve(blob):reject(new Error('Unable to prepare the rotated picture.')),'image/jpeg',0.96));
   }
   async function stopCamera(){
     if(cameraStream){cameraStream.getTracks().forEach(track=>track.stop());cameraStream=null;}
@@ -871,8 +897,10 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       const form=new FormData();
       const isPdf=file.name.toLowerCase().endsWith('.pdf');
       if(isPdf){form.append('document',file,file.name);}else{
-        const cropped=await croppedBlob();
-        form.append('document',cropped,file.name.replace(/\.[^.]+$/,'')+'-A4.jpg');
+        const prepared=await currentPictureBlob();
+        const edited=(cropMode!=='none'||rotationChanged);
+        const outputName=edited?file.name.replace(/\.[^.]+$/,'')+(cropMode==='none'?'-rotated.jpg':'-A4.jpg'):file.name;
+        form.append('document',prepared,outputName);
       }
       form.append('copies',String(c));
       form.append('color_mode',printColorMode);
@@ -902,9 +930,10 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
     finally{button.disabled=false;button.textContent='Send to print queue →';}
   });
   async function resetCustomerHome(){
-    cancelReturnTimer();closeFilePreview();
+    cancelReturnTimer();
     if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null;}
-    ++quoteSequence;++estimateSequence;clearTimeout(estimateTimer);file=null;image=null;documentPages=null;currentEstimateAmount=null;lastOrderAmount=null;lastOrderId='';pendingPaymentAmount=null;estimateFailed=false;cropRect=null;cropQuad=null;cropDrag=null;cropMode='perspective';orientation='portrait';printOrientation='portrait';printColorMode='bw';printDuplex=false;scanMode='enhanced';setCopies(1);$('pin').value='';
+    ++quoteSequence;++estimateSequence;clearTimeout(estimateTimer);file=null;image=null;documentPages=null;currentEstimateAmount=null;lastOrderAmount=null;lastOrderId='';pendingPaymentAmount=null;estimateFailed=false;cropRect=null;cropQuad=null;cropDrag=null;cropMode='none';rotationChanged=false;if(processedImageUrl){URL.revokeObjectURL(processedImageUrl);processedImageUrl=null;}orientation='portrait';printOrientation='portrait';printColorMode='bw';printDuplex=false;scanMode='color';setCopies(1);$('pin').value='';
+    $('pdfInlinePreview').src='about:blank';$('pdfInlinePreview').classList.remove('show');$('imageTools').classList.remove('hidden');$('cropZone').classList.remove('show');updateCropButtons();
     document.querySelectorAll('[data-orient]').forEach(x=>x.classList.toggle('active',x.dataset.orient===orientation));
     document.querySelectorAll('[data-scan]').forEach(x=>x.classList.toggle('active',x.dataset.scan===scanMode));
     document.querySelectorAll('input[name="printColor"]').forEach(x=>x.checked=x.value==='bw');
