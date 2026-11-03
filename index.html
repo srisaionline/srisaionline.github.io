@@ -199,6 +199,190 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
 .return-countdown{font-size:12px;font-weight:800;color:#68778d;margin:13px 0 15px}.return-countdown b{color:#087c61;font-size:17px;font-variant-numeric:tabular-nums}
 @media(max-width:520px){.selected{flex-wrap:wrap}.selected .replace{margin-left:auto}.stage-wrap{padding:4px 0 8px}#preview{width:100%;max-height:62vh}.rotate-row .smallbtn{flex:1}.option-choice{padding:11px 9px;font-size:12px}}
 
+
+
+/* ============================================================
+   SRI SAI PROFESSIONAL CUSTOMER UI REFRESH
+   ============================================================ */
+:root{
+  --navy:#10213d;--navy2:#1d3c66;--mint:#08a77b;--mint-dark:#087e62;
+  --slate:#64748b;--line:#e2e8f0;--bg:#f2f5fa;--ink:#17263e;
+  --card-shadow:0 18px 48px rgba(16,33,61,.10)
+}
+html{background:linear-gradient(180deg,#eaf0f8 0,#f5f7fb 340px);color:var(--ink)}
+body{background:transparent;min-height:100vh}
+.top{padding:28px 22px 104px;background:radial-gradient(circle at 82% 10%,rgba(34,197,160,.22),transparent 28%),linear-gradient(120deg,#0d1b33 0%,#17365d 58%,#20547a 100%);position:relative;overflow:hidden}
+.top:after{content:"";position:absolute;width:360px;height:360px;border:1px solid #ffffff18;border-radius:50%;right:-125px;bottom:-250px;box-shadow:0 0 0 35px #ffffff08,0 0 0 75px #ffffff05}
+.top-inner{max-width:980px;position:relative;z-index:1;gap:16px}
+.brandmark{width:58px;height:58px;border-radius:18px;background:linear-gradient(145deg,#ffffff28,#ffffff0c);border:1px solid #ffffff24;color:#71f0c7;font-size:29px;box-shadow:0 10px 25px #07152a55}
+.eyebrow{font-size:10px;letter-spacing:2.2px;color:#8af0d2}
+.brandname{font-size:clamp(21px,3vw,27px);letter-spacing:-.8px}
+.branddesc{font-size:12px;color:#d0def0;letter-spacing:.1px}
+.container{width:min(100% - 32px,980px);margin:-76px auto 46px;z-index:2}
+.surface{border:1px solid #e4eaf2;border-radius:26px;box-shadow:var(--card-shadow);overflow:visible;background:#fff}
+.intro{padding:30px clamp(20px,4vw,38px) 25px;border-bottom:1px solid #e9eef5;border-radius:26px 26px 0 0;background:linear-gradient(115deg,#fff,#f9fbfe)}
+.intro h1{font-size:clamp(23px,3vw,30px);letter-spacing:-1px;color:#142844;margin:2px 0 9px}
+.intro p{font-size:14px;max-width:720px;color:#68788f}
+.steps{gap:9px;margin-top:24px}.step{height:6px;background:#e8edf4}.step.active{background:linear-gradient(90deg,#08a77b,#46d7ad)}
+.formbody{padding:clamp(20px,3.2vw,36px)}
+.section{margin-bottom:30px;padding:21px;border:1px solid #e8edf4;border-radius:19px;background:#fff;box-shadow:0 5px 18px #1b315808}
+.section-title{margin-bottom:16px;gap:12px}.num{min-width:32px;height:32px;border-radius:10px;background:#e7f8f2;color:#078363;font-size:12px}
+.section-title h2{font-size:16px;letter-spacing:-.2px;color:#1b2f4c}
+.upload{padding:30px 18px;border:2px dashed #b9c9dc;border-radius:17px;background:linear-gradient(145deg,#f9fbff,#f3f8fc)}
+.upload-icon{width:62px;height:62px;border-radius:19px;background:#e6effb;color:#244c7c;box-shadow:inset 0 0 0 1px #d6e4f5}
+.upload strong{font-size:15px;color:#1c3455}.upload p{font-size:12px;color:#718198}
+.smallbtn{border-radius:11px;border:1px solid #d1dce9;background:#fff;color:#24466f;padding:11px 16px;font-size:12px;font-weight:850;box-shadow:0 2px 5px #172b4608;transition:transform .15s,border-color .15s,box-shadow .15s}
+.smallbtn:hover{border-color:#8fb6c9;box-shadow:0 5px 14px #172b4612;transform:translateY(-1px)}
+.smallbtn.camera{background:#e9faf4;border-color:#b7e7d7;color:#087b5e}
+.selected{background:#f2f8ff;border-color:#d4e4f7;border-radius:14px;padding:14px}
+.crop-zone{background:linear-gradient(145deg,#10213a,#172f50);border:1px solid #2b4669;border-radius:20px;padding:clamp(14px,2vw,24px);box-shadow:0 18px 38px #0a1a3030;color:#fff}
+.crop-head{font-size:14px;line-height:1.4;margin:0 2px 16px}.hint{font-size:12px;color:#c6d8ec;line-height:1.5}
+.orientation{background:#ffffff18;border:1px solid #ffffff16}.orientation button{font-size:12px;padding:9px 12px}.orientation button.active{background:#fff;color:#18304e}
+/* Break the preview out of the form column: it uses almost the full device width. */
+.crop-zone{width:calc(100vw - 32px);max-width:1500px;margin-left:calc((100% - 100vw)/2 + 16px)}
+.stage-wrap{width:100%;min-height:0;padding:10px 0 14px;overflow:visible}
+#preview{display:block;width:min(100%,calc(78vh * 1.5));height:auto;max-height:none;aspect-ratio:3/2;object-fit:contain;margin:0 auto;background:#07111f;border:1px solid #607b9e;border-radius:12px;box-shadow:0 14px 35px #0006}
+#pdfInlinePreview{width:100%;height:82vh;min-height:520px;max-height:1000px;border:1px solid #617b9c;border-radius:12px;background:#fff;box-shadow:0 12px 30px #0004}
+.crop-actions{margin:8px 2px 13px}.crop-help{max-width:980px;margin:16px auto 5px;line-height:1.65;color:#cbd9ea;font-size:12px}
+.rotate-row{gap:10px;margin:6px 2px 14px}.rotate-row>span,.scan-style>span{font-size:10px;letter-spacing:1.1px;color:#a9c1dd}
+.crop-mode-row{display:flex;flex-wrap:wrap;gap:9px}
+.crop-zone .smallbtn{background:#fff;color:#1d3c61;border-color:#d2deeb}.crop-zone .smallbtn.active{background:#dff9ef;border-color:#6fd4b2;color:#086a51;box-shadow:0 0 0 2px #63d4af22}
+.crop-zone .rotate-row .smallbtn{background:#f4f8fc;color:#203f65}
+.scan-style{margin-top:15px;gap:9px}.scan-style button{font-size:11px;padding:9px 13px}
+.pricebox{border:1px solid #dfe8f1;background:linear-gradient(120deg,#f8fbff,#f4faf8);border-radius:15px;padding:17px}
+.submit{height:59px;border-radius:15px;background:linear-gradient(105deg,#078b6a,#12bd8f);font-size:16px;letter-spacing:.1px;box-shadow:0 9px 22px #08a77b35}
+.submit:hover{filter:brightness(1.04);box-shadow:0 12px 26px #08a77b40}
+.notebox{font-size:11px;color:#718198}
+.error{border-radius:13px;font-size:13px}
+.pinbox{border-color:#b9e5d7;background:linear-gradient(130deg,#edfbf5,#f7fbff)}
+.success{padding:clamp(28px,5vw,54px) clamp(18px,4vw,40px) 42px;border-radius:26px}
+.success-icon{width:88px;height:88px;font-size:40px;background:linear-gradient(145deg,#d8faed,#e9fff6);color:#078563}
+.success h2{font-size:clamp(24px,4vw,31px);letter-spacing:-.7px;color:#16304e}
+.success p{max-width:650px;margin-left:auto;margin-right:auto;font-size:14px}
+.order-id{max-width:430px;border:1px dashed #9dcbbb;background:#f4fcf8;border-radius:16px;padding:17px}
+.order-id strong{font-size:25px;color:#143b35}
+.success-pay{border-radius:13px!important;background:linear-gradient(100deg,#078b6a,#12bd8f)!important;box-shadow:0 7px 18px #08a77b30}
+.pay-counter-banner{max-width:430px;margin:18px auto 12px;border-radius:15px}
+.again{border-radius:13px;padding:14px 25px;border-color:#cbd8e7;box-shadow:0 3px 9px #1b31580d}
+.return-countdown{max-width:430px;margin:18px auto 16px;padding:13px 15px;background:#f4f8fc;border:1px solid #e2eaf3;border-radius:13px;text-align:left}
+.return-countdown-copy{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:12px;color:#68788f}
+.return-countdown b{font-size:16px;color:#087c61;font-variant-numeric:tabular-nums}
+.return-progress-track{height:7px;background:#dfe8f0;border-radius:99px;overflow:hidden;margin-top:10px}
+.return-progress-track span{display:block;width:100%;height:100%;border-radius:99px;background:linear-gradient(90deg,#0aa77c,#4dd7ac);transition:width .12s linear}
+.service-links{width:min(100% - 32px,980px);margin:0 auto 35px;padding:24px;border:1px solid #e5ebf3;border-radius:21px;background:#fff;box-shadow:0 10px 30px #1b31580b}
+.service-links h2{font-size:16px;color:#213b5d}
+@media(max-width:650px){
+ .top{padding:22px 16px 94px}.brandmark{width:49px;height:49px;border-radius:15px}.brandname{font-size:20px}.branddesc{font-size:11px;line-height:1.45}
+ .container{width:calc(100% - 20px);margin-top:-68px}.surface{border-radius:21px}.intro{padding:23px 19px 20px;border-radius:21px 21px 0 0}.formbody{padding:17px 13px 22px}
+ .section{padding:16px 13px;margin-bottom:19px;border-radius:16px}.section-title h2{font-size:14px}.crop-zone{width:calc(100vw - 20px);margin-left:calc((100% - 100vw)/2 + 10px);padding:13px 10px;border-radius:16px}
+ #preview{width:min(100%,calc(78vh * 1.5));border-radius:8px}.stage-wrap{padding:8px 0 10px}#pdfInlinePreview{height:76vh;min-height:380px}
+ .crop-head{gap:12px}.orientation{width:100%;justify-content:center}.orientation button{flex:1}.crop-mode-row .smallbtn{flex:1 1 145px}.rotate-row .smallbtn{flex:1 1 130px}
+ .service-links{width:calc(100% - 20px);padding:18px 14px}.success{padding:28px 16px 32px}
+}
+
+
+/* ============================================================
+   SRI SAI — SIGNATURE PREMIUM THEME (PLUM / VIOLET / AMBER)
+   New visual system: warm neutral canvas, rich plum header,
+   confident violet actions and restrained amber highlights.
+   ============================================================ */
+:root{
+  --navy:#25183f;
+  --navy2:#39265f;
+  --mint:#7653d6;
+  --mint-dark:#5738b2;
+  --slate:#6f6b7d;
+  --line:#e8e2f0;
+  --bg:#f6f3fa;
+  --ink:#29223a;
+  --danger:#c43e58;
+  --gold:#e7a43b;
+  --card-shadow:0 22px 58px rgba(43,27,73,.11);
+}
+html{background:#f6f3fa;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif}
+body{background:radial-gradient(ellipse at 8% 5%,rgba(126,87,194,.10),transparent 29rem),radial-gradient(ellipse at 94% 13%,rgba(231,164,59,.10),transparent 25rem),#f6f3fa;color:var(--ink)}
+.top{padding:31px 22px 108px;background:radial-gradient(circle at 82% 18%,rgba(231,164,59,.20),transparent 22%),radial-gradient(circle at 15% 100%,rgba(125,91,206,.28),transparent 35%),linear-gradient(118deg,#211631 0%,#342052 54%,#4b3478 100%);}
+.top:after{width:390px;height:390px;right:-125px;top:-235px;bottom:auto;border-color:#ffffff20;box-shadow:0 0 0 34px #ffffff09,0 0 0 76px #ffffff06}
+.top:before{content:"";position:absolute;left:-110px;bottom:-220px;width:300px;height:300px;border:1px solid #ffffff14;border-radius:50%;box-shadow:0 0 0 30px #ffffff06,0 0 0 65px #ffffff04}
+.top-inner{max-width:980px;gap:17px}
+.brandmark{width:60px;height:60px;border-radius:19px;background:linear-gradient(145deg,#ffffff30,#ffffff0b);border:1px solid #ffffff38;color:#ffd27c;font-size:29px;box-shadow:0 12px 28px #100a1d70}
+.eyebrow{color:#f3c978;letter-spacing:2.7px;font-size:10px}
+.brandname{font-size:clamp(22px,3vw,29px);font-weight:850;letter-spacing:-.9px;color:#fff}
+.branddesc{font-size:12px;color:#e0d8ef;letter-spacing:.12px}
+.container{width:min(100% - 32px,980px);margin:-78px auto 45px}
+.surface{border:1px solid #e9e3f0;border-radius:27px;box-shadow:0 24px 70px rgba(43,27,73,.14);background:#fff}
+.intro{padding:31px clamp(21px,4vw,40px) 25px;background:linear-gradient(120deg,#fff 0%,#fcfaff 100%);border-bottom:1px solid #eee8f4}
+.intro h1{font-size:clamp(24px,3vw,31px);color:#2a1d43;letter-spacing:-1px}
+.intro p{color:#777184;font-size:13px;line-height:1.65}
+.steps{gap:9px;margin-top:23px}.step{height:6px;background:#eeeaf3;border-radius:20px}.step.active{background:linear-gradient(90deg,#6544bd,#a28ae8)}
+.formbody{padding:clamp(20px,3.2vw,36px)}
+.section{padding:22px;margin-bottom:23px;border:1px solid #eee9f3;border-radius:20px;background:linear-gradient(180deg,#fff,#fefeff);box-shadow:0 7px 22px rgba(51,35,79,.045)}
+.section-title{gap:12px;margin-bottom:16px}.num{min-width:33px;height:33px;border-radius:11px;background:linear-gradient(145deg,#eee8fb,#f8f0df);color:#6243ad;font-size:11px}
+.section-title h2{font-size:15px;color:#302347;font-weight:850;letter-spacing:-.2px}
+.upload{border:2px dashed #cfc3e2;border-radius:18px;background:linear-gradient(145deg,#fcfaff,#f8f5fc);padding:31px 18px;transition:border-color .18s,background .18s,transform .18s}
+.upload:hover,.upload.dragging{border-color:#8869d1;background:#f5f0ff}
+.upload-icon{width:64px;height:64px;border-radius:20px;background:linear-gradient(145deg,#eee8fb,#fff2d9);color:#6447b5;box-shadow:inset 0 0 0 1px #e1d7f1;font-size:28px}
+.upload strong{color:#33264a;font-size:15px}.upload p{color:#81798e;line-height:1.6}
+.smallbtn{border:1px solid #d9d1e5;border-radius:11px;background:#fff;color:#4c367b;padding:11px 16px;font-weight:850;box-shadow:0 3px 9px rgba(45,30,70,.05);transition:all .16s ease}
+.smallbtn:hover{border-color:#9c84d3;box-shadow:0 7px 17px rgba(75,51,125,.12);transform:translateY(-1px)}
+.smallbtn.camera{background:linear-gradient(135deg,#f4efff,#fff8e9);border-color:#d9cbed;color:#6243ad}
+.selected{background:#f8f5ff;border:1px solid #e4daf3;border-radius:14px}
+.fileicon{background:#eee8fb;color:#6445b5}.filename{color:#33264a}.filemeta{color:#81798e}.replace{color:#6749b6}
+.crop-zone{background:radial-gradient(circle at 92% 0%,rgba(143,111,211,.23),transparent 32%),linear-gradient(145deg,#251936,#382453 62%,#493267);border:1px solid #594476;border-radius:20px;box-shadow:0 20px 42px rgba(36,22,57,.25);color:#fff;padding:clamp(15px,2vw,25px)}
+.crop-head{font-size:14px;color:#fff}.hint{color:#d8cfe8}.orientation{background:#ffffff17;border:1px solid #ffffff22}.orientation button{color:#ded5ed}.orientation button.active{background:#f2eaff;color:#382455}
+.crop-zone .smallbtn{background:#fff;color:#4c367b;border-color:#d9d0e6}.crop-zone .smallbtn.active,.crop-mode-row .smallbtn.active{background:#ffe9b8;border-color:#efc66e;color:#63400b;box-shadow:0 0 0 2px #f5cb7b30}
+.crop-zone .rotate-row .smallbtn{background:#f8f5fc;color:#49336e}
+.crop-mode-row .smallbtn{background:#ffffff16;color:#f5efff;border-color:#ffffff45}
+.crop-help{color:#ded5ed}
+.rotate-row>span,.scan-style>span{color:#d8c9ef}
+.scan-style button.active{background:#ffe9b8;color:#63400b;border-color:#efc66e}
+#preview{background:#130e1d;border-color:#8c78ad;box-shadow:0 16px 40px #100a1e80}
+#pdfInlinePreview{border-color:#a18dbd;box-shadow:0 14px 35px #100a1e55}
+.pricebox{border:1px solid #e6deef;background:linear-gradient(120deg,#fcfaff,#fffaf0);border-radius:17px}
+.pricebox.copies-only{border-color:#e4d9f1;background:linear-gradient(120deg,#f8f4ff,#fff9ed)}
+.pricebox.copies-only .muted,.pricebox.copies-only .amount-label{color:#766a88}
+.pricebox.copies-only #liveAmount,.bigcost{color:#6343b3}
+.counter{border:1px solid #d9d0e5;border-radius:12px}.counter button{background:#f2eef8;color:#4b3675}.counter button:hover{background:#e8def7}.counter input{color:#302347}
+.option-choice{border-color:#ded6e9;color:#493660}.option-choice:has(input:checked){border-color:#8969ce;background:#f5f0ff;box-shadow:0 0 0 2px #8969ce18}.option-choice input{accent-color:#704ec3}
+.print-options{border-color:#e5dcef;background:linear-gradient(135deg,#fbf8ff,#fffaf1)}.option-title{color:#3b2b57}.option-sub{color:#81768f}
+.pinbox{border-color:#e5d7f5;background:linear-gradient(130deg,#f7f1ff,#fffaf0)}.pin-gate-head strong{color:#49316f}.pin-gate-head span:not(.pin-icon),.pinbox .detail{color:#766a87}.pin-icon{background:#eee4ff}.pinbox label{color:#503777}.pinbox input{border-color:#c7b4e5}.pinbox input:focus{border-color:#805bc9;box-shadow:0 0 0 3px #805bc920}
+.submit{height:60px;border-radius:15px;background:linear-gradient(105deg,#5634a7,#7652cb 58%,#9675df);box-shadow:0 10px 24px rgba(93,62,169,.28);font-size:16px;letter-spacing:.15px;color:#fff}
+.submit:hover{filter:brightness(1.07);box-shadow:0 14px 30px rgba(93,62,169,.34)}
+.notebox{background:#faf8fc;border-color:#eee8f4;color:#777084;border-radius:12px}
+.error{background:#fff2f3;border-color:#f4cbd2;color:#a92f49}
+.success{padding:clamp(30px,5vw,56px) clamp(18px,4vw,42px) 43px;border-radius:26px}
+.success-icon{background:linear-gradient(145deg,#e8ddff,#fff0c9);color:#6948b8;box-shadow:0 0 0 9px #eee7fb}
+.success h2{color:#302147;font-size:clamp(24px,4vw,31px)}.success p{color:#746b80}
+.order-id{border:1px dashed #c5b2e4;background:linear-gradient(120deg,#faf7ff,#fffaf0);border-radius:16px}.order-id small{color:#827493}.order-id strong{color:#49316f}
+.success-payment{border-color:#ded3f0;background:linear-gradient(120deg,#f6f1ff,#fffaf0);border-radius:16px}.success-pay{background:linear-gradient(110deg,#5938ad,#7955cc)!important;box-shadow:0 8px 20px #6949b533}
+.success-payment small{color:#776d83}
+.pay-counter-banner{background:linear-gradient(115deg,#fff3d7,#ffe5ad);border:1px solid #f1cc7c;color:#754c0d;box-shadow:0 8px 22px #a76c1815}
+.again{border-color:#d8cce9;color:#553a91;background:#fff;box-shadow:0 4px 12px #3d2b5c0b}.again:hover{background:#f6f1ff;border-color:#a78bd6}
+.return-countdown{background:#faf7ff;border:1px solid #e7def2;border-radius:14px}.return-countdown-copy{color:#776d83}.return-countdown b{color:#6442b3}.return-progress-track{background:#e9e1f2}.return-progress-track span{background:linear-gradient(90deg,#6845b9,#b18ce9)}
+.service-links{width:min(100% - 32px,980px);padding:24px;border:1px solid #e9e2f0;border-radius:21px;background:#ffffffed;box-shadow:0 13px 34px rgba(43,27,73,.07)}
+.service-links h2{color:#35264d;font-size:15px}.service-note{color:#7e758b}
+.service-btn{border-radius:14px;min-height:58px;box-shadow:0 8px 18px rgba(43,27,73,.10)}
+.service-btn.btn-wa{background:linear-gradient(135deg,#159b5b,#24bf77);border-color:#159b5b}
+.service-btn.btn-upi{background:linear-gradient(135deg,#5938ad,#8060d2);border-color:#6848bb}
+.service-btn.btn-review{background:linear-gradient(135deg,#d78a17,#efb441);border-color:#d99525}
+.pay-modal{background:rgba(26,16,42,.78);backdrop-filter:blur(9px)}.pay-modal-card{border:1px solid #e7dff0;box-shadow:0 28px 90px #160d2770;border-radius:23px}
+.pay-modal-close{background:#f2edf8;color:#594477}.pay-modal-icon{background:linear-gradient(135deg,#5938ad,#8a69d6);box-shadow:0 8px 18px #6949b533}
+.pay-modal-eyebrow{color:#7654be}.pay-modal-card h2{color:#302147}.pay-modal-card label{color:#493660}
+.amount-input-wrap{border-color:#d9cdea;background:#faf8fd}.amount-input-wrap span{color:#704fc0}.amount-input-wrap input{color:#302147}
+.quick-amounts button{border-color:#e0d7ed;background:#f7f3fc;color:#6245a4}.quick-amounts button:hover{background:#eee7fa}
+.pay-confirm{background:linear-gradient(110deg,#5938ad,#8060d2);box-shadow:0 8px 18px #6949b533}
+.camera-modal{background:#1b1129df;backdrop-filter:blur(8px)}.camera-card{border:1px solid #e6ddef;border-radius:20px;box-shadow:0 25px 85px #120a1f80}.camera-modal-head strong{color:#302147}.camera-modal-head button{background:#f1ecf7;color:#553d79}
+.footer{color:#91879e}
+@media(max-width:650px){
+ .top{padding:23px 16px 98px}.brandmark{width:51px;height:51px;border-radius:16px}.brandname{font-size:20px}.branddesc{font-size:10px}
+ .container{width:calc(100% - 20px);margin-top:-69px}.surface{border-radius:22px}.intro{padding:23px 19px 20px;border-radius:22px 22px 0 0}.formbody{padding:17px 13px 22px}
+ .section{padding:16px 13px;border-radius:16px}.crop-zone{width:calc(100vw - 20px);margin-left:calc((100% - 100vw)/2 + 10px);padding:13px 10px;border-radius:16px}
+ #preview{width:min(100%,calc(78vh * 1.5));max-height:none;border-radius:8px}.stage-wrap{padding:8px 0 10px}#pdfInlinePreview{height:76vh;min-height:380px}
+ .service-links{width:calc(100% - 20px);padding:18px 14px}.service-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.service-btn{min-height:75px;padding:10px 5px;flex-direction:column;gap:6px;font-size:10px;text-align:center}
+ .success{padding:28px 16px 32px}.return-countdown{margin-left:0;margin-right:0}
+}
+@media(max-width:390px){.service-grid{grid-template-columns:1fr}.service-btn{min-height:48px;flex-direction:row;font-size:11px}}
+
 </style>
 </head>
 <body>
@@ -293,7 +477,10 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
       <small id="successPaymentStatus">Pay the exact order amount using any supported UPI app. You can also pay at the counter.</small>
     </div>
     <div class="pay-counter-banner"><strong>PAY AT COUNTER</strong><span>మీ డబ్బులు కౌంటర్‌లో చెల్లించండి</span></div>
-    <p>Show your order number and UPI payment confirmation (if paid online) at the counter.</p><p class="privacy-note"><strong>🔒 Privacy note:</strong> Your uploaded document file is stored temporarily for printing and automatically deleted after 3 hours.</p><div class="return-countdown" id="returnCountdown">Returning to home in <b id="returnSeconds">5</b> seconds…</div><button id="again" class="again" type="button">＋ Print another document</button></div>
+    <p>Show your order number and UPI payment confirmation (if paid online) at the counter.</p><p class="privacy-note"><strong>🔒 Privacy note:</strong> Your uploaded document file is stored temporarily for printing and automatically deleted after 3 hours.</p><div class="return-countdown" id="returnCountdown" aria-live="polite">
+      <div class="return-countdown-copy"><span>Returning to home in</span> <b id="returnSeconds">10</b> <span>seconds…</span></div>
+      <div class="return-progress-track" role="progressbar" aria-label="Time remaining before returning to home" aria-valuemin="0" aria-valuemax="10" aria-valuenow="10"><span id="returnProgressBar"></span></div>
+    </div><button id="again" class="again" type="button">＋ Print another document</button></div>
 </div>
 <section class="service-links" aria-label="Sri Sai Online Services quick links">
   <h2>Need help or want to support our shop?</h2>
@@ -357,7 +544,7 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   let config={pin_required:true,max_copies:25,max_file_mb:20};
   let file=null,image=null,documentPages=null,quoteSequence=0,orientation='portrait',scanMode='color',cropRect=null,cropQuad=null,cropDrag=null,cropMode='none',rotationChanged=false,processedImageUrl=null;
   let estimateSequence=0, estimateTimer=null, audioContext=null,cameraStream=null;
-  let printColorMode="bw", printOrientation="portrait", printDuplex=false, previewUrl=null, returnTimer=null, returnSeconds=5;
+  let printColorMode="bw", printOrientation="portrait", printDuplex=false, previewUrl=null, returnTimer=null, returnSeconds=10, returnStartedAt=0;
   let currentEstimateAmount=null,lastOrderAmount=null,lastOrderId='',pendingPaymentAmount=null,estimateFailed=false;
   const preview=$('preview'),ctx=preview.getContext('2d',{alpha:false});
   const price=val=>'₹'+Number(val).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -376,8 +563,25 @@ body{background:radial-gradient(circle at 8% 2%,rgba(35,115,213,.10),transparent
   document.querySelectorAll('input[name="printDuplex"]').forEach(x=>x.addEventListener('change',()=>{printDuplex=x.value==='1';}));
   function cancelReturnTimer(){if(returnTimer){clearInterval(returnTimer);returnTimer=null;}}
   function startReturnTimer(){
-    cancelReturnTimer();returnSeconds=5;$('returnSeconds').textContent=returnSeconds;$('returnCountdown').classList.remove('hidden');
-    returnTimer=setInterval(()=>{returnSeconds--;if(returnSeconds<=0){cancelReturnTimer();resetCustomerHome();}else $('returnSeconds').textContent=returnSeconds;},1000);
+    cancelReturnTimer();
+    const totalMs=10000;
+    returnStartedAt=Date.now();
+    returnSeconds=10;
+    const secondsEl=$('returnSeconds');
+    const progress=$('returnProgressBar');
+    const track=progress?.parentElement;
+    secondsEl.textContent='10';
+    if(progress)progress.style.width='100%';
+    if(track){track.setAttribute('aria-valuenow','10');}
+    $('returnCountdown').classList.remove('hidden');
+    returnTimer=setInterval(()=>{
+      const remaining=Math.max(0,totalMs-(Date.now()-returnStartedAt));
+      returnSeconds=Math.ceil(remaining/1000);
+      secondsEl.textContent=String(returnSeconds);
+      if(progress)progress.style.width=(remaining/totalMs*100)+'%';
+      if(track)track.setAttribute('aria-valuenow',String(returnSeconds));
+      if(remaining<=0){cancelReturnTimer();resetCustomerHome();}
+    },100);
   }
 
   $('browseInput').onchange=e=>choose(e.target.files[0]);
