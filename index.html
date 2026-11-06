@@ -558,7 +558,7 @@ body{background:radial-gradient(ellipse at 8% 5%,rgba(126,87,194,.10),transparen
   $('copies').addEventListener('input',()=>updateEstimate());
   $('browseBtn').onclick=()=>{$('browseInput').value='';$('browseInput').click();};
   $('replaceBtn').onclick=()=>{$('browseInput').value='';$('browseInput').click();};
-  document.querySelectorAll('input[name="printColor"]').forEach(x=>x.addEventListener('change',()=>{printColorMode=x.value;}));
+  document.querySelectorAll('input[name="printColor"]').forEach(x=>x.addEventListener('change',()=>{printColorMode=x.value;updateEstimate();}));
   document.querySelectorAll('input[name="printOrientation"]').forEach(x=>x.addEventListener('change',()=>{printOrientation=x.value;orientation=printOrientation;document.querySelectorAll('[data-orient]').forEach(b=>b.classList.toggle('active',b.dataset.orient===orientation));}));
   document.querySelectorAll('input[name="printDuplex"]').forEach(x=>x.addEventListener('change',()=>{printDuplex=x.value==='1';}));
   function cancelReturnTimer(){if(returnTimer){clearInterval(returnTimer);returnTimer=null;}}
@@ -703,7 +703,7 @@ body{background:radial-gradient(ellipse at 8% 5%,rgba(126,87,194,.10),transparen
         const resp=await fetch(apiPath('/api/estimate'),{
           method:'POST',
           headers:{...ngrokHeaders(),'Content-Type':'application/json'},
-          body:JSON.stringify({pages,copies}),
+          body:JSON.stringify({pages,copies,color_mode:printColorMode,file_type:(file && file.name.toLowerCase().endsWith('.pdf'))?'pdf':'image'}),
           mode:API_ROOT?'cors':'same-origin'
         });
         const data=await resp.json().catch(()=>({}));
@@ -755,7 +755,7 @@ body{background:radial-gradient(ellipse at 8% 5%,rgba(126,87,194,.10),transparen
   async function inspectPdf(input){
     const token=++quoteSequence;
     try{
-      const fd=new FormData();fd.append('document',input,input.name);
+      const fd=new FormData();fd.append('document',input,input.name);fd.append('color_mode',printColorMode);
       // No order is placed during inspection. Server verifies and counts real PDF pages.
       const response=await fetch(apiPath('/api/quote'),{
         method:'POST',body:fd,headers:ngrokHeaders(),mode:API_ROOT?'cors':'same-origin'
